@@ -1,5 +1,7 @@
+import CatalogPage from '../../pages/catalog-page/catalog-page';
+
 function App(): JSX.Element {
-  return <p>Hello, world!</p>;
+  return <CatalogPage />;
 }
 
 export default App;
