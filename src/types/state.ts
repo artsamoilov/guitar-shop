@@ -1,5 +1,5 @@
 import {store} from '../store/store';
 
-export type StateType = ReturnType<typeof store.getState>;
+export type State = ReturnType<typeof store.getState>;
 
-export type AppDispatchType = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch;
