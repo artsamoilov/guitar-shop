@@ -15,7 +15,7 @@ function Pagination({page, setPage}: PropsType): JSX.Element {
     const pagesButtons: JSX.Element[] = [];
     for (let i = INITIAL_PAGE; i <= pagesCounter; i++) {
       pagesButtons.push(
-        <li className={`pagination__page ${i === page && 'pagination__page--active'}`}>
+        <li key={i} className={`pagination__page ${i === page && 'pagination__page--active'}`}>
           <a onClick={handlePageClick} className="link pagination__page-link" href={`${i}`}>{i}</a>
         </li>);
     }
