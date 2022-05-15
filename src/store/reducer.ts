@@ -8,7 +8,7 @@ type StateType = {
 
 const initialState: StateType = {
   guitars: [],
-}
+};
 
 const reducer = createReducer(initialState, (builder) => {
   builder
