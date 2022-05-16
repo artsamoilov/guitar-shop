@@ -1,6 +1,8 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import Catalog from '../../components/catalog/catalog';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const';
 
 function CatalogPage(): JSX.Element {
   return (
@@ -13,10 +15,10 @@ function CatalogPage(): JSX.Element {
           <h1 className="page-content__title title title--bigger">Каталог гитар</h1>
           <ul className="breadcrumbs page-content__breadcrumbs">
             <li className="breadcrumbs__item">
-              <a href="/" className="link">Главная</a>
+              <Link to={AppRoute.Main} className="link">Главная</Link>
             </li>
             <li className="breadcrumbs__item">
-              <a className="link">Каталог</a>
+              <Link to={AppRoute.Catalog} className="link">Каталог</Link>
             </li>
           </ul>
 
