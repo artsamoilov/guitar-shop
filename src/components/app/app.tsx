@@ -4,16 +4,22 @@ import {AppRoute} from '../../const';
 import ProductPage from '../../pages/product-page/product-page';
 import CartPage from '../../pages/cart-page/cart-page';
 
+const FIRST_PAGE_URL = '/catalog/page_1';
+
 function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<Navigate to={AppRoute.Catalog} />}
+          element={<Navigate to={FIRST_PAGE_URL} />}
         />
         <Route
           path={AppRoute.Catalog}
+          element={<Navigate to={FIRST_PAGE_URL} />}
+        />
+        <Route
+          path={AppRoute.CatalogPage}
           element={<CatalogPage />}
         />
         <Route
@@ -26,7 +32,7 @@ function App(): JSX.Element {
         />
         <Route
           path='*'
-          element={<Navigate to={AppRoute.Catalog} />}
+          element={<Navigate to={AppRoute.NotFound} />}
         />
       </Routes>
     </BrowserRouter>
