@@ -1,4 +1,6 @@
 import {Guitar} from '../../types/guitar';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const';
 
 type PropsType = {
   guitar: Guitar,
@@ -12,7 +14,7 @@ function CatalogItem({guitar}: PropsType): JSX.Element {
 
   return (
     <div className="product-card">
-      <img src={guitar.previewImg} width="75" height="190" alt={guitar.name} />
+      <img src={`/${guitar.previewImg}`} width="75" height="190" alt={guitar.name} />
       <div className="product-card__info">
         <div className="rate product-card__rate">
           {rates.map((rate) => (
@@ -31,7 +33,7 @@ function CatalogItem({guitar}: PropsType): JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <a className="button button--mini" href="#">Подробнее</a>
+        <Link to={`${AppRoute.Catalog}/${guitar.id}`} className="button button--mini">Подробнее</Link>
         <a className="button button--red button--mini button--add-to-cart" href="#">Купить</a>
       </div>
     </div>

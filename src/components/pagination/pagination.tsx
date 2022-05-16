@@ -1,6 +1,7 @@
 import React, {SyntheticEvent} from 'react';
 import {useAppSelector} from '../../hooks';
-import {CARDS_BY_PAGE, INITIAL_PAGE} from '../../const';
+import {AppRoute, CARDS_BY_PAGE, INITIAL_PAGE} from '../../const';
+import {Link} from 'react-router-dom';
 
 type PropsType = {
   page: number,
@@ -16,33 +17,24 @@ function Pagination({page, setPage}: PropsType): JSX.Element {
     for (let i = INITIAL_PAGE; i <= pagesCounter; i++) {
       pagesButtons.push(
         <li key={i} className={`pagination__page ${i === page && 'pagination__page--active'}`}>
-          <a onClick={handlePageClick} className="link pagination__page-link" href={`${i}`}>{i}</a>
+          <Link to={`${AppRoute.Catalog}/page_${i}`} onClick={handlePageClick} className="link pagination__page-link">{i}</Link>
         </li>);
     }
     return pagesButtons;
   };
 
-  const handlePageClick = (evt: SyntheticEvent): void => {
-    evt.preventDefault();
-    setPage(Number(evt.currentTarget.textContent));
-  };
+  const handlePageClick = (evt: SyntheticEvent): void => setPage(Number(evt.currentTarget.textContent));
 
-  const handlePreviousClick = (evt: SyntheticEvent): void => {
-    evt.preventDefault();
-    setPage(page - 1);
-  };
+  const handlePreviousClick = (): void => setPage(page - 1);
 
-  const handleNextClick = (evt: SyntheticEvent): void => {
-    evt.preventDefault();
-    setPage(page + 1);
-  };
+  const handleNextClick = (): void => setPage(page + 1);
 
   return (
     <div className="pagination page-content__pagination">
       <ul className="pagination__list">
         {page !== INITIAL_PAGE && (
           <li className="pagination__page pagination__page--prev" id="prev">
-            <a onClick={handlePreviousClick} className="link pagination__page-link" href="1">Назад</a>
+            <Link to={`${AppRoute.Catalog}/page_${page - 1}`} onClick={handlePreviousClick} className="link pagination__page-link">Назад</Link>
           </li>
         )}
 
@@ -50,7 +42,7 @@ function Pagination({page, setPage}: PropsType): JSX.Element {
 
         {page !== pagesCounter && (
           <li className="pagination__page pagination__page--next" id="next">
-            <a onClick={handleNextClick} className="link pagination__page-link" href="2">Далее</a>
+            <Link to={`${AppRoute.Catalog}/page_${page + 1}`} onClick={handleNextClick} className="link pagination__page-link">Далее</Link>
           </li>
         )}
       </ul>

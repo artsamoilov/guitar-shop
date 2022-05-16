@@ -16,7 +16,8 @@ export enum APIRoute {
 export enum AppRoute {
   Main = '/',
   Catalog = '/catalog',
-  Item = '/catalog/:id',
+  CatalogPage = '/catalog/page_:id',
+  Item = '/catalog/item/:id',
   Cart = '/catalog/cart',
   NotFound = '/404',
 }

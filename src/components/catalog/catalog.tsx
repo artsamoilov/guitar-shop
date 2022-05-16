@@ -4,12 +4,18 @@ import Pagination from '../pagination/pagination';
 import {useAppSelector} from '../../hooks';
 import CatalogItem from '../catalog-item/catalog-item';
 import {useState} from 'react';
-import {CARDS_BY_PAGE, INITIAL_PAGE} from '../../const';
+import {AppRoute, CARDS_BY_PAGE} from '../../const';
+import {useParams, Navigate} from 'react-router-dom';
 
 function Catalog(): JSX.Element {
-  const [page, setPage] = useState(INITIAL_PAGE);
+  const {id} = useParams();
+  const [page, setPage] = useState(Number(id));
 
-  const guitars = useAppSelector((store) => store.guitars);
+  const {guitars, isDataLoaded} = useAppSelector((store) => store);
+
+  if (isDataLoaded && Number(id) > Math.ceil(guitars.length / CARDS_BY_PAGE)) {
+    return <Navigate to={AppRoute.NotFound} />;
+  }
 
   const startIndex = CARDS_BY_PAGE * (page - 1);
   const endIndex = CARDS_BY_PAGE * page > guitars.length ? guitars.length : CARDS_BY_PAGE * page;
