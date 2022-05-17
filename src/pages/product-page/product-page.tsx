@@ -2,15 +2,16 @@ import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import {useAppSelector} from '../../hooks';
 import {Link, useParams} from 'react-router-dom';
-import {AppRoute, GuitarType} from '../../const';
+import {AppRoute} from '../../const';
 import {getRatingStars, getRatingText} from '../../utils';
+import ProductTabs from '../../components/product-tabs/product-tabs';
+import {Guitar} from '../../types/guitar';
 
 function ProductPage(): JSX.Element {
   const {id} = useParams();
   const guitars = useAppSelector((state) => state.guitars);
 
-  const guitar = guitars.find((item) => item.id === Number(id));
-  const formattedType = `${guitar?.type[0].toUpperCase()}${guitar?.type.slice(1)}`;
+  const guitar = guitars.find((item) => item.id === Number(id)) as Guitar;
 
   return (
     <div className="wrapper">
@@ -39,33 +40,9 @@ function ProductPage(): JSX.Element {
                 {getRatingStars(guitar?.rating || 1)}
                 <p className="visually-hidden">Оценка: {getRatingText(guitar?.rating || 1)}</p>
               </div>
-              <div className="tabs">
-                <a className="button button--medium tabs__button" href="#characteristics">Характеристики</a>
-                <a className="button button--black-border button--medium tabs__button" href="#description">Описание</a>
-                <div className="tabs__content" id="characteristics">
-                  <table className="tabs__table">
-                    <tbody>
-                      <tr className="tabs__table-row">
-                        <td className="tabs__title">Артикул:</td>
-                        <td className="tabs__value">{guitar?.vendorCode}</td>
-                      </tr>
-                      <tr className="tabs__table-row">
-                        <td className="tabs__title">Тип:</td>
-                        <td className="tabs__value">{GuitarType[formattedType]}</td>
-                      </tr>
-                      <tr className="tabs__table-row">
-                        <td className="tabs__title">Количество струн:</td>
-                        <td className="tabs__value">{guitar?.stringCount} струнная</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <p className="tabs__product-description hidden">Гитара подходит как для старта обучения, так и для
-                    домашних занятий или использования в полевых условиях, например, в походах или для проведения
-                    уличных выступлений. Доступная стоимость, качество и надежная конструкция, а также приятный внешний
-                    вид, который сделает вас звездой вечеринки.
-                  </p>
-                </div>
-              </div>
+
+              <ProductTabs guitar={guitar} />
+
             </div>
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
