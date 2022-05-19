@@ -1,7 +1,7 @@
-import {GuitarType} from '../../const';
 import {Guitar} from '../../types/guitar';
 import {SetStateAction, SyntheticEvent, useState} from 'react';
 import {useLocation} from 'react-router-dom';
+import {getGuitarType} from '../../utils';
 
 type PropsType = {
   guitar: Guitar;
@@ -13,13 +13,12 @@ enum TabName {
 }
 
 const DESCRIPTION_HASH = '#description';
+const CHARACTERISTICS_HASH = '#characteristics';
 
 function ProductTabs({guitar}: PropsType): JSX.Element {
   const {hash} = useLocation();
 
   const [tabName, setTabName] = useState(hash === DESCRIPTION_HASH ? TabName.Description : TabName.Characteristics);
-
-  const formattedType = `${guitar?.type[0].toUpperCase()}${guitar?.type.slice(1)}`;
 
   const handleTabClick = (evt: SyntheticEvent): void => setTabName(evt.currentTarget.textContent as SetStateAction<TabName>);
 
@@ -27,13 +26,13 @@ function ProductTabs({guitar}: PropsType): JSX.Element {
     <div className="tabs">
       <a onClick={handleTabClick}
         className={`button ${tabName !== TabName.Characteristics && 'button--black-border'} button--medium tabs__button`}
-        href="#characteristics"
+        href={CHARACTERISTICS_HASH}
       >
         {TabName.Characteristics}
       </a>
       <a onClick={handleTabClick}
         className={`button ${tabName !== TabName.Description && 'button--black-border'} button--medium tabs__button`}
-        href="#description"
+        href={DESCRIPTION_HASH}
       >
         {TabName.Description}
       </a>
@@ -46,7 +45,7 @@ function ProductTabs({guitar}: PropsType): JSX.Element {
             </tr>
             <tr className="tabs__table-row">
               <td className="tabs__title">Тип:</td>
-              <td className="tabs__value">{GuitarType[formattedType]}</td>
+              <td className="tabs__value">{getGuitarType(guitar)}</td>
             </tr>
             <tr className="tabs__table-row">
               <td className="tabs__title">Количество струн:</td>

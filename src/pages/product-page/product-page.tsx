@@ -48,8 +48,8 @@ function ProductPage(): JSX.Element {
             <div className="product-container__info-wrapper">
               <h2 className="product-container__title title title--big title--uppercase">{currentGuitar.name}</h2>
               <div className="rate product-container__rating">
-                {getRatingStars(currentGuitar.rating || 1)}
-                <p className="visually-hidden">Оценка: {getRatingText(currentGuitar.rating || 1)}</p>
+                {getRatingStars(currentGuitar.rating)}
+                <p className="visually-hidden">Оценка: {getRatingText(currentGuitar.rating)}</p>
               </div>
 
               <ProductTabs guitar={currentGuitar} />

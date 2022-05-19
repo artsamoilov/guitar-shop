@@ -3,11 +3,16 @@ import CatalogSorting from '../catalog-sorting/catalog-sorting';
 import Pagination from '../pagination/pagination';
 import {useAppSelector} from '../../hooks';
 import CatalogItem from '../catalog-item/catalog-item';
-import {useState} from 'react';
+import {Dispatch, SetStateAction, useState} from 'react';
 import {AppRoute, CARDS_BY_PAGE} from '../../const';
 import {useParams, Navigate} from 'react-router-dom';
+import {Guitar} from '../../types/guitar';
 
-function Catalog(): JSX.Element {
+type PropsType = {
+  setCurrentGuitar: Dispatch<SetStateAction<Guitar>>,
+}
+
+function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
   const {id} = useParams();
   const [page, setPage] = useState(Number(id));
 
@@ -32,7 +37,7 @@ function Catalog(): JSX.Element {
       <CatalogSorting />
 
       <div className="cards catalog__cards">
-        {guitarsSlice.map((guitar) => <CatalogItem guitar={guitar} key={guitar.id} />)}
+        {guitarsSlice.map((guitar) => <CatalogItem setCurrentGuitar={setCurrentGuitar} guitar={guitar} key={guitar.id} />)}
       </div>
 
       <Pagination page={page} setPage={setPage} />

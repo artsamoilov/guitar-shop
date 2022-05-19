@@ -3,8 +3,13 @@ import Footer from '../../components/footer/footer';
 import Catalog from '../../components/catalog/catalog';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
+import ModalAddToCart from '../../components/modal-add-to-cart/modal-add-to-cart';
+import {useState} from 'react';
+import {Guitar} from '../../types/guitar';
 
 function CatalogPage(): JSX.Element {
+  const [currentGuitar, setCurrentGuitar] = useState({} as Guitar);
+
   return (
     <div className="wrapper">
 
@@ -22,12 +27,14 @@ function CatalogPage(): JSX.Element {
             </li>
           </ul>
 
-          <Catalog />
+          <Catalog setCurrentGuitar={setCurrentGuitar} />
 
         </div>
       </main>
 
       <Footer />
+
+      <ModalAddToCart guitar={currentGuitar} />
 
     </div>
   );

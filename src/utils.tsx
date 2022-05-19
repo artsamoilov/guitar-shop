@@ -1,4 +1,5 @@
-import {RATES, TEXT_RATES} from './const';
+import {GuitarType, RATES, TEXT_RATES} from './const';
+import {Guitar} from './types/guitar';
 
 const getRatingStars = (guitarRating: number): JSX.Element[] => (
   RATES.map((rate) => (
@@ -10,4 +11,9 @@ const getRatingStars = (guitarRating: number): JSX.Element[] => (
 
 const getRatingText = (guitarRating: number): string => TEXT_RATES[Math.floor(guitarRating) - 1];
 
-export {getRatingStars, getRatingText};
+const getGuitarType = (guitar: Guitar): string => {
+  const formattedType = `${guitar.type[0].toUpperCase()}${guitar.type.slice(1)}`;
+  return GuitarType[formattedType];
+}
+
+export {getRatingStars, getRatingText, getGuitarType};

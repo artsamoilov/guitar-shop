@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {loadGuitars, loadCurrentGuitar, setGuitarLoadingNeeded, loadComments} from './actions';
+import {loadGuitars, loadCurrentGuitar, setGuitarLoadingNeeded, loadComments, setAddToCartModalOpened} from './actions';
 import {Guitar} from '../types/guitar';
 import {Comment} from '../types/comment';
 
@@ -9,6 +9,7 @@ type StateType = {
   currentGuitar: Guitar,
   isGuitarLoaded: boolean,
   comments: Comment[],
+  isAddToCartModalOpened: boolean,
 }
 
 const initialState: StateType = {
@@ -17,6 +18,7 @@ const initialState: StateType = {
   currentGuitar: {} as Guitar,
   isGuitarLoaded: false,
   comments: [],
+  isAddToCartModalOpened: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -34,6 +36,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(setAddToCartModalOpened, (state, action) => {
+      state.isAddToCartModalOpened = action.payload;
     });
 });
 

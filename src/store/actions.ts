@@ -10,4 +10,6 @@ const setGuitarLoadingNeeded = createAction('data/setGuitarNotLoaded');
 
 const loadComments = createAction<Comment[]>('data/loadComments');
 
-export {loadGuitars, loadCurrentGuitar, setGuitarLoadingNeeded, loadComments};
+const setAddToCartModalOpened = createAction<boolean>('modal/setAddToCartModalOpened');
+
+export {loadGuitars, loadCurrentGuitar, setGuitarLoadingNeeded, loadComments, setAddToCartModalOpened};
