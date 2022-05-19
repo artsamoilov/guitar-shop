@@ -13,6 +13,10 @@ function Catalog(): JSX.Element {
 
   const {guitars, isDataLoaded} = useAppSelector((store) => store);
 
+  if (!isDataLoaded) {
+    return <p>Loading...</p>;
+  }
+
   if (isDataLoaded && Number(id) > Math.ceil(guitars.length / CARDS_BY_PAGE)) {
     return <Navigate to={AppRoute.NotFound} />;
   }
