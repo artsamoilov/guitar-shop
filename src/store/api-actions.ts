@@ -5,10 +5,12 @@ import {APIRoute} from '../const';
 import {Guitar} from '../types/guitar';
 import {Comment} from '../types/comment';
 
+const GUITARS_FETCH_OPTION = '?_limit=27';
+
 const fetchGuitarsAction = createAsyncThunk(
   'data/fetchGuitars',
   async () => {
-    const {data} = await api.get<Guitar[]>(`${APIRoute.Guitars}?_limit=27`);
+    const {data} = await api.get<Guitar[]>(`${APIRoute.Guitars}${GUITARS_FETCH_OPTION}`);
     store.dispatch(loadGuitars(data));
   },
 );
@@ -24,7 +26,7 @@ const fetchCurrentGuitarAction = createAsyncThunk(
 const fetchCommentsAction = createAsyncThunk(
   'data/fetchComments',
   async (id: string) => {
-    const {data} = await api.get<Comment[]>(`${APIRoute.Guitars}/${id}/comments`);
+    const {data} = await api.get<Comment[]>(`${APIRoute.Guitars}/${id}${APIRoute.Comments}`);
     store.dispatch(loadComments(data));
   },
 );
