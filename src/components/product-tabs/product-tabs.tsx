@@ -1,6 +1,7 @@
 import {GuitarType} from '../../const';
 import {Guitar} from '../../types/guitar';
 import {SetStateAction, SyntheticEvent, useState} from 'react';
+import {useLocation} from 'react-router-dom';
 
 type PropsType = {
   guitar: Guitar;
@@ -11,8 +12,12 @@ enum TabName {
   Description = 'Описание',
 }
 
+const DESCRIPTION_HASH = '#description';
+
 function ProductTabs({guitar}: PropsType): JSX.Element {
-  const [tabName, setTabName] = useState(TabName.Characteristics);
+  const {hash} = useLocation();
+
+  const [tabName, setTabName] = useState(hash === DESCRIPTION_HASH ? TabName.Description : TabName.Characteristics);
 
   const formattedType = `${guitar?.type[0].toUpperCase()}${guitar?.type.slice(1)}`;
 

@@ -28,6 +28,8 @@ export const GuitarType: {[key: string]: string} = {
   Ukulele: 'Укулеле',
 };
 
+export const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+
 export const CARDS_BY_PAGE = 9;
 export const INITIAL_PAGE = 1;
 
