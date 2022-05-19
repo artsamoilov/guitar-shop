@@ -7,6 +7,9 @@ import {getRatingStars, getRatingText} from '../../utils';
 import ProductTabs from '../../components/product-tabs/product-tabs';
 import {fetchCurrentGuitarAction, fetchCommentsAction} from '../../store/api-actions';
 import ProductReviews from '../../components/product-reviews/product-reviews';
+import ModalAddToCart from '../../components/modal-add-to-cart/modal-add-to-cart';
+import {SyntheticEvent} from 'react';
+import {setAddToCartModalOpened} from '../../store/actions';
 
 function ProductPage(): JSX.Element {
   const {id} = useParams();
@@ -23,6 +26,11 @@ function ProductPage(): JSX.Element {
     dispatch(fetchCommentsAction(String(id)));
     return <p>Loading...</p>;
   }
+
+  const handleBuyClick = (evt: SyntheticEvent): void => {
+    evt.preventDefault();
+    dispatch(setAddToCartModalOpened(true));
+  };
 
   return (
     <div className="wrapper">
@@ -58,7 +66,7 @@ function ProductPage(): JSX.Element {
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
               <p className="product-container__price-info product-container__price-info--value">{currentGuitar.price} ₽</p>
-              <a className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
+              <a onClick={handleBuyClick} className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
             </div>
           </div>
 
@@ -68,6 +76,8 @@ function ProductPage(): JSX.Element {
       </main>
 
       <Footer />
+
+      <ModalAddToCart guitar={currentGuitar} />
 
     </div>
   );
