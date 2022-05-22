@@ -1,4 +1,4 @@
-import {SyntheticEvent} from 'react';
+import {SyntheticEvent, useRef} from 'react';
 import {setReviewSuccessOpened} from '../../store/actions';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 
@@ -7,10 +7,16 @@ function ModalSuccessReview(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+
   const handleCloseClick = (evt: SyntheticEvent): void => {
     evt.preventDefault();
     dispatch(setReviewSuccessOpened(false));
   };
+
+  if (isReviewSuccessModalOpened) {
+    buttonRef.current?.focus();
+  }
 
   return (
     <div className={`modal ${isReviewSuccessModalOpened && 'is-active'} modal--success`}>
@@ -22,7 +28,7 @@ function ModalSuccessReview(): JSX.Element {
           </svg>
           <p className="modal__message">Спасибо за ваш отзыв!</p>
           <div className="modal__button-container modal__button-container--review">
-            <button onClick={handleCloseClick} className="button button--small modal__button modal__button--review">К покупкам!</button>
+            <button ref={buttonRef} autoFocus={isReviewSuccessModalOpened} onClick={handleCloseClick} className="button button--small modal__button modal__button--review">К покупкам!</button>
           </div>
           <button onClick={handleCloseClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть">
             <span className="button-cross__icon" />

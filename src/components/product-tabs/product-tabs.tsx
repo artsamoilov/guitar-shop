@@ -2,6 +2,8 @@ import {Guitar} from '../../types/guitar';
 import {SetStateAction, SyntheticEvent, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import {getGuitarType} from '../../utils';
+import {useAppSelector} from '../../hooks';
+import {TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
 
 type PropsType = {
   guitar: Guitar;
@@ -20,17 +22,23 @@ function ProductTabs({guitar}: PropsType): JSX.Element {
 
   const [tabName, setTabName] = useState(hash === DESCRIPTION_HASH ? TabName.Description : TabName.Characteristics);
 
+  const {isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector((store) => store);
+
+  const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
+
   const handleTabClick = (evt: SyntheticEvent): void => setTabName(evt.currentTarget.textContent as SetStateAction<TabName>);
 
   return (
     <div className="tabs">
-      <a onClick={handleTabClick}
+      <a tabIndex={getTabIndex()}
+        onClick={handleTabClick}
         className={`button ${tabName !== TabName.Characteristics && 'button--black-border'} button--medium tabs__button`}
         href={CHARACTERISTICS_HASH}
       >
         {TabName.Characteristics}
       </a>
-      <a onClick={handleTabClick}
+      <a tabIndex={getTabIndex()}
+        onClick={handleTabClick}
         className={`button ${tabName !== TabName.Description && 'button--black-border'} button--medium tabs__button`}
         href={DESCRIPTION_HASH}
       >

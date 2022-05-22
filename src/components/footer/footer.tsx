@@ -1,28 +1,35 @@
+import {useAppSelector} from '../../hooks';
+import {TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
+
 function Footer(): JSX.Element {
+  const {isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector((store) => store);
+
+  const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
+
   return (
     <footer className="footer">
       <div className="footer__container container">
-        <a className="footer__logo logo">
+        <a tabIndex={getTabIndex()} className="footer__logo logo">
           <img className="logo__img" width="70" height="70" src="/img/svg/logo.svg" alt="Логотип" />
         </a>
         <div className="socials footer__socials">
           <ul className="socials__list">
             <li className="socials-item">
-              <a className="socials__link" href="https://www.skype.com/" aria-label="skype">
+              <a tabIndex={getTabIndex()} className="socials__link" href="https://www.skype.com/" aria-label="skype">
                 <svg className="socials__icon" width="24" height="24" aria-hidden="true">
                   <use xlinkHref="#icon-skype" />
                 </svg>
               </a>
             </li>
             <li className="socials-item">
-              <a className="socials__link" href="https://www.vsco.com/" aria-label="vsco">
+              <a tabIndex={getTabIndex()} className="socials__link" href="https://www.vsco.com/" aria-label="vsco">
                 <svg className="socials__icon" width="24" height="24" aria-hidden="true">
                   <use xlinkHref="#icon-vsco" />
                 </svg>
               </a>
             </li>
             <li className="socials-item">
-              <a className="socials__link" href="https://www.pinterest.com/" aria-label="pinterest">
+              <a tabIndex={getTabIndex()} className="socials__link" href="https://www.pinterest.com/" aria-label="pinterest">
                 <svg className="socials__icon" width="24" height="24" aria-hidden="true">
                   <use xlinkHref="#icon-pinterest" />
                 </svg>
@@ -41,19 +48,19 @@ function Footer(): JSX.Element {
           <h2 className="footer__nav-title">Информация</h2>
           <ul className="footer__nav-list">
             <li className="footer__nav-list-item">
-              <a className="link" href="#top">Где купить?</a>
+              <a tabIndex={getTabIndex()} className="link" href="#top">Где купить?</a>
             </li>
             <li className="footer__nav-list-item">
-              <a className="link" href="#top">Блог</a>
+              <a tabIndex={getTabIndex()} className="link" href="#top">Блог</a>
             </li>
             <li className="footer__nav-list-item">
-              <a className="link" href="#top">Вопрос - ответ</a>
+              <a tabIndex={getTabIndex()} className="link" href="#top">Вопрос - ответ</a>
             </li>
             <li className="footer__nav-list-item">
-              <a className="link" href="#top">Возврат</a>
+              <a tabIndex={getTabIndex()} className="link" href="#top">Возврат</a>
             </li>
             <li className="footer__nav-list-item">
-              <a className="link" href="#top">Сервис-центры</a>
+              <a tabIndex={getTabIndex()} className="link" href="#top">Сервис-центры</a>
             </li>
           </ul>
         </section>
@@ -64,7 +71,7 @@ function Footer(): JSX.Element {
             <svg className="footer__icon" width="8" height="8" aria-hidden="true">
               <use xlinkHref="#icon-phone" />
             </svg>
-            <a className="link" href="tel:88125005050"> 8-812-500-50-50</a>
+            <a tabIndex={getTabIndex()} className="link" href="tel:88125005050"> 8-812-500-50-50</a>
           </div>
           <p className="footer__nav-content">Режим работы:<br/>
             <span className="footer__span">
