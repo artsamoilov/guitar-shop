@@ -26,6 +26,10 @@ function CatalogPage(): JSX.Element {
     }
   };
 
+  document.body.style.overflow = isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened
+    ? 'hidden'
+    : 'unset';
+
   return (
     <div onKeyDown={handleEscKeydown} className="wrapper">
 
