@@ -9,11 +9,13 @@ import {fetchCurrentGuitarAction, fetchCommentsAction} from '../../store/api-act
 import ProductReviews from '../../components/product-reviews/product-reviews';
 import ModalAddToCart from '../../components/modal-add-to-cart/modal-add-to-cart';
 import {SyntheticEvent} from 'react';
-import {setAddToCartModalOpened} from '../../store/actions';
+import {setAddToCartModalOpened, setCommentsListLoading, setGuitarLoading} from '../../store/actions';
+import ModalAddReview from '../../components/modal-add-review/modal-add-review';
+import ModalSuccessReview from '../../components/modal-success-review/modal-success-review';
 
 function ProductPage(): JSX.Element {
   const {id} = useParams();
-  const {guitars, isDataLoaded, currentGuitar, isGuitarLoaded, comments} = useAppSelector((state) => state);
+  const {guitars, isDataLoaded, currentGuitar, isGuitarLoaded, isGuitarLoading, isCommentsListLoading} = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
 
@@ -22,8 +24,14 @@ function ProductPage(): JSX.Element {
   }
 
   if (!isGuitarLoaded || currentGuitar.id !== Number(id)) {
-    dispatch(fetchCurrentGuitarAction(String(id)));
-    dispatch(fetchCommentsAction(String(id)));
+    if (!isGuitarLoading) {
+      dispatch(fetchCurrentGuitarAction(String(id)));
+      dispatch(setGuitarLoading(true));
+    }
+    if (!isCommentsListLoading) {
+      dispatch(fetchCommentsAction(String(id)));
+      dispatch(setCommentsListLoading(true));
+    }
     return <p>Loading...</p>;
   }
 
@@ -70,7 +78,7 @@ function ProductPage(): JSX.Element {
             </div>
           </div>
 
-          <ProductReviews comments={comments} />
+          <ProductReviews />
 
         </div>
       </main>
@@ -78,6 +86,10 @@ function ProductPage(): JSX.Element {
       <Footer />
 
       <ModalAddToCart guitar={currentGuitar} />
+
+      <ModalAddReview guitar={currentGuitar} />
+
+      <ModalSuccessReview />
 
     </div>
   );

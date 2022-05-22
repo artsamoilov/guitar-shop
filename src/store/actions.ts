@@ -12,4 +12,25 @@ const loadComments = createAction<Comment[]>('data/loadComments');
 
 const setAddToCartModalOpened = createAction<boolean>('modal/setAddToCartModalOpened');
 
-export {loadGuitars, loadCurrentGuitar, setGuitarLoadingNeeded, loadComments, setAddToCartModalOpened};
+const setAddReviewModalOpened = createAction<boolean>('modal/setAddReviewModalOpened');
+
+const setReviewSuccessOpened = createAction<boolean>('modal/setReviewSuccessOpened');
+
+const setCommentsNotLoaded = createAction('data/setCommentsLoaded');
+
+const setGuitarLoading = createAction<boolean>('data/setGuitarLoading');
+
+const setCommentsListLoading = createAction<boolean>('data/setCommentsListLoading');
+
+export {
+  loadGuitars,
+  loadCurrentGuitar,
+  setGuitarLoadingNeeded,
+  loadComments,
+  setAddToCartModalOpened,
+  setAddReviewModalOpened,
+  setCommentsNotLoaded,
+  setReviewSuccessOpened,
+  setGuitarLoading,
+  setCommentsListLoading
+};

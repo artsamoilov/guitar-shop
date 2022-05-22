@@ -1,17 +1,18 @@
 import {Comment} from '../../types/comment';
 import Review from '../review/review';
-import {useState} from 'react';
+import {SyntheticEvent, useState} from 'react';
 import dayjs from 'dayjs';
-
-type PropsType = {
-  comments: Comment[];
-}
+import {setAddReviewModalOpened} from '../../store/actions';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 
 const START_INDEX = 0;
 const COMMENTS_STEP = 3;
 
-function ProductReviews({comments}: PropsType): JSX.Element {
+function ProductReviews(): JSX.Element {
+  const {comments} = useAppSelector((store) => store);
   const [commentsCounter, setCommentsCounter] = useState(COMMENTS_STEP);
+
+  const dispatch = useAppDispatch();
 
   const sortedComments = comments
     .slice()
@@ -23,10 +24,15 @@ function ProductReviews({comments}: PropsType): JSX.Element {
     setCommentsCounter(commentsCounter + COMMENTS_STEP) :
     setCommentsCounter(comments.length);
 
+  const handleAddReviewClick = (evt: SyntheticEvent): void => {
+    evt.preventDefault();
+    dispatch(setAddReviewModalOpened(true));
+  };
+
   return (
     <section className="reviews">
       <h3 className="reviews__title title title--bigger">Отзывы</h3>
-      <a className="button button--red-border button--big reviews__sumbit-button" href="#">Оставить отзыв</a>
+      <a onClick={handleAddReviewClick} className="button button--red-border button--big reviews__sumbit-button" href="#">Оставить отзыв</a>
 
       {getSlicedComments().map((comment) => <Review key={comment.id} comment={comment} />)}
 

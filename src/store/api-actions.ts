@@ -1,9 +1,10 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {api, store} from './store';
-import {loadGuitars, loadCurrentGuitar, loadComments} from './actions';
+import {loadGuitars, loadCurrentGuitar, loadComments, setCommentsNotLoaded} from './actions';
 import {APIRoute} from '../const';
 import {Guitar} from '../types/guitar';
 import {Comment} from '../types/comment';
+import {CommentPost} from '../types/comment-post';
 
 const GUITARS_FETCH_OPTION = '?_limit=27';
 
@@ -31,4 +32,19 @@ const fetchCommentsAction = createAsyncThunk(
   },
 );
 
-export {fetchGuitarsAction, fetchCurrentGuitarAction, fetchCommentsAction};
+const postCommentAction = createAsyncThunk(
+  'data/postComment',
+  async ({guitarId, userName, advantage, disadvantage, comment, rating}: CommentPost) => {
+    await api.post(APIRoute.Comments, {
+      guitarId: guitarId,
+      userName: userName,
+      advantage: advantage,
+      disadvantage: disadvantage,
+      comment: comment,
+      rating: Number(rating),
+    });
+    store.dispatch(setCommentsNotLoaded());
+  },
+);
+
+export {fetchGuitarsAction, fetchCurrentGuitarAction, fetchCommentsAction, postCommentAction};
