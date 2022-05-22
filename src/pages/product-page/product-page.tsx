@@ -3,13 +3,19 @@ import Footer from '../../components/footer/footer';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Link, useParams, Navigate} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {getRatingStars, getRatingText} from '../../utils';
+import {getRatingStars, getRatingText, isEscKey} from '../../utils';
 import ProductTabs from '../../components/product-tabs/product-tabs';
 import {fetchCurrentGuitarAction, fetchCommentsAction} from '../../store/api-actions';
 import ProductReviews from '../../components/product-reviews/product-reviews';
 import ModalAddToCart from '../../components/modal-add-to-cart/modal-add-to-cart';
-import {SyntheticEvent} from 'react';
-import {setAddToCartModalOpened, setCommentsListLoading, setGuitarLoading} from '../../store/actions';
+import React, {SyntheticEvent} from 'react';
+import {
+  setAddReviewModalOpened,
+  setAddToCartModalOpened,
+  setCommentsListLoading,
+  setGuitarLoading,
+  setReviewSuccessOpened
+} from '../../store/actions';
 import ModalAddReview from '../../components/modal-add-review/modal-add-review';
 import ModalSuccessReview from '../../components/modal-success-review/modal-success-review';
 
@@ -40,8 +46,17 @@ function ProductPage(): JSX.Element {
     dispatch(setAddToCartModalOpened(true));
   };
 
+  const handleEscKeydown = (evt: React.KeyboardEvent): void => {
+    if (isEscKey(evt.key)) {
+      evt.preventDefault();
+      dispatch(setAddToCartModalOpened(false));
+      dispatch(setAddReviewModalOpened(false));
+      dispatch(setReviewSuccessOpened(false));
+    }
+  };
+
   return (
-    <div className="wrapper">
+    <div onKeyDown={handleEscKeydown} className="wrapper">
 
       <Header />
 

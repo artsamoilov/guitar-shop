@@ -14,6 +14,8 @@ const getRatingText = (guitarRating: number): string => TEXT_RATES[Math.floor(gu
 const getGuitarType = (guitar: Guitar): string => {
   const formattedType = `${guitar.type[0].toUpperCase()}${guitar.type.slice(1)}`;
   return GuitarType[formattedType];
-}
+};
 
-export {getRatingStars, getRatingText, getGuitarType};
+const isEscKey = (keyName: string): boolean => keyName === 'Escape' || keyName === 'Esc';
+
+export {getRatingStars, getRatingText, getGuitarType, isEscKey};
