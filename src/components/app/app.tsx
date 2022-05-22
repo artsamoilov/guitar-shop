@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import ProductPage from '../../pages/product-page/product-page';
 import CartPage from '../../pages/cart-page/cart-page';
+import NotFoundPage from '../../pages/not-found-page/not-found-page';
 
 const FIRST_PAGE_URL = '/catalog/page_1';
 
@@ -32,7 +33,7 @@ function App(): JSX.Element {
         />
         <Route
           path='*'
-          element={<Navigate to={AppRoute.NotFound} />}
+          element={<NotFoundPage />}
         />
       </Routes>
     </BrowserRouter>
