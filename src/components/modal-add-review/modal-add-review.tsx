@@ -1,8 +1,10 @@
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {FormEvent, SyntheticEvent, useState} from 'react';
-import {setAddReviewModalOpened, setReviewSuccessOpened} from '../../store/actions';
+import {addNewComment, setAddReviewModalOpened, setReviewSuccessOpened} from '../../store/actions';
 import {Guitar} from '../../types/guitar';
-import {fetchCommentsAction, postCommentAction} from '../../store/api-actions';
+import dayjs from 'dayjs';
+import faker from 'faker';
+import {postCommentAction} from '../../store/api-actions';
 
 type PropsType = {
   guitar: Guitar,
@@ -44,8 +46,17 @@ function ModalAddReview({guitar}: PropsType): JSX.Element {
     const {userName, advantage, disadvantage, comment, rating} = formData;
     if (userName && advantage && disadvantage && comment && rating !== 0) {
       evt.currentTarget.reset();
+      dispatch(addNewComment({
+        id: faker.random.locale(),
+        userName: userName,
+        advantage: advantage,
+        disadvantage: disadvantage,
+        comment: comment,
+        rating: rating,
+        createAt: dayjs().toISOString(),
+        guitarId: guitar.id,
+      }));
       dispatch(postCommentAction(formData));
-      dispatch(fetchCommentsAction(String(guitar.id)));
       dispatch(setAddReviewModalOpened(false));
       dispatch(setReviewSuccessOpened(true));
     }

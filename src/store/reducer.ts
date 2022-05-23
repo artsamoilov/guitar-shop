@@ -6,10 +6,10 @@ import {
   loadComments,
   setAddToCartModalOpened,
   setAddReviewModalOpened,
-  setCommentsNotLoaded,
   setReviewSuccessOpened,
   setGuitarLoading,
-  setCommentsListLoading
+  setCommentsListLoading,
+  addNewComment
 } from './actions';
 import {Guitar} from '../types/guitar';
 import {Comment} from '../types/comment';
@@ -70,14 +70,14 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setReviewSuccessOpened, (state, action) => {
       state.isReviewSuccessOpened = action.payload;
     })
-    .addCase(setCommentsNotLoaded, (state) => {
-      state.isCommentsListLoaded = false;
-    })
     .addCase(setGuitarLoading, (state, action) => {
       state.isGuitarLoading = action.payload;
     })
     .addCase(setCommentsListLoading, (state, action) => {
       state.isCommentsListLoading = action.payload;
+    })
+    .addCase(addNewComment, (state, action) => {
+      state.comments.push(action.payload);
     });
 });
 

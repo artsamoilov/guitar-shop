@@ -16,11 +16,11 @@ const setAddReviewModalOpened = createAction<boolean>('modal/setAddReviewModalOp
 
 const setReviewSuccessOpened = createAction<boolean>('modal/setReviewSuccessOpened');
 
-const setCommentsNotLoaded = createAction('data/setCommentsLoaded');
-
 const setGuitarLoading = createAction<boolean>('data/setGuitarLoading');
 
 const setCommentsListLoading = createAction<boolean>('data/setCommentsListLoading');
+
+const addNewComment = createAction<Comment>('data/addNewComment');
 
 export {
   loadGuitars,
@@ -29,8 +29,8 @@ export {
   loadComments,
   setAddToCartModalOpened,
   setAddReviewModalOpened,
-  setCommentsNotLoaded,
   setReviewSuccessOpened,
   setGuitarLoading,
-  setCommentsListLoading
+  setCommentsListLoading,
+  addNewComment
 };

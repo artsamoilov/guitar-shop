@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {api, store} from './store';
-import {loadGuitars, loadCurrentGuitar, loadComments, setCommentsNotLoaded} from './actions';
+import {loadGuitars, loadCurrentGuitar, loadComments} from './actions';
 import {APIRoute} from '../const';
 import {Guitar} from '../types/guitar';
 import {Comment} from '../types/comment';
@@ -43,7 +43,6 @@ const postCommentAction = createAsyncThunk(
       comment: comment,
       rating: Number(rating),
     });
-    store.dispatch(setCommentsNotLoaded());
   },
 );
 
