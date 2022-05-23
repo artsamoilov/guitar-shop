@@ -22,6 +22,8 @@ const setCommentsListLoading = createAction<boolean>('data/setCommentsListLoadin
 
 const addNewComment = createAction<Comment>('data/addNewComment');
 
+const setAllModalsClosed = createAction('modal/setAllModalsClosed');
+
 export {
   loadGuitars,
   loadCurrentGuitar,
@@ -32,5 +34,6 @@ export {
   setReviewSuccessOpened,
   setGuitarLoading,
   setCommentsListLoading,
-  addNewComment
+  addNewComment,
+  setAllModalsClosed
 };

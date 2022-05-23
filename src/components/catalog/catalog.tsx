@@ -1,12 +1,13 @@
 import CatalogFilter from '../catalog-filter/catalog-filter';
 import CatalogSorting from '../catalog-sorting/catalog-sorting';
 import Pagination from '../pagination/pagination';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import CatalogItem from '../catalog-item/catalog-item';
-import {Dispatch, SetStateAction, useState} from 'react';
+import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {AppRoute, CARDS_BY_PAGE} from '../../const';
 import {useParams, Navigate} from 'react-router-dom';
 import {Guitar} from '../../types/guitar';
+import {setAllModalsClosed} from '../../store/actions';
 
 type PropsType = {
   setCurrentGuitar: Dispatch<SetStateAction<Guitar>>,
@@ -16,7 +17,15 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
   const {id} = useParams();
   const [page, setPage] = useState(Number(id));
 
-  const {guitars, isDataLoaded} = useAppSelector((store) => store);
+  const guitars = useAppSelector((store) => store.guitars);
+  const isDataLoaded = useAppSelector((store) => store.isDataLoaded);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setPage(Number(id));
+    dispatch(setAllModalsClosed());
+  }, [id]);
 
   if (!isDataLoaded) {
     return <p>Loading...</p>;

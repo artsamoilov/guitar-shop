@@ -22,7 +22,9 @@ function ProductTabs({guitar}: PropsType): JSX.Element {
 
   const [tabName, setTabName] = useState(hash === DESCRIPTION_HASH ? TabName.Description : TabName.Characteristics);
 
-  const {isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector((store) => store);
+  const isAddToCartModalOpened = useAppSelector((state) => state.isAddToCartModalOpened);
+  const isAddReviewModalOpened = useAppSelector((state) => state.isAddReviewModalOpened);
+  const isReviewSuccessOpened = useAppSelector((state) => state.isReviewSuccessOpened);
 
   const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
 

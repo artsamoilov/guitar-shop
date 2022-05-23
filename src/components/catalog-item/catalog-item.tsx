@@ -14,7 +14,9 @@ type PropsType = {
 function CatalogItem({guitar, setCurrentGuitar}: PropsType): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const {isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector((store) => store);
+  const isAddToCartModalOpened = useAppSelector((state) => state.isAddToCartModalOpened);
+  const isAddReviewModalOpened = useAppSelector((state) => state.isAddReviewModalOpened);
+  const isReviewSuccessOpened = useAppSelector((state) => state.isReviewSuccessOpened);
 
   const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
 

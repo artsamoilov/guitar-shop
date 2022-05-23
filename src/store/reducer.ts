@@ -9,7 +9,8 @@ import {
   setReviewSuccessOpened,
   setGuitarLoading,
   setCommentsListLoading,
-  addNewComment
+  addNewComment,
+  setAllModalsClosed
 } from './actions';
 import {Guitar} from '../types/guitar';
 import {Comment} from '../types/comment';
@@ -78,6 +79,11 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(addNewComment, (state, action) => {
       state.comments.push(action.payload);
+    })
+    .addCase(setAllModalsClosed, (state) => {
+      state.isAddToCartModalOpened = false;
+      state.isAddReviewModalOpened = false;
+      state.isReviewSuccessOpened = false;
     });
 });
 

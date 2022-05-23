@@ -14,7 +14,7 @@ function NotFoundPage(): JSX.Element {
         <div className="container">
           <h1 className="page-content__title title title--bigger">404. Страница не найдена</h1>
           <p>
-            <Link to={AppRoute.CatalogPage} className="link">Вернуться в каталог</Link>
+            <Link to={`${AppRoute.Catalog}/page_1`} className="link">Вернуться в каталог</Link>
           </p>
         </div>
       </main>

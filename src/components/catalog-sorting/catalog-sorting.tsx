@@ -2,7 +2,9 @@ import {useAppSelector} from '../../hooks';
 import {TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
 
 function CatalogSorting(): JSX.Element {
-  const {isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector((store) => store);
+  const isAddToCartModalOpened = useAppSelector((state) => state.isAddToCartModalOpened);
+  const isAddReviewModalOpened = useAppSelector((state) => state.isAddReviewModalOpened);
+  const isReviewSuccessOpened = useAppSelector((state) => state.isReviewSuccessOpened);
 
   const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
 

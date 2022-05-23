@@ -10,7 +10,11 @@ const START_INDEX = 0;
 const COMMENTS_STEP = 3;
 
 function ProductReviews(): JSX.Element {
-  const {comments, isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector((store) => store);
+  const comments = useAppSelector((store) => store.comments);
+  const isAddToCartModalOpened = useAppSelector((state) => state.isAddToCartModalOpened);
+  const isAddReviewModalOpened = useAppSelector((state) => state.isAddReviewModalOpened);
+  const isReviewSuccessOpened = useAppSelector((state) => state.isReviewSuccessOpened);
+
   const [commentsCounter, setCommentsCounter] = useState(COMMENTS_STEP);
 
   const dispatch = useAppDispatch();

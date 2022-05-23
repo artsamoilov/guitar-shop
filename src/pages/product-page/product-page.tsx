@@ -21,6 +21,7 @@ import ModalSuccessReview from '../../components/modal-success-review/modal-succ
 
 function ProductPage(): JSX.Element {
   const {id} = useParams();
+
   const {
     guitars,
     isDataLoaded,

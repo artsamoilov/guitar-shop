@@ -9,7 +9,10 @@ type PropsType = {
 }
 
 function Pagination({page, setPage}: PropsType): JSX.Element {
-  const {guitars, isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector((store) => store);
+  const guitars = useAppSelector((store) => store.guitars);
+  const isAddToCartModalOpened = useAppSelector((state) => state.isAddToCartModalOpened);
+  const isAddReviewModalOpened = useAppSelector((state) => state.isAddReviewModalOpened);
+  const isReviewSuccessOpened = useAppSelector((state) => state.isReviewSuccessOpened);
 
   const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
 
