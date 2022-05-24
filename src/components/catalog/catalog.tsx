@@ -1,17 +1,35 @@
 import CatalogFilter from '../catalog-filter/catalog-filter';
 import CatalogSorting from '../catalog-sorting/catalog-sorting';
 import Pagination from '../pagination/pagination';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import CatalogItem from '../catalog-item/catalog-item';
-import {useState} from 'react';
+import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {AppRoute, CARDS_BY_PAGE} from '../../const';
 import {useParams, Navigate} from 'react-router-dom';
+import {Guitar} from '../../types/guitar';
+import {setAllModalsClosed} from '../../store/actions';
 
-function Catalog(): JSX.Element {
+type PropsType = {
+  setCurrentGuitar: Dispatch<SetStateAction<Guitar>>,
+}
+
+function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
   const {id} = useParams();
   const [page, setPage] = useState(Number(id));
 
-  const {guitars, isDataLoaded} = useAppSelector((store) => store);
+  const guitars = useAppSelector((store) => store.guitars);
+  const isDataLoaded = useAppSelector((store) => store.isDataLoaded);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setPage(Number(id));
+    dispatch(setAllModalsClosed());
+  }, [id]);
+
+  if (!isDataLoaded) {
+    return <p>Loading...</p>;
+  }
 
   if (isDataLoaded && Number(id) > Math.ceil(guitars.length / CARDS_BY_PAGE)) {
     return <Navigate to={AppRoute.NotFound} />;
@@ -28,7 +46,7 @@ function Catalog(): JSX.Element {
       <CatalogSorting />
 
       <div className="cards catalog__cards">
-        {guitarsSlice.map((guitar) => <CatalogItem guitar={guitar} key={guitar.id} />)}
+        {guitarsSlice.map((guitar) => <CatalogItem setCurrentGuitar={setCurrentGuitar} guitar={guitar} key={guitar.id} />)}
       </div>
 
       <Pagination page={page} setPage={setPage} />
