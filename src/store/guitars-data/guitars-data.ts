@@ -27,9 +27,6 @@ export const guitarsData = createSlice({
       state.isGuitarLoading = false;
       state.isGuitarLoaded = true;
     },
-    setGuitarLoadingNeeded: (state) => {
-      state.isGuitarLoaded = false;
-    },
     setGuitarLoading: (state, action) => {
       state.isGuitarLoading = action.payload;
     },
@@ -50,7 +47,6 @@ export const guitarsData = createSlice({
 export const {
   loadGuitars,
   loadCurrentGuitar,
-  setGuitarLoadingNeeded,
   setGuitarLoading,
   loadComments,
   setCommentsListLoading,
