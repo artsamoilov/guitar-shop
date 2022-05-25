@@ -73,7 +73,7 @@ function ModalAddReview({guitar}: PropsType): JSX.Element {
     if (isNameCorrect && isRatingCorrect && isAdvantageCorrect && isDisadvantageCorrect && isCommentCorrect) {
       const {userName, rating, advantage, disadvantage, comment} = formData;
       dispatch(addNewComment({
-        id: faker.random.locale(),
+        id: faker.datatype.uuid(),
         userName: userName,
         rating: rating,
         advantage: advantage,
