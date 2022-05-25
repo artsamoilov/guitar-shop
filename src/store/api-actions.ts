@@ -1,6 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {api, store} from './store';
-import {loadGuitars, loadCurrentGuitar, loadComments} from './actions';
+import {loadGuitars, loadCurrentGuitar, loadComments} from './guitars-data/guitars-data';
 import {APIRoute} from '../const';
 import {Guitar} from '../types/guitar';
 import {Comment} from '../types/comment';

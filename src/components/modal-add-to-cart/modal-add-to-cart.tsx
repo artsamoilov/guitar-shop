@@ -2,14 +2,14 @@ import {Guitar} from '../../types/guitar';
 import {getGuitarType} from '../../utils';
 import {SyntheticEvent} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {setAddToCartModalOpened} from '../../store/actions';
+import {setAddToCartModalOpened} from '../../store/modal-view/modal-view';
 
 type PropsType = {
   guitar: Guitar,
 }
 
 function ModalAddToCart({guitar}: PropsType): JSX.Element {
-  const isAddToCartModalOpened = useAppSelector((state) => state.isAddToCartModalOpened);
+  const isAddToCartModalOpened = useAppSelector(({MODAL}) => MODAL.isAddToCartModalOpened);
 
   const dispatch = useAppDispatch();
 
