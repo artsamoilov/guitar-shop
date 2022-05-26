@@ -46,6 +46,9 @@ describe('app routing',() => {
 
     render(fakeApp);
 
+    const guitarNames = screen.getAllByText(fakeGuitars[0].name);
+
+    expect(guitarNames[0]).toBeInTheDocument();
     expect(screen.getByText(/Каталог гитар/i)).toBeInTheDocument();
     expect(screen.getByText(/Фильтр/i)).toBeInTheDocument();
     expect(screen.getByText(/Сортировать:/i)).toBeInTheDocument();
