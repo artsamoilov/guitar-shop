@@ -9,6 +9,7 @@ import {getMockGuitars, getMockComments} from '../mocks/mocks';
 import {loadGuitars, loadCurrentGuitar, loadComments} from './guitars-data/guitars-data';
 import {fetchGuitarsAction, fetchCurrentGuitarAction, fetchCommentsAction, postCommentAction} from './api-actions';
 import {CommentPost} from '../types/comment-post';
+import {GUITARS_FETCH_OPTION} from './api-actions';
 
 const fakeGuitars = getMockGuitars();
 const fakeComments = getMockComments(1);
@@ -21,7 +22,7 @@ describe('async actions', () => {
   const mockStore = configureMockStore<State, Action, ThunkDispatch<State, typeof api, Action>>(middlewares);
 
   it('should dispatch loadGuitars when GET /guitars', async () => {
-    mockAPI.onGet(APIRoute.Guitars).reply(200, fakeGuitars);
+    mockAPI.onGet(`${APIRoute.Guitars}${GUITARS_FETCH_OPTION}`).reply(200, fakeGuitars);
 
     const store = mockStore();
     await store.dispatch(fetchGuitarsAction());

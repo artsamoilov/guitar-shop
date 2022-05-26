@@ -89,4 +89,4 @@ const postCommentAction = createAsyncThunk<void,
     },
   );
 
-export {fetchGuitarsAction, fetchCurrentGuitarAction, fetchCommentsAction, postCommentAction};
+export {fetchGuitarsAction, fetchCurrentGuitarAction, fetchCommentsAction, postCommentAction, GUITARS_FETCH_OPTION};
