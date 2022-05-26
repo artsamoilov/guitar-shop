@@ -7,7 +7,7 @@ import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {AppRoute, CARDS_BY_PAGE} from '../../const';
 import {useParams, Navigate} from 'react-router-dom';
 import {Guitar} from '../../types/guitar';
-import {setAllModalsClosed} from '../../store/actions';
+import {setAllModalsClosed} from '../../store/modal-view/modal-view';
 
 type PropsType = {
   setCurrentGuitar: Dispatch<SetStateAction<Guitar>>,
@@ -17,8 +17,8 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
   const {id} = useParams();
   const [page, setPage] = useState(Number(id));
 
-  const guitars = useAppSelector((store) => store.guitars);
-  const isDataLoaded = useAppSelector((store) => store.isDataLoaded);
+  const guitars = useAppSelector(({DATA}) => DATA.guitars);
+  const isDataLoaded = useAppSelector(({DATA}) => DATA.isDataLoaded);
 
   const dispatch = useAppDispatch();
 

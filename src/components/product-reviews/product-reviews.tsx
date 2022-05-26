@@ -2,7 +2,7 @@ import {Comment} from '../../types/comment';
 import Review from '../review/review';
 import {SyntheticEvent, useState} from 'react';
 import dayjs from 'dayjs';
-import {setAddReviewModalOpened} from '../../store/actions';
+import {setAddReviewModalOpened} from '../../store/modal-view/modal-view';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
 
@@ -10,10 +10,10 @@ const START_INDEX = 0;
 const COMMENTS_STEP = 3;
 
 function ProductReviews(): JSX.Element {
-  const comments = useAppSelector((store) => store.comments);
-  const isAddToCartModalOpened = useAppSelector((state) => state.isAddToCartModalOpened);
-  const isAddReviewModalOpened = useAppSelector((state) => state.isAddReviewModalOpened);
-  const isReviewSuccessOpened = useAppSelector((state) => state.isReviewSuccessOpened);
+  const comments = useAppSelector(({DATA}) => DATA.comments);
+  const isAddToCartModalOpened = useAppSelector(({MODAL}) => MODAL.isAddToCartModalOpened);
+  const isAddReviewModalOpened = useAppSelector(({MODAL}) => MODAL.isAddReviewModalOpened);
+  const isReviewSuccessOpened = useAppSelector(({MODAL}) => MODAL.isReviewSuccessOpened);
 
   const [commentsCounter, setCommentsCounter] = useState(COMMENTS_STEP);
 

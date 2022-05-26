@@ -1,9 +1,9 @@
 import {SyntheticEvent, useRef} from 'react';
-import {setReviewSuccessOpened} from '../../store/actions';
+import {setReviewSuccessOpened} from '../../store/modal-view/modal-view';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 
 function ModalSuccessReview(): JSX.Element {
-  const isReviewSuccessModalOpened = useAppSelector((store) => store.isReviewSuccessOpened);
+  const isReviewSuccessModalOpened = useAppSelector(({MODAL}) => MODAL.isReviewSuccessOpened);
 
   const dispatch = useAppDispatch();
 

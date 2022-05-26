@@ -28,7 +28,7 @@ function CartPage(): JSX.Element {
                 <span className="cart-item__close-button-interactive-area" />
               </button>
               <div className="cart-item__image">
-                <img src="img/content/catalog-product-2.jpg" srcSet="img/content/catalog-product-2@2x.jpg 2x" width="55" height="130" alt="ЭлектроГитара Честер bass" />
+                <img src="/img/guitar-2.jpg" srcSet="/img/guitar-2@2x.jpg 2x" width="55" height="130" alt="ЭлектроГитара Честер bass" />
               </div>
               <div className="product-info cart-item__info">
                 <p className="product-info__title">ЭлектроГитара Честер bass</p>
@@ -57,7 +57,7 @@ function CartPage(): JSX.Element {
                 <span className="cart-item__close-button-interactive-area" />
               </button>
               <div className="cart-item__image">
-                <img src="img/content/catalog-product-4.jpg" srcSet="img/content/catalog-product-4@2x.jpg 2x" width="55" height="130" alt="СURT Z30 Plus" />
+                <img src="/img/guitar-4.jpg" srcSet="/img/guitar-4@2x.jpg 2x" width="55" height="130" alt="СURT Z30 Plus" />
               </div>
               <div className="product-info cart-item__info">
                 <p className="product-info__title">СURT Z30 Plus</p>

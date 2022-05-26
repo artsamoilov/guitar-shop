@@ -4,7 +4,7 @@ import {AppRoute, TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
 import {getRatingStars, getRatingText} from '../../utils';
 import {Dispatch, SetStateAction, SyntheticEvent} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {setAddToCartModalOpened} from '../../store/actions';
+import {setAddToCartModalOpened} from '../../store/modal-view/modal-view';
 
 type PropsType = {
   guitar: Guitar,
@@ -14,9 +14,9 @@ type PropsType = {
 function CatalogItem({guitar, setCurrentGuitar}: PropsType): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const isAddToCartModalOpened = useAppSelector((state) => state.isAddToCartModalOpened);
-  const isAddReviewModalOpened = useAppSelector((state) => state.isAddReviewModalOpened);
-  const isReviewSuccessOpened = useAppSelector((state) => state.isReviewSuccessOpened);
+  const isAddToCartModalOpened = useAppSelector(({MODAL}) => MODAL.isAddToCartModalOpened);
+  const isAddReviewModalOpened = useAppSelector(({MODAL}) => MODAL.isAddReviewModalOpened);
+  const isReviewSuccessOpened = useAppSelector(({MODAL}) => MODAL.isReviewSuccessOpened);
 
   const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
 

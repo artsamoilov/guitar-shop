@@ -7,9 +7,9 @@ const CATALOG_PAGE_URL = '/catalog/page_';
 function Header(): JSX.Element {
   const {pathname} = useLocation();
 
-  const isAddToCartModalOpened = useAppSelector((state) => state.isAddToCartModalOpened);
-  const isAddReviewModalOpened = useAppSelector((state) => state.isAddReviewModalOpened);
-  const isReviewSuccessOpened = useAppSelector((state) => state.isReviewSuccessOpened);
+  const isAddToCartModalOpened = useAppSelector(({MODAL}) => MODAL.isAddToCartModalOpened);
+  const isAddReviewModalOpened = useAppSelector(({MODAL}) => MODAL.isAddReviewModalOpened);
+  const isReviewSuccessOpened = useAppSelector(({MODAL}) => MODAL.isReviewSuccessOpened);
 
   const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
 
@@ -58,13 +58,13 @@ function Header(): JSX.Element {
             <span className="visually-hidden">Сбросить поиск</span>
           </button>
         </div>
-        <a tabIndex={getTabIndex()} className="header__cart-link" href="#" aria-label="Корзина">
+        <Link to={AppRoute.Cart} tabIndex={getTabIndex()} className="header__cart-link" aria-label="Корзина">
           <svg className="header__cart-icon" width="14" height="14" aria-hidden="true">
             <use xlinkHref="#icon-basket" />
           </svg>
           <span className="visually-hidden">Перейти в корзину</span>
           <span className="header__cart-count">2</span>
-        </a>
+        </Link>
       </div>
     </header>
   );

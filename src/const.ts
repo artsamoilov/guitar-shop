@@ -1,16 +1,12 @@
-export enum CouponCode {
-  Light = 'light-333',
-  Medium = 'medium-444',
-  Height = 'height-555',
+export enum NameSpace {
+  Data = 'DATA',
+  Modal = 'MODAL',
 }
 
 export enum APIRoute {
   Guitars = '/guitars',
   Guitar = '/guitars/:id',
-  GuitarComments = '/guitars/:id/comments',
   Comments = '/comments',
-  Coupons = '/coupons',
-  Orders = '/orders',
 }
 
 export enum AppRoute {
@@ -27,6 +23,12 @@ export const GuitarType: {[key: string]: string} = {
   Electric: 'Электрогитара',
   Ukulele: 'Укулеле',
 };
+
+export enum HTTPCode {
+  BadRequest = 400,
+  Unauthorized = 401,
+  NotFound = 404,
+}
 
 export const MONTHS = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 

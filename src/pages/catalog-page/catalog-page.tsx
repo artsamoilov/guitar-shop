@@ -7,7 +7,7 @@ import ModalAddToCart from '../../components/modal-add-to-cart/modal-add-to-cart
 import React, {useState} from 'react';
 import {Guitar} from '../../types/guitar';
 import {isEscKey} from '../../utils';
-import {setAddToCartModalOpened} from '../../store/actions';
+import {setAddToCartModalOpened} from '../../store/modal-view/modal-view';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 
 function CatalogPage(): JSX.Element {
@@ -15,9 +15,9 @@ function CatalogPage(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const isAddToCartModalOpened = useAppSelector((state) => state.isAddToCartModalOpened);
-  const isAddReviewModalOpened = useAppSelector((state) => state.isAddReviewModalOpened);
-  const isReviewSuccessOpened = useAppSelector((state) => state.isReviewSuccessOpened);
+  const isAddToCartModalOpened = useAppSelector(({MODAL}) => MODAL.isAddToCartModalOpened);
+  const isAddReviewModalOpened = useAppSelector(({MODAL}) => MODAL.isAddReviewModalOpened);
+  const isReviewSuccessOpened = useAppSelector(({MODAL}) => MODAL.isReviewSuccessOpened);
 
   const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
 

@@ -9,30 +9,16 @@ import {fetchCurrentGuitarAction, fetchCommentsAction} from '../../store/api-act
 import ProductReviews from '../../components/product-reviews/product-reviews';
 import ModalAddToCart from '../../components/modal-add-to-cart/modal-add-to-cart';
 import React, {SyntheticEvent} from 'react';
-import {
-  setAddReviewModalOpened,
-  setAddToCartModalOpened,
-  setCommentsListLoading,
-  setGuitarLoading,
-  setReviewSuccessOpened
-} from '../../store/actions';
+import {setCommentsListLoading, setGuitarLoading} from '../../store/guitars-data/guitars-data';
+import {setAddReviewModalOpened, setAddToCartModalOpened, setReviewSuccessOpened} from '../../store/modal-view/modal-view';
 import ModalAddReview from '../../components/modal-add-review/modal-add-review';
 import ModalSuccessReview from '../../components/modal-success-review/modal-success-review';
 
 function ProductPage(): JSX.Element {
   const {id} = useParams();
 
-  const {
-    guitars,
-    isDataLoaded,
-    currentGuitar,
-    isGuitarLoaded,
-    isGuitarLoading,
-    isCommentsListLoading,
-    isAddToCartModalOpened,
-    isAddReviewModalOpened,
-    isReviewSuccessOpened,
-  } = useAppSelector((state) => state);
+  const {guitars, isDataLoaded, currentGuitar, isGuitarLoaded, isGuitarLoading, isCommentsListLoading} = useAppSelector(({DATA}) => DATA);
+  const {isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector(({MODAL}) => MODAL);
 
   const dispatch = useAppDispatch();
 

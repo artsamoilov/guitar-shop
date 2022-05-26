@@ -1,6 +1,7 @@
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {FormEvent, SyntheticEvent, useRef, useState} from 'react';
-import {addNewComment, setAddReviewModalOpened, setReviewSuccessOpened} from '../../store/actions';
+import {addNewComment} from '../../store/guitars-data/guitars-data';
+import {setAddReviewModalOpened, setReviewSuccessOpened} from '../../store/modal-view/modal-view';
 import {Guitar} from '../../types/guitar';
 import dayjs from 'dayjs';
 import faker from 'faker';
@@ -18,7 +19,7 @@ type FormDataType = {
 }
 
 function ModalAddReview({guitar}: PropsType): JSX.Element {
-  const {isAddReviewModalOpened} = useAppSelector((state) => state);
+  const isAddReviewModalOpened = useAppSelector(({MODAL}) => MODAL.isAddReviewModalOpened);
 
   const [isNameCorrect, setIsNameCorrect] = useState(true);
   const [isRatingCorrect, setIsRatingCorrect] = useState(true);
@@ -72,7 +73,7 @@ function ModalAddReview({guitar}: PropsType): JSX.Element {
     if (isNameCorrect && isRatingCorrect && isAdvantageCorrect && isDisadvantageCorrect && isCommentCorrect) {
       const {userName, rating, advantage, disadvantage, comment} = formData;
       dispatch(addNewComment({
-        id: faker.random.locale(),
+        id: faker.datatype.uuid(),
         userName: userName,
         rating: rating,
         advantage: advantage,

@@ -1,4 +1,23 @@
 import {store} from '../store/store';
+import {Guitar} from './guitar';
+import {Comment} from './comment';
+
+export type GuitarsData = {
+  guitars: Guitar[],
+  isDataLoaded: boolean,
+  currentGuitar: Guitar,
+  isGuitarLoading: boolean,
+  isGuitarLoaded: boolean,
+  comments: Comment[],
+  isCommentsListLoading: boolean,
+  isCommentsListLoaded: boolean,
+}
+
+export type ModalView = {
+  isAddToCartModalOpened: boolean,
+  isAddReviewModalOpened: boolean,
+  isReviewSuccessOpened: boolean,
+}
 
 export type State = ReturnType<typeof store.getState>;
 
