@@ -30,7 +30,7 @@ describe('component ProductReviews', () => {
         <HistoryRouter history={history}>
           <ProductReviews />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     const userNames = screen.getAllByText(fakeComments[0].userName);

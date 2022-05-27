@@ -8,7 +8,7 @@ import React, {useState} from 'react';
 import {Guitar} from '../../types/guitar';
 import {isEscKey} from '../../utils';
 import {setAddToCartModalOpened} from '../../store/modal-view/modal-view';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 
 function CatalogPage(): JSX.Element {
   const [currentGuitar, setCurrentGuitar] = useState({} as Guitar);

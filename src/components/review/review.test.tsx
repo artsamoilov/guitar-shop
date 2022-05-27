@@ -13,7 +13,7 @@ describe('component Review', () => {
     render(
       <HistoryRouter history={history}>
         <Review comment={fakeComment}/>
-      </HistoryRouter>
+      </HistoryRouter>,
     );
 
     expect(screen.getByText(fakeComment.userName)).toBeInTheDocument();

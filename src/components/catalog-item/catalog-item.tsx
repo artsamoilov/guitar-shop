@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {AppRoute, TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
 import {getRatingStars, getRatingText} from '../../utils';
 import {Dispatch, SetStateAction, SyntheticEvent} from 'react';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {setAddToCartModalOpened} from '../../store/modal-view/modal-view';
 
 type PropsType = {
@@ -44,7 +44,7 @@ function CatalogItem({guitar, setCurrentGuitar}: PropsType): JSX.Element {
       </div>
       <div className="product-card__buttons">
         <Link tabIndex={getTabIndex()} to={`${AppRoute.Catalog}/item/${guitar.id}`} className="button button--mini">Подробнее</Link>
-        <a tabIndex={getTabIndex()} onClick={handleBuyClick} className="button button--red button--mini button--add-to-cart" href="#">Купить</a>
+        <Link tabIndex={getTabIndex()} onClick={handleBuyClick} to={'/'} className="button button--red button--mini button--add-to-cart">Купить</Link>
       </div>
     </div>
   );

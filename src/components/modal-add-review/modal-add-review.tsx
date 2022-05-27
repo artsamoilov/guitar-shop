@@ -1,4 +1,4 @@
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {FormEvent, SyntheticEvent, useRef, useState} from 'react';
 import {addNewComment} from '../../store/guitars-data/guitars-data';
 import {setAddReviewModalOpened, setReviewSuccessOpened} from '../../store/modal-view/modal-view';

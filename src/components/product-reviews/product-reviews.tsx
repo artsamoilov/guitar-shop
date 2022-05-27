@@ -3,7 +3,7 @@ import Review from '../review/review';
 import {SyntheticEvent, useState} from 'react';
 import dayjs from 'dayjs';
 import {setAddReviewModalOpened} from '../../store/modal-view/modal-view';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
 
 const START_INDEX = 0;
@@ -39,7 +39,7 @@ function ProductReviews(): JSX.Element {
   return (
     <section className="reviews">
       <h3 className="reviews__title title title--bigger">Отзывы</h3>
-      <a tabIndex={getTabIndex()} onClick={handleAddReviewClick} className="button button--red-border button--big reviews__sumbit-button" href="#">Оставить отзыв</a>
+      <a tabIndex={getTabIndex()} onClick={handleAddReviewClick} className="button button--red-border button--big reviews__sumbit-button" href="/">Оставить отзыв</a>
 
       {getSlicedComments().map((comment) => <Review key={comment.id} comment={comment} />)}
 

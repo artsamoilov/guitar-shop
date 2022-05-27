@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {Link, useParams, Navigate} from 'react-router-dom';
 import {AppRoute, TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
 import {getRatingStars, getRatingText, isEscKey} from '../../utils';
@@ -92,7 +92,7 @@ function ProductPage(): JSX.Element {
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
               <p className="product-container__price-info product-container__price-info--value">{currentGuitar.price} ₽</p>
-              <a tabIndex={getTabIndex()} onClick={handleBuyClick} className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
+              <a tabIndex={getTabIndex()} onClick={handleBuyClick} className="button button--red button--big product-container__button" href="/">Добавить в корзину</a>
             </div>
           </div>
 

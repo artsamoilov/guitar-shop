@@ -1,5 +1,6 @@
-import {useAppSelector} from '../../hooks';
-import {TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
+import {useAppSelector} from '../../hooks/hooks';
+import {AppRoute, TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
+import {Link} from 'react-router-dom';
 
 function Footer(): JSX.Element {
   const isAddToCartModalOpened = useAppSelector(({MODAL}) => MODAL.isAddToCartModalOpened);
@@ -11,9 +12,9 @@ function Footer(): JSX.Element {
   return (
     <footer className="footer">
       <div className="footer__container container">
-        <a tabIndex={getTabIndex()} className="footer__logo logo">
+        <Link to={AppRoute.Main} tabIndex={getTabIndex()} className="footer__logo logo">
           <img className="logo__img" width="70" height="70" src="/img/svg/logo.svg" alt="Логотип" />
-        </a>
+        </Link>
         <div className="socials footer__socials">
           <ul className="socials__list">
             <li className="socials-item">

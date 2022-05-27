@@ -5,7 +5,6 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import HistoryRouter from '../history-route/history-route';
 import {getMockGuitars} from '../../mocks/mocks';
 import Pagination from './pagination';
-import {useState} from 'react';
 
 const mockStore = configureMockStore();
 
@@ -31,7 +30,7 @@ describe('component Pagination', () => {
         <HistoryRouter history={history}>
           <Pagination page={2} setPage={() => {}} />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(1)).toBeInTheDocument();

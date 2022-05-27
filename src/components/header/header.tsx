@@ -1,6 +1,6 @@
 import {Link, useLocation} from 'react-router-dom';
 import {AppRoute, TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
-import {useAppSelector} from '../../hooks';
+import {useAppSelector} from '../../hooks/hooks';
 
 const CATALOG_PAGE_URL = '/catalog/page_';
 
@@ -16,19 +16,19 @@ function Header(): JSX.Element {
   return (
     <header className="header" id="header">
       <div className="container header__wrapper">
-        <a className="header__logo logo">
+        <Link to={AppRoute.Main} className="header__logo logo">
           <img className="logo__img" width="70" height="70" src="/img/svg/logo.svg" alt="Логотип" />
-        </a>
+        </Link>
         <nav className="main-nav">
           <ul className="main-nav__list">
             <li>
               <Link tabIndex={getTabIndex()} to={AppRoute.Catalog} className={`link main-nav__link ${pathname.includes(CATALOG_PAGE_URL) && 'link--current'}`}>Каталог</Link>
             </li>
             <li>
-              <a tabIndex={getTabIndex()} className="link main-nav__link" href="#">Где купить?</a>
+              <a tabIndex={getTabIndex()} className="link main-nav__link" href="/">Где купить?</a>
             </li>
             <li>
-              <a tabIndex={getTabIndex()} className="link main-nav__link" href="#">О компании</a>
+              <a tabIndex={getTabIndex()} className="link main-nav__link" href="/">О компании</a>
             </li>
           </ul>
         </nav>

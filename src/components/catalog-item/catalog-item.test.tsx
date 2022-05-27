@@ -27,7 +27,7 @@ describe('component CatalogItem', () => {
         <HistoryRouter history={history}>
           <CatalogItem guitar={fakeGuitar} setCurrentGuitar={() => {}}/>
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Рейтинг:/i)).toBeInTheDocument();

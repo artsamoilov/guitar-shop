@@ -24,7 +24,7 @@ describe('component CatalogFilter', () => {
         <HistoryRouter history={history}>
           <CatalogFilter />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Фильтр/i)).toBeInTheDocument();

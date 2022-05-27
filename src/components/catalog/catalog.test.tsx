@@ -37,7 +37,7 @@ describe('component Catalog',() => {
         <HistoryRouter history={history}>
           <Catalog setCurrentGuitar={() => {}} />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Фильтр/i)).toBeInTheDocument();

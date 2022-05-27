@@ -2,7 +2,7 @@ import {Guitar} from '../../types/guitar';
 import {SetStateAction, SyntheticEvent, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import {getGuitarType} from '../../utils';
-import {useAppSelector} from '../../hooks';
+import {useAppSelector} from '../../hooks/hooks';
 import {TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
 
 type PropsType = {

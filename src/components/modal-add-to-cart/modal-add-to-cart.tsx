@@ -1,7 +1,7 @@
 import {Guitar} from '../../types/guitar';
 import {getGuitarType} from '../../utils';
 import {SyntheticEvent} from 'react';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {setAddToCartModalOpened} from '../../store/modal-view/modal-view';
 
 type PropsType = {

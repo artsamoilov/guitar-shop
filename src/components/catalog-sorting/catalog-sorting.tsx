@@ -1,4 +1,4 @@
-import {useAppSelector} from '../../hooks';
+import {useAppSelector} from '../../hooks/hooks';
 import {TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
 
 function CatalogSorting(): JSX.Element {

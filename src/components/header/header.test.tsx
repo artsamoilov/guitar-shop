@@ -24,7 +24,7 @@ describe('component Header', () => {
         <HistoryRouter history={history}>
           <Header />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Каталог/i)).toBeInTheDocument();

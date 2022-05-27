@@ -25,7 +25,7 @@ describe('component ModalAddToCart', () => {
         <HistoryRouter history={history}>
           <ModalAddToCart guitar={fakeGuitar} />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Добавить товар в корзину/i)).toBeInTheDocument();

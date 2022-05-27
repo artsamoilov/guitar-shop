@@ -1,5 +1,5 @@
 import React, {SyntheticEvent} from 'react';
-import {useAppSelector} from '../../hooks';
+import {useAppSelector} from '../../hooks/hooks';
 import {AppRoute, CARDS_BY_PAGE, INITIAL_PAGE, TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
 import {Link} from 'react-router-dom';
 

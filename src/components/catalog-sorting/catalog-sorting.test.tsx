@@ -24,7 +24,7 @@ describe('component CatalogSorting', () => {
         <HistoryRouter history={history}>
           <CatalogSorting />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Сортировать:/i)).toBeInTheDocument();

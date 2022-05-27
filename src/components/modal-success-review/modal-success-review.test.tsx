@@ -22,7 +22,7 @@ describe('component ModalSuccessReview', () => {
         <HistoryRouter history={history}>
           <ModalSuccessReview />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Спасибо за ваш отзыв!/i)).toBeInTheDocument();
