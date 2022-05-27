@@ -35,7 +35,7 @@ describe('component Catalog',() => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <Catalog setCurrentGuitar={() => {}} />
+          <Catalog setCurrentGuitar={() => undefined} />
         </HistoryRouter>
       </Provider>,
     );

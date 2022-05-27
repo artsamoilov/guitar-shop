@@ -28,7 +28,7 @@ describe('component Pagination', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <Pagination page={2} setPage={() => {}} />
+          <Pagination page={2} setPage={() => undefined} />
         </HistoryRouter>
       </Provider>,
     );
