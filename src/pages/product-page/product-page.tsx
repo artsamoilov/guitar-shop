@@ -67,7 +67,7 @@ function ProductPage(): JSX.Element {
               <Link to={`${AppRoute.Catalog}/page_1`} className="link">Каталог</Link>
             </li>
             <li className="breadcrumbs__item">
-              <a className="link">{currentGuitar.name}</a>
+              <Link to={`${AppRoute.Catalog}/page/${id}`} className="link">{currentGuitar.name}</Link>
             </li>
           </ul>
           <div className="product-container">
