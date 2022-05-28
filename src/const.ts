@@ -35,8 +35,5 @@ export const MONTHS = ['января', 'февраля', 'марта', 'апре
 export const CARDS_BY_PAGE = 9;
 export const INITIAL_PAGE = 1;
 
-export const TAB_INDEX_DEFAULT = 0;
-export const TAB_INDEX_HIDDEN = -1;
-
 export const RATES = [1, 2, 3, 4, 5];
 export const TEXT_RATES = ['Ужасно', 'Плохо', 'Нормально', 'Хорошо', 'Отлично'];

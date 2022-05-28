@@ -27,7 +27,7 @@ describe('component ProductTabs', () => {
         <HistoryRouter history={history}>
           <ProductTabs guitar={guitar} />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Характеристики/i)).toBeInTheDocument();

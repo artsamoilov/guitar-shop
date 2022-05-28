@@ -9,11 +9,11 @@ const getMockGuitars = (): Guitar[] => {
   for (let i = 1; i <= MAX_GUITARS_NUMBER; i++) {
     guitars.push({
       id: i,
-      name: "Guitar name",
-      vendorCode: "Vendor code",
-      type: "electric",
-      description: "Guitar description",
-      previewImg: "img/guitar-0.jpg",
+      name: 'Guitar name',
+      vendorCode: 'Vendor code',
+      type: 'electric',
+      description: 'Guitar description',
+      previewImg: 'img/guitar-0.jpg',
       stringCount: 6,
       rating: 5,
       price: 10000,
@@ -27,10 +27,10 @@ const getMockComments = (guitarId: number): Comment[] => {
   for (let i = 1; i <= MAX_COMMENTS_COUNTER; i++) {
     comments.push({
       id: String(i),
-      userName: "User name",
-      advantage: "Advantage",
-      disadvantage: "Disadvantage",
-      comment: "Comment",
+      userName: 'User name',
+      advantage: 'Advantage',
+      disadvantage: 'Disadvantage',
+      comment: 'Comment',
       rating: 5,
       createAt: `2022-05-24T00:00:0${i}.000Z`,
       guitarId: guitarId,

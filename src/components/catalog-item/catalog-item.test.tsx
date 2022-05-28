@@ -5,6 +5,7 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import HistoryRouter from '../history-route/history-route';
 import CatalogItem from './catalog-item';
 import {getMockGuitars} from '../../mocks/mocks';
+import React from 'react';
 
 const fakeGuitar = getMockGuitars()[0];
 
@@ -25,9 +26,9 @@ describe('component CatalogItem', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <CatalogItem guitar={fakeGuitar} setCurrentGuitar={() => {}}/>
+          <CatalogItem guitar={fakeGuitar} setCurrentGuitar={() => undefined}/>
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Рейтинг:/i)).toBeInTheDocument();

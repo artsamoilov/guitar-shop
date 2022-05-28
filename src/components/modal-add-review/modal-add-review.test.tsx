@@ -25,7 +25,7 @@ describe('component ModalAddReview', () => {
         <HistoryRouter history={history}>
           <ModalAddReview guitar={fakeGuitar} />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/Оставить отзыв/i)).toBeInTheDocument();

@@ -1,7 +1,7 @@
 import CatalogFilter from '../catalog-filter/catalog-filter';
 import CatalogSorting from '../catalog-sorting/catalog-sorting';
 import Pagination from '../pagination/pagination';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import CatalogItem from '../catalog-item/catalog-item';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {AppRoute, CARDS_BY_PAGE} from '../../const';
@@ -25,7 +25,7 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
   useEffect(() => {
     setPage(Number(id));
     dispatch(setAllModalsClosed());
-  }, [id]);
+  }, [id, dispatch]);
 
   if (!isDataLoaded) {
     return <p>Loading...</p>;

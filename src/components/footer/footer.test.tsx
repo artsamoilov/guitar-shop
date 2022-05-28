@@ -24,7 +24,7 @@ describe('component Footer', () => {
         <HistoryRouter history={history}>
           <Footer />
         </HistoryRouter>
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText(/О нас/i)).toBeInTheDocument();

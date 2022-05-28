@@ -1,8 +1,8 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {Link, useParams, Navigate} from 'react-router-dom';
-import {AppRoute, TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
+import {AppRoute} from '../../const';
 import {getRatingStars, getRatingText, isEscKey} from '../../utils';
 import ProductTabs from '../../components/product-tabs/product-tabs';
 import {fetchCurrentGuitarAction, fetchCommentsAction} from '../../store/api-actions';
@@ -18,7 +18,6 @@ function ProductPage(): JSX.Element {
   const {id} = useParams();
 
   const {guitars, isDataLoaded, currentGuitar, isGuitarLoaded, isGuitarLoading, isCommentsListLoading} = useAppSelector(({DATA}) => DATA);
-  const {isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector(({MODAL}) => MODAL);
 
   const dispatch = useAppDispatch();
 
@@ -52,12 +51,6 @@ function ProductPage(): JSX.Element {
     }
   };
 
-  const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
-
-  document.body.style.overflow = isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened
-    ? 'hidden'
-    : 'unset';
-
   return (
     <div onKeyDown={handleEscKeydown} className="wrapper">
 
@@ -68,13 +61,13 @@ function ProductPage(): JSX.Element {
           <h1 className="page-content__title title title--bigger">{currentGuitar.name}</h1>
           <ul className="breadcrumbs page-content__breadcrumbs">
             <li className="breadcrumbs__item">
-              <Link tabIndex={getTabIndex()} to={AppRoute.Main} className="link">Главная</Link>
+              <Link to={AppRoute.Main} className="link">Главная</Link>
             </li>
             <li className="breadcrumbs__item">
-              <Link tabIndex={getTabIndex()} to={`${AppRoute.Catalog}/page_1`} className="link">Каталог</Link>
+              <Link to={`${AppRoute.Catalog}/page_1`} className="link">Каталог</Link>
             </li>
             <li className="breadcrumbs__item">
-              <a className="link">{currentGuitar.name}</a>
+              <Link to={`${AppRoute.Catalog}/page/${id}`} className="link">{currentGuitar.name}</Link>
             </li>
           </ul>
           <div className="product-container">
@@ -92,7 +85,7 @@ function ProductPage(): JSX.Element {
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
               <p className="product-container__price-info product-container__price-info--value">{currentGuitar.price} ₽</p>
-              <a tabIndex={getTabIndex()} onClick={handleBuyClick} className="button button--red button--big product-container__button" href="#">Добавить в корзину</a>
+              <a onClick={handleBuyClick} className="button button--red button--big product-container__button" href="/">Добавить в корзину</a>
             </div>
           </div>
 
