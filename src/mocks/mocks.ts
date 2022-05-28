@@ -17,6 +17,7 @@ const getMockGuitars = (): Guitar[] => {
       stringCount: 6,
       rating: 5,
       price: 10000,
+      comments: [],
     });
   }
   return guitars;

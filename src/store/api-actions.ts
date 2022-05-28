@@ -8,7 +8,7 @@ import {AxiosInstance} from 'axios';
 import {AppDispatch, State} from '../types/state';
 import {handleError} from '../service/handle-error';
 
-const GUITARS_FETCH_OPTION = '?_limit=27';
+const GUITARS_FETCH_OPTION = '?_limit=27&_embed=comments';
 
 const fetchGuitarsAction = createAsyncThunk<void, undefined,{
   dispatch: AppDispatch,
