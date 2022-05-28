@@ -28,7 +28,7 @@ function CatalogItem({guitar, setCurrentGuitar}: PropsType): JSX.Element {
           {getRatingStars(guitar.rating)}
           <p className="visually-hidden">Рейтинг: {getRatingText(guitar.rating)}</p>
           <p className="rate__count">
-            <span className="visually-hidden">Всего оценок:</span>{guitar.rating}
+            <span className="visually-hidden">Всего оценок:</span>{guitar.comments.length}
           </p>
         </div>
         <p className="product-card__title">{guitar.name}</p>

@@ -1,3 +1,5 @@
+import {Comment} from './comment';
+
 export type Guitar = {
   id: number,
   name: string,
@@ -8,4 +10,5 @@ export type Guitar = {
   stringCount: number,
   rating: number,
   price: number,
+  comments: Comment[],
 }

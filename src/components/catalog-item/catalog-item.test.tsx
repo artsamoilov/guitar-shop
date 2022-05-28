@@ -36,7 +36,7 @@ describe('component CatalogItem', () => {
     expect(screen.getByText(/Цена:/i)).toBeInTheDocument();
     expect(screen.getByText(/Подробнее/i)).toBeInTheDocument();
     expect(screen.getByText(/Купить/i)).toBeInTheDocument();
-    expect(screen.getByText(fakeGuitar.rating)).toBeInTheDocument();
+    expect(screen.getByText(fakeGuitar.comments.length)).toBeInTheDocument();
     expect(screen.getByText(fakeGuitar.name)).toBeInTheDocument();
     expect(screen.getByText(`${fakeGuitar.price} ₽`)).toBeInTheDocument();
   });
