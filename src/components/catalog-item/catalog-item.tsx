@@ -1,9 +1,9 @@
 import {Guitar} from '../../types/guitar';
 import {Link} from 'react-router-dom';
-import {AppRoute, TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
+import {AppRoute} from '../../const';
 import {getRatingStars, getRatingText} from '../../utils';
 import {Dispatch, SetStateAction, SyntheticEvent} from 'react';
-import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import {useAppDispatch} from '../../hooks/hooks';
 import {setAddToCartModalOpened} from '../../store/modal-view/modal-view';
 
 type PropsType = {
@@ -13,12 +13,6 @@ type PropsType = {
 
 function CatalogItem({guitar, setCurrentGuitar}: PropsType): JSX.Element {
   const dispatch = useAppDispatch();
-
-  const isAddToCartModalOpened = useAppSelector(({MODAL}) => MODAL.isAddToCartModalOpened);
-  const isAddReviewModalOpened = useAppSelector(({MODAL}) => MODAL.isAddReviewModalOpened);
-  const isReviewSuccessOpened = useAppSelector(({MODAL}) => MODAL.isReviewSuccessOpened);
-
-  const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
 
   const handleBuyClick = (evt: SyntheticEvent): void => {
     evt.preventDefault();
@@ -43,8 +37,8 @@ function CatalogItem({guitar, setCurrentGuitar}: PropsType): JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <Link tabIndex={getTabIndex()} to={`${AppRoute.Catalog}/item/${guitar.id}`} className="button button--mini">Подробнее</Link>
-        <Link tabIndex={getTabIndex()} onClick={handleBuyClick} to={'/'} className="button button--red button--mini button--add-to-cart">Купить</Link>
+        <Link to={`${AppRoute.Catalog}/item/${guitar.id}`} className="button button--mini">Подробнее</Link>
+        <Link onClick={handleBuyClick} to={'/'} className="button button--red button--mini button--add-to-cart">Купить</Link>
       </div>
     </div>
   );

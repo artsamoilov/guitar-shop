@@ -1,6 +1,6 @@
 import React, {SyntheticEvent} from 'react';
 import {useAppSelector} from '../../hooks/hooks';
-import {AppRoute, CARDS_BY_PAGE, INITIAL_PAGE, TAB_INDEX_DEFAULT, TAB_INDEX_HIDDEN} from '../../const';
+import {AppRoute, CARDS_BY_PAGE, INITIAL_PAGE} from '../../const';
 import {Link} from 'react-router-dom';
 
 type PropsType = {
@@ -10,11 +10,6 @@ type PropsType = {
 
 function Pagination({page, setPage}: PropsType): JSX.Element {
   const guitars = useAppSelector(({DATA}) => DATA.guitars);
-  const isAddToCartModalOpened = useAppSelector(({MODAL}) => MODAL.isAddToCartModalOpened);
-  const isAddReviewModalOpened = useAppSelector(({MODAL}) => MODAL.isAddReviewModalOpened);
-  const isReviewSuccessOpened = useAppSelector(({MODAL}) => MODAL.isReviewSuccessOpened);
-
-  const getTabIndex = (): number => isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened ? TAB_INDEX_HIDDEN : TAB_INDEX_DEFAULT;
 
   const pagesCounter = Math.ceil(guitars.length / CARDS_BY_PAGE);
 
@@ -23,7 +18,7 @@ function Pagination({page, setPage}: PropsType): JSX.Element {
     for (let i = INITIAL_PAGE; i <= pagesCounter; i++) {
       pagesButtons.push(
         <li key={i} className={`pagination__page ${i === page && 'pagination__page--active'}`}>
-          <Link tabIndex={getTabIndex()} to={`${AppRoute.Catalog}/page_${i}`} onClick={handlePageClick} className="link pagination__page-link">{i}</Link>
+          <Link to={`${AppRoute.Catalog}/page_${i}`} onClick={handlePageClick} className="link pagination__page-link">{i}</Link>
         </li>);
     }
     return pagesButtons;
@@ -40,7 +35,7 @@ function Pagination({page, setPage}: PropsType): JSX.Element {
       <ul className="pagination__list">
         {page !== INITIAL_PAGE && (
           <li className="pagination__page pagination__page--prev" id="prev">
-            <Link tabIndex={getTabIndex()} to={`${AppRoute.Catalog}/page_${page - 1}`} onClick={handlePreviousClick} className="link pagination__page-link">Назад</Link>
+            <Link to={`${AppRoute.Catalog}/page_${page - 1}`} onClick={handlePreviousClick} className="link pagination__page-link">Назад</Link>
           </li>
         )}
 
@@ -48,7 +43,7 @@ function Pagination({page, setPage}: PropsType): JSX.Element {
 
         {page !== pagesCounter && (
           <li className="pagination__page pagination__page--next" id="next">
-            <Link tabIndex={getTabIndex()} to={`${AppRoute.Catalog}/page_${page + 1}`} onClick={handleNextClick} className="link pagination__page-link">Далее</Link>
+            <Link to={`${AppRoute.Catalog}/page_${page + 1}`} onClick={handleNextClick} className="link pagination__page-link">Далее</Link>
           </li>
         )}
       </ul>
