@@ -35,5 +35,8 @@ export const MONTHS = ['января', 'февраля', 'марта', 'апре
 export const CARDS_BY_PAGE = 9;
 export const INITIAL_PAGE = 1;
 
+export const OVERFLOW_LOCKED_SCROLL = 'hidden';
+export const OVERFLOW_DEFAULT_SCROLL = 'unset';
+
 export const RATES = [1, 2, 3, 4, 5];
 export const TEXT_RATES = ['Ужасно', 'Плохо', 'Нормально', 'Хорошо', 'Отлично'];
