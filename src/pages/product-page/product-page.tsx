@@ -2,7 +2,7 @@ import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {Link, useParams, Navigate} from 'react-router-dom';
-import {AppRoute} from '../../const';
+import {AppRoute, OVERFLOW_DEFAULT_SCROLL, OVERFLOW_LOCKED_SCROLL} from '../../const';
 import {getRatingStars, getRatingText, isEscKey} from '../../utils';
 import ProductTabs from '../../components/product-tabs/product-tabs';
 import {fetchCurrentGuitarAction, fetchCommentsAction} from '../../store/api-actions';
@@ -18,6 +18,7 @@ function ProductPage(): JSX.Element {
   const {id} = useParams();
 
   const {guitars, isDataLoaded, currentGuitar, isGuitarLoaded, isGuitarLoading, isCommentsListLoading} = useAppSelector(({DATA}) => DATA);
+  const {isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector(({MODAL}) => MODAL);
 
   const dispatch = useAppDispatch();
 
@@ -50,6 +51,10 @@ function ProductPage(): JSX.Element {
       dispatch(setReviewSuccessOpened(false));
     }
   };
+
+  document.body.style.overflow = isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened
+    ? OVERFLOW_LOCKED_SCROLL
+    : OVERFLOW_DEFAULT_SCROLL;
 
   return (
     <div onKeyDown={handleEscKeydown} className="wrapper">
