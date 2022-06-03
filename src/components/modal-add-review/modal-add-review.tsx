@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
-import {FormEvent, KeyboardEvent, SyntheticEvent, useRef, useState} from 'react';
+import {FormEvent, SyntheticEvent, useRef, useState} from 'react';
 import {addNewComment} from '../../store/guitars-data/guitars-data';
 import {setAddReviewModalOpened, setReviewSuccessOpened} from '../../store/modal-view/modal-view';
 import {Guitar} from '../../types/guitar';
@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import faker from 'faker';
 import {postCommentAction} from '../../store/api-actions';
 import FocusTrap from 'focus-trap-react';
+import FormStars from '../form-stars/form-stars';
 
 type PropsType = {
   guitar: Guitar,
@@ -40,6 +41,7 @@ function ModalAddReview({guitar}: PropsType): JSX.Element {
   });
 
   const formRef = useRef<HTMLFormElement | null>(null);
+  const starsRef = useRef<HTMLDivElement | null>(null);
 
   const dispatch = useAppDispatch();
 
@@ -93,49 +95,16 @@ function ModalAddReview({guitar}: PropsType): JSX.Element {
   };
 
   const handleSubmitClick = (): void => {
+    if (starsRef.current?.classList.contains('rate--alternate')) {
+      starsRef.current.classList.remove('rate--alternate');
+    }
     const {userName, rating, advantage, disadvantage, comment} = formData;
     setIsNameCorrect(Boolean(userName));
     setIsRatingCorrect(Boolean(rating));
     setIsAdvantageCorrect(Boolean(advantage));
     setIsDisadvantageCorrect(Boolean(disadvantage));
     setIsCommentCorrect(Boolean(comment));
-  };
 
-  const star1Ref = useRef<HTMLInputElement | null>(null);
-  const star2Ref = useRef<HTMLInputElement | null>(null);
-  const star4Ref = useRef<HTMLInputElement | null>(null);
-  const star5Ref = useRef<HTMLInputElement | null>(null);
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>): void => {
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-      event.currentTarget.style.flexDirection = 'unset';
-      if (star1Ref.current) {
-        star1Ref.current.value = '1';
-      }
-      if (star2Ref.current) {
-        star2Ref.current.value = '2';
-      }
-      if (star4Ref.current) {
-        star4Ref.current.value = '4';
-      }
-      if (star5Ref.current) {
-        star5Ref.current.value = '5';
-      }
-      return;
-    }
-    if (star1Ref.current) {
-      star1Ref.current.value = '5';
-    }
-    if (star2Ref.current) {
-      star2Ref.current.value = '4';
-    }
-    if (star4Ref.current) {
-      star4Ref.current.value = '2';
-    }
-    if (star5Ref.current) {
-      star5Ref.current.value = '1';
-    }
-    event.currentTarget.style.flexDirection = 'row-reverse';
   };
 
   return (
@@ -153,22 +122,9 @@ function ModalAddReview({guitar}: PropsType): JSX.Element {
                   <input onChange={handleFieldChange} name='userName' className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" required />
                   <p className="form-review__warning">{!isNameCorrect && 'Заполните поле'}&zwnj;</p>
                 </div>
-                <div>
-                  <span className="form-review__label form-review__label--required">Ваша Оценка</span>
-                  <div onKeyDown={handleKeyDown} className="rate rate--reverse">
-                    <input ref={star1Ref} onChange={handleFieldChange} className="visually-hidden" id="star-5" name="rating" type="radio" value="5" />
-                    <label className="rate__label" htmlFor="star-5" title="Отлично" />
-                    <input ref={star2Ref} onChange={handleFieldChange} className="visually-hidden" id="star-4" name="rating" type="radio" value="4" />
-                    <label className="rate__label" htmlFor="star-4" title="Хорошо" />
-                    <input onChange={handleFieldChange} className="visually-hidden" id="star-3" name="rating" type="radio" value="3" />
-                    <label className="rate__label" htmlFor="star-3" title="Нормально" />
-                    <input ref={star4Ref} onChange={handleFieldChange} className="visually-hidden" id="star-2" name="rating" type="radio" value="2" />
-                    <label className="rate__label" htmlFor="star-2" title="Плохо" />
-                    <input ref={star5Ref} onChange={handleFieldChange} className="visually-hidden" id="star-1" name="rating" type="radio" value="1" />
-                    <label className="rate__label" htmlFor="star-1" title="Ужасно" />
-                    <p className="rate__message">{!isRatingCorrect && 'Поставьте оценку'}&zwnj;</p>
-                  </div>
-                </div>
+
+                <FormStars starsRef={starsRef} isRatingCorrect={isRatingCorrect} handleFieldChange={handleFieldChange} />
+
               </div>
               <label className="form-review__label form-review__label--required" htmlFor="adv">Достоинства</label>
               <input onChange={handleFieldChange} name='advantage' className="form-review__input" id="adv" type="text" autoComplete="off" required />
