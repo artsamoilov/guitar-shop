@@ -1,0 +1,41 @@
+.rate--alternate {
+  flex-direction: row;
+}
+
+.rate--alternate > input:checked ~ label {
+  background-image: url('/public/img/sprite/icon-star.svg');
+}
+
+.rate--alternate > input:checked ~ label::before {
+  background: none;
+}
+
+.rate--alternate > input:checked + label::before {
+  background: url('/public/img/sprite/icon-full-star.svg') no-repeat top 0 left 0;
+  background-size: 18px 20px;
+}
+
+.rate--alternate:not(:checked) > label::before {
+  background: url('/public/img/sprite/icon-full-star.svg') no-repeat top 0 left 0;
+  background-size: 18px 20px;
+}
+
+.rate--alternate:not(:checked) > label:hover,
+.rate--alternate:not(:checked) > label:hover ~ label {
+  background-image: url('/public/img/sprite/icon-star.svg');
+}
+
+.rate--alternate:hover > input:checked ~ label::before {
+  background: url('/public/img/sprite/icon-full-star.svg') no-repeat top 0 left 0;
+  background-size: 18px 20px;
+}
+
+.rate--alternate > input:checked ~ label:hover::before,
+.rate--alternate > input:checked ~ label:hover ~ label::before {
+  background: url('/public/img/sprite/icon-full-star.svg') no-repeat top 0 left 0;
+  background-size: 18px 20px;
+}
+
+.rate--alternate > input:checked ~ label:hover ~ label::before {
+  background: none;
+}
