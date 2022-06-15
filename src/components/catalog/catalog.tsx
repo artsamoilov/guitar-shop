@@ -3,9 +3,9 @@ import CatalogSorting from '../catalog-sorting/catalog-sorting';
 import Pagination from '../pagination/pagination';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import CatalogItem from '../catalog-item/catalog-item';
-import {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import {AppRoute, CARDS_BY_PAGE} from '../../const';
-import {useParams, Navigate} from 'react-router-dom';
+import {Dispatch, SetStateAction, SyntheticEvent, useEffect, useState} from 'react';
+import {AppRoute, CARDS_BY_PAGE, SortingOrder, SortingParam, SortingType} from '../../const';
+import {useParams, Navigate, useSearchParams} from 'react-router-dom';
 import {Guitar} from '../../types/guitar';
 import {setAllModalsClosed} from '../../store/modal-view/modal-view';
 
@@ -15,7 +15,11 @@ type PropsType = {
 
 function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
   const {id} = useParams();
+  const [sorting, setSorting] = useSearchParams();
+
   const [page, setPage] = useState(Number(id));
+  const [sortingType, setSortingType] = useState(sorting.get(SortingParam.SortType) || '');
+  const [sortingOrder, setSortingOrder] = useState(sorting.get(SortingParam.Order) || '');
 
   const guitars = useAppSelector(({DATA}) => DATA.guitars);
   const isDataLoaded = useAppSelector(({DATA}) => DATA.isDataLoaded);
@@ -25,6 +29,9 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
   useEffect(() => {
     setPage(Number(id));
     dispatch(setAllModalsClosed());
+    if (sortingType !== '' && sortingOrder !== '') {
+      setSorting({[SortingParam.SortType]: sortingType, [SortingParam.Order]: sortingOrder});
+    }
   }, [id, dispatch]);
 
   if (!isDataLoaded) {
@@ -37,16 +44,46 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
 
   const startIndex = CARDS_BY_PAGE * (page - 1);
   const endIndex = CARDS_BY_PAGE * page > guitars.length ? guitars.length : CARDS_BY_PAGE * page;
-  const guitarsSlice = guitars.slice(startIndex, endIndex);
+
+  const handleSortingTypeChange = (evt: SyntheticEvent): void => {
+    setSortingType(evt.currentTarget.id);
+    !sorting.get(SortingParam.Order) && setSortingOrder(SortingOrder.Ascendant);
+    setSorting({[SortingParam.SortType]: evt.currentTarget.id, [SortingParam.Order]: (sortingOrder || SortingOrder.Ascendant)});
+  };
+
+  const handleOrderChange = (evt: SyntheticEvent): void => {
+    setSortingOrder(evt.currentTarget.id);
+    !sorting.get(SortingParam.SortType) && setSortingType(SortingType.Price);
+    setSorting({[SortingParam.SortType]: sortingType, [SortingParam.Order]: evt.currentTarget.id});
+  };
+
+  const getSortedGuitars = (): Guitar[] => {
+    switch (sortingType) {
+      case SortingType.Price:
+        if (sortingOrder === SortingOrder.Ascendant) {
+          return guitars.slice().sort((guitarA, guitarB) => guitarA.price - guitarB.price);
+        }
+        return guitars.slice().sort((guitarA, guitarB) => guitarB.price - guitarA.price);
+      case SortingType.Rating:
+        if (sortingOrder === SortingOrder.Ascendant) {
+          return guitars.slice().sort((guitarA, guitarB) => guitarA.comments.length - guitarB.comments.length);
+        }
+        return guitars.slice().sort((guitarA, guitarB) => guitarB.comments.length - guitarA.comments.length);
+      default:
+        return guitars.slice();
+    }
+  };
+
+  const slicedGuitars = getSortedGuitars().slice(startIndex, endIndex);
 
   return (
     <div className="catalog">
 
       <CatalogFilter />
-      <CatalogSorting />
+      <CatalogSorting handleSortingTypeChange={handleSortingTypeChange} handleOrderChange={handleOrderChange} sorting={sorting} />
 
       <div className="cards catalog__cards">
-        {guitarsSlice.map((guitar) => <CatalogItem setCurrentGuitar={setCurrentGuitar} guitar={guitar} key={guitar.id} />)}
+        {slicedGuitars.map((guitar) => <CatalogItem setCurrentGuitar={setCurrentGuitar} guitar={guitar} key={guitar.id} />)}
       </div>
 
       <Pagination page={page} setPage={setPage} />
