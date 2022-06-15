@@ -54,7 +54,7 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
   const handleOrderChange = (evt: SyntheticEvent): void => {
     setSortingOrder(evt.currentTarget.id);
     !sorting.get(SortingParam.SortType) && setSortingType(SortingType.Price);
-    setSorting({[SortingParam.SortType]: sortingType, [SortingParam.Order]: evt.currentTarget.id});
+    setSorting({[SortingParam.SortType]: sortingType || SortingType.Price, [SortingParam.Order]: evt.currentTarget.id});
   };
 
   const getSortedGuitars = (): Guitar[] => {
