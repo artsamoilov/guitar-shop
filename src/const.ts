@@ -40,3 +40,18 @@ export const OVERFLOW_DEFAULT_SCROLL = 'unset';
 
 export const RATES = [1, 2, 3, 4, 5];
 export const TEXT_RATES = ['Ужасно', 'Плохо', 'Нормально', 'Хорошо', 'Отлично'];
+
+export enum SortingType {
+  Price = 'price',
+  Rating = 'rating',
+}
+
+export enum SortingOrder {
+  Ascendant = 'asc',
+  Descendant = 'des',
+}
+
+export enum SortingParam {
+  SortType = '_sort',
+  Order = '_order',
+}
