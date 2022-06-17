@@ -8,6 +8,7 @@ import {AppRoute, CARDS_BY_PAGE, SortingOrder, SortingParam, SortingType} from '
 import {useParams, Navigate, useSearchParams} from 'react-router-dom';
 import {Guitar} from '../../types/guitar';
 import {setAllModalsClosed} from '../../store/modal-view/modal-view';
+import Loader from '../loader/loader';
 
 type PropsType = {
   setCurrentGuitar: Dispatch<SetStateAction<Guitar>>,
@@ -35,7 +36,7 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
   }, [id, dispatch]);
 
   if (!isDataLoaded) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   if (isDataLoaded && Number(id) > Math.ceil(guitars.length / CARDS_BY_PAGE)) {

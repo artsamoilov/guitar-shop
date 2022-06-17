@@ -13,6 +13,7 @@ import {setCommentsListLoading, setGuitarLoading} from '../../store/guitars-data
 import {setAddReviewModalOpened, setAddToCartModalOpened, setReviewSuccessOpened} from '../../store/modal-view/modal-view';
 import ModalAddReview from '../../components/modal-add-review/modal-add-review';
 import ModalSuccessReview from '../../components/modal-success-review/modal-success-review';
+import Loader from '../../components/loader/loader';
 
 function ProductPage(): JSX.Element {
   const {id} = useParams();
@@ -35,7 +36,7 @@ function ProductPage(): JSX.Element {
       dispatch(fetchCommentsAction(String(id)));
       dispatch(setCommentsListLoading(true));
     }
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   const handleBuyClick = (evt: SyntheticEvent): void => {
