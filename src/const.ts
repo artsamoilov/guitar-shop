@@ -51,7 +51,11 @@ export enum SortingOrder {
   Descendant = 'des',
 }
 
-export enum SortingParam {
+export enum SearchParam {
   SortType = '_sort',
-  Order = '_order',
+  SortOrder = '_order',
+  PriceFrom = 'price_gte',
+  PriceTo = 'price_lte',
+  Type = 'type',
+  Strings = 'str',
 }

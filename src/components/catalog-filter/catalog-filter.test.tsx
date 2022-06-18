@@ -22,7 +22,11 @@ describe('component CatalogFilter', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <CatalogFilter />
+          <CatalogFilter
+            handlePriceFromChange={() => undefined}
+            handlePriceToChange={() => undefined}
+            searchParams={{} as URLSearchParams}
+          />
         </HistoryRouter>
       </Provider>,
     );
