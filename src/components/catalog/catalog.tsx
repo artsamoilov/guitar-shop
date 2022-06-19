@@ -26,6 +26,7 @@ type SearchParamsType = {
 
 type EventPropsType = {
   target: {
+    name: string,
     value: string,
   },
 }
@@ -97,10 +98,33 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
     evt.target.value ? setPriceTo(evt.target.value) : setPriceTo('');
   };
 
+  const handleTypeChange = (evt: EventPropsType): void => {
+    const separatedGuitarTypes = guitarType.split(',');
+    if (separatedGuitarTypes.includes(evt.target.name)) {
+      const newTypeParams = separatedGuitarTypes.filter((element) => element !== evt.target.name);
+      setGuitarType(newTypeParams.join());
+      return;
+    }
+    setGuitarType(`${guitarType},${evt.target.name}`);
+  };
+
+  const handleStringsNumberChange = (evt: EventPropsType): void => {
+    const separatedStringsNumbers = stringsNumber.split(',');
+    const newParam = evt.target.name.split('-')[0];
+    if (separatedStringsNumbers.includes(newParam)) {
+      const newStringsParams = separatedStringsNumbers.filter((element) => element !== newParam);
+      setStringsNumber(newStringsParams.join());
+      return;
+    }
+    setStringsNumber(`${stringsNumber},${newParam}`);
+  };
+
   const getFilteredGuitars = (): Guitar[] => guitars.slice().filter((guitar) => {
     const isPriceFromCorrect = priceFrom !== '' ? guitar.price >= Number(priceFrom) : true;
     const isPriceToCorrect = priceTo !== '' ? guitar.price <= Number(priceTo) : true;
-    return isPriceFromCorrect && isPriceToCorrect;
+    const isTypeCorrect = guitarType !== '' ? guitarType.includes(guitar.type) : true;
+    const isStringsNumberCorrect = stringsNumber !== '' ? stringsNumber.includes(String(guitar.stringCount)) : true;
+    return isPriceFromCorrect && isPriceToCorrect && isTypeCorrect && isStringsNumberCorrect;
   });
 
   const getSortedGuitars = (): Guitar[] => {
@@ -128,6 +152,8 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
       <CatalogFilter
         handlePriceFromChange={handlePriceFromChange}
         handlePriceToChange={handlePriceToChange}
+        handleTypeChange={handleTypeChange}
+        handleStringsNumberChange={handleStringsNumberChange}
         searchParams={searchParams}
       />
 

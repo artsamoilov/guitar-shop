@@ -1,10 +1,11 @@
-import {SearchParam} from '../../const';
-import {useRef} from 'react';
+import {FilterGuitarType, FilterStrings, SearchParam} from '../../const';
+import {useEffect, useRef} from 'react';
 import {useAppSelector} from '../../hooks/hooks';
 import {getMaxPrice, getMinPrice} from '../../utils';
 
 type EventPropsType = {
   target: {
+    name: string,
     value: string,
   },
 }
@@ -12,19 +13,44 @@ type EventPropsType = {
 type PropsType = {
   handlePriceFromChange: (evt: EventPropsType) => void,
   handlePriceToChange: (evt: EventPropsType) => void,
+  handleTypeChange: (evt: EventPropsType) => void,
+  handleStringsNumberChange: (evt: EventPropsType) => void,
   searchParams: URLSearchParams,
 }
 
-function CatalogFilter({handlePriceFromChange, handlePriceToChange, searchParams}: PropsType): JSX.Element {
+function CatalogFilter({handlePriceFromChange, handlePriceToChange, handleTypeChange, handleStringsNumberChange, searchParams}: PropsType): JSX.Element {
   const guitars = useAppSelector(({DATA}) => DATA.guitars);
 
-  const priceFromRef = useRef<HTMLInputElement | null>(null);
+  const acousticRef = useRef<HTMLInputElement | null>(null);
+  const electricRef = useRef<HTMLInputElement | null>(null);
+  const ukuleleRef = useRef<HTMLInputElement | null>(null);
+
+  const strings4Ref = useRef<HTMLInputElement | null>(null);
+  const strings6Ref = useRef<HTMLInputElement | null>(null);
+  const strings7Ref = useRef<HTMLInputElement | null>(null);
+  const strings12Ref = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (searchParams.has(SearchParam.Type)) {
+      const searchParamType = searchParams.get(SearchParam.Type);
+      acousticRef.current && (acousticRef.current.checked = String(searchParamType).includes(FilterGuitarType.Acoustic));
+      electricRef.current && (electricRef.current.checked = String(searchParamType).includes(FilterGuitarType.Electric));
+      ukuleleRef.current && (ukuleleRef.current.checked = String(searchParamType).includes(FilterGuitarType.Ukulele));
+    }
+    if (searchParams.has(SearchParam.Strings)) {
+      const searchParamStrings = searchParams.get(SearchParam.Strings);
+      strings4Ref.current && (strings4Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings4));
+      strings6Ref.current && (strings6Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings6));
+      strings7Ref.current && (strings7Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings7));
+      strings12Ref.current && (strings12Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings12));
+    }
+  }, [searchParams]);
 
   const handlePriceFromBlur = (evt: EventPropsType): void => {
     const minPrice = getMinPrice(guitars);
     if (evt.target.value && Number(evt.target.value) < minPrice) {
       evt.target.value = String(minPrice);
-      handlePriceFromChange({target: {value: String(minPrice)}});
+      handlePriceFromChange({target: {name: '', value: String(minPrice)}});
     }
   };
 
@@ -33,11 +59,11 @@ function CatalogFilter({handlePriceFromChange, handlePriceToChange, searchParams
     const paramFromPrice = searchParams.get(SearchParam.PriceFrom);
     if (evt.target.value && Number(evt.target.value) > maxPrice) {
       evt.target.value = String(maxPrice);
-      handlePriceToChange({target: {value: String(maxPrice)}});
+      handlePriceToChange({target: {name: '', value: String(maxPrice)}});
     }
     if (evt.target.value && paramFromPrice && Number(evt.target.value) < Number(paramFromPrice)) {
       evt.target.value = paramFromPrice;
-      handlePriceToChange({target: {value: paramFromPrice}});
+      handlePriceToChange({target: {name: '', value: paramFromPrice}});
     }
   };
 
@@ -77,7 +103,6 @@ function CatalogFilter({handlePriceFromChange, handlePriceToChange, searchParams
           <div className="form-input">
             <label className="visually-hidden">Минимальная цена</label>
             <input
-              ref={priceFromRef}
               onChange={handlePriceFromChange}
               onBlur={handlePriceFromBlur}
               defaultValue={getDefaultPriceFrom()}
@@ -106,34 +131,83 @@ function CatalogFilter({handlePriceFromChange, handlePriceToChange, searchParams
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Тип гитар</legend>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="acoustic" name="acoustic" />
+          <input
+            ref={acousticRef}
+            onChange={handleTypeChange}
+            className="visually-hidden"
+            type="checkbox"
+            id={FilterGuitarType.Acoustic}
+            name={FilterGuitarType.Acoustic}
+          />
           <label htmlFor="acoustic">Акустические гитары</label>
         </div>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="electric" name="electric" />
+          <input
+            ref={electricRef}
+            onChange={handleTypeChange}
+            className="visually-hidden"
+            type="checkbox"
+            id={FilterGuitarType.Electric}
+            name={FilterGuitarType.Electric}
+          />
           <label htmlFor="electric">Электрогитары</label>
         </div>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="ukulele" name="ukulele" />
+          <input
+            ref={ukuleleRef}
+            onChange={handleTypeChange}
+            className="visually-hidden"
+            type="checkbox"
+            id={FilterGuitarType.Ukulele}
+            name={FilterGuitarType.Ukulele}
+          />
           <label htmlFor="ukulele">Укулеле</label>
         </div>
       </fieldset>
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Количество струн</legend>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="4-strings" name="4-strings" />
+          <input
+            ref={strings4Ref}
+            onChange={handleStringsNumberChange}
+            className="visually-hidden"
+            type="checkbox"
+            id="4-strings"
+            name="4-strings"
+          />
           <label htmlFor="4-strings">4</label>
         </div>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="6-strings" name="6-strings" />
+          <input
+            ref={strings6Ref}
+            onChange={handleStringsNumberChange}
+            className="visually-hidden"
+            type="checkbox"
+            id="6-strings"
+            name="6-strings"
+          />
           <label htmlFor="6-strings">6</label>
         </div>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="7-strings" name="7-strings" />
+          <input
+            ref={strings7Ref}
+            onChange={handleStringsNumberChange}
+            className="visually-hidden"
+            type="checkbox"
+            id="7-strings"
+            name="7-strings"
+          />
           <label htmlFor="7-strings">7</label>
         </div>
         <div className="form-checkbox catalog-filter__block-item">
-          <input className="visually-hidden" type="checkbox" id="12-strings" name="12-strings" disabled />
+          <input
+            ref={strings12Ref}
+            onChange={handleStringsNumberChange}
+            className="visually-hidden"
+            type="checkbox"
+            id="12-strings"
+            name="12-strings"
+          />
           <label htmlFor="12-strings">12</label>
         </div>
       </fieldset>

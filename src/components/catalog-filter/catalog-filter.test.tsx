@@ -25,6 +25,8 @@ describe('component CatalogFilter', () => {
           <CatalogFilter
             handlePriceFromChange={() => undefined}
             handlePriceToChange={() => undefined}
+            handleTypeChange={() => undefined}
+            handleStringsNumberChange={() => undefined}
             searchParams={{} as URLSearchParams}
           />
         </HistoryRouter>
