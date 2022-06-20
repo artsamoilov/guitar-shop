@@ -3,7 +3,7 @@ import {createMemoryHistory} from 'history';
 import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import HistoryRouter from '../history-route/history-route';
-import Header from './header';
+import FormSearch from './form-search';
 import {getMockGuitars} from '../../mocks/mocks';
 
 const mockStore = configureMockStore();
@@ -11,11 +11,6 @@ const mockStore = configureMockStore();
 const fakeGuitars = getMockGuitars();
 
 const store = mockStore({
-  MODAL: {
-    isAddToCartModalOpened: false,
-    isAddReviewModalOpened: false,
-    isReviewSuccessOpened: false,
-  },
   DATA: {
     guitars: fakeGuitars,
   },
@@ -23,22 +18,18 @@ const store = mockStore({
 
 const history = createMemoryHistory();
 
-describe('component Header', () => {
+describe('component CatalogFilter', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <Header />
+          <FormSearch />
         </HistoryRouter>
       </Provider>,
     );
 
-    expect(screen.getByText(/Каталог/i)).toBeInTheDocument();
-    expect(screen.getByText(/Где купить?/i)).toBeInTheDocument();
-    expect(screen.getByText(/О компании/i)).toBeInTheDocument();
     expect(screen.getByText(/Начать поиск/i)).toBeInTheDocument();
     expect(screen.getByText(/Сбросить поиск/i)).toBeInTheDocument();
-    expect(screen.getByText(/Перейти в корзину/i)).toBeInTheDocument();
-    expect(screen.getByText('Поиск')).toBeInTheDocument();
+    expect(screen.getByLabelText(/Поиск/i)).toBeInTheDocument();
   });
 });

@@ -4,14 +4,20 @@ import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import HistoryRouter from '../history-route/history-route';
 import CatalogFilter from './catalog-filter';
+import {getMockGuitars} from '../../mocks/mocks';
 
 const mockStore = configureMockStore();
+
+const fakeGuitars = getMockGuitars();
 
 const store = mockStore({
   MODAL: {
     isAddToCartModalOpened: false,
     isAddReviewModalOpened: false,
     isReviewSuccessOpened: false,
+  },
+  DATA: {
+    guitars: fakeGuitars,
   },
 });
 
