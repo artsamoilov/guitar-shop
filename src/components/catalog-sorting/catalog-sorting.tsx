@@ -1,13 +1,25 @@
 import {SortingType, SearchParam, SortingOrder} from '../../const';
-import {SyntheticEvent} from 'react';
+import {Dispatch, SetStateAction, SyntheticEvent} from 'react';
+import {useSearchParams} from 'react-router-dom';
 
 type PropsType = {
-  handleSortingTypeChange: (evt: SyntheticEvent) => void,
-  handleOrderChange: (evt: SyntheticEvent) => void,
-  searchParams: URLSearchParams,
+  setSortingType: Dispatch<SetStateAction<string>>,
+  setSortingOrder: Dispatch<SetStateAction<string>>,
 }
 
-function CatalogSorting({handleSortingTypeChange, handleOrderChange, searchParams}: PropsType): JSX.Element {
+function CatalogSorting({setSortingType, setSortingOrder}: PropsType): JSX.Element {
+  const [searchParams] = useSearchParams();
+
+  const handleSortingTypeChange = (evt: SyntheticEvent): void => {
+    setSortingType(evt.currentTarget.id);
+    !searchParams.get(SearchParam.SortOrder) && setSortingOrder(SortingOrder.Ascendant);
+  };
+
+  const handleOrderChange = (evt: SyntheticEvent): void => {
+    setSortingOrder(evt.currentTarget.id);
+    !searchParams.get(SearchParam.SortType) && setSortingType(SortingType.Price);
+  };
+
   return (
     <div className="catalog-sort">
       <h2 className="catalog-sort__title">Сортировать:</h2>

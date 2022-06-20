@@ -3,7 +3,7 @@ import CatalogSorting from '../catalog-sorting/catalog-sorting';
 import Pagination from '../pagination/pagination';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import CatalogItem from '../catalog-item/catalog-item';
-import {Dispatch, SetStateAction, SyntheticEvent, useEffect, useState} from 'react';
+import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {AppRoute, CARDS_BY_PAGE, SortingOrder, SearchParam, SortingType} from '../../const';
 import {useParams, Navigate, useSearchParams} from 'react-router-dom';
 import {Guitar} from '../../types/guitar';
@@ -22,13 +22,6 @@ type SearchParamsType = {
   [SearchParam.PriceTo]?: string,
   [SearchParam.Type]?: string,
   [SearchParam.Strings]?: string,
-}
-
-type EventPropsType = {
-  target: {
-    name: string,
-    value: string,
-  },
 }
 
 function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
@@ -80,45 +73,6 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  const handleSortingTypeChange = (evt: SyntheticEvent): void => {
-    setSortingType(evt.currentTarget.id);
-    !searchParams.get(SearchParam.SortOrder) && setSortingOrder(SortingOrder.Ascendant);
-  };
-
-  const handleOrderChange = (evt: SyntheticEvent): void => {
-    setSortingOrder(evt.currentTarget.id);
-    !searchParams.get(SearchParam.SortType) && setSortingType(SortingType.Price);
-  };
-
-  const handlePriceFromChange = (evt: EventPropsType): void => {
-    evt.target.value ? setPriceFrom(evt.target.value) : setPriceFrom('');
-  };
-
-  const handlePriceToChange = (evt: EventPropsType): void => {
-    evt.target.value ? setPriceTo(evt.target.value) : setPriceTo('');
-  };
-
-  const handleTypeChange = (evt: EventPropsType): void => {
-    const separatedGuitarTypes = guitarType.split(',');
-    if (separatedGuitarTypes.includes(evt.target.name)) {
-      const newTypeParams = separatedGuitarTypes.filter((element) => element !== evt.target.name);
-      setGuitarType(newTypeParams.join());
-      return;
-    }
-    setGuitarType(`${guitarType},${evt.target.name}`);
-  };
-
-  const handleStringsNumberChange = (evt: EventPropsType): void => {
-    const separatedStringsNumbers = stringsNumber.split(',');
-    const newParam = evt.target.name.split('-')[0];
-    if (separatedStringsNumbers.includes(newParam)) {
-      const newStringsParams = separatedStringsNumbers.filter((element) => element !== newParam);
-      setStringsNumber(newStringsParams.join());
-      return;
-    }
-    setStringsNumber(`${stringsNumber},${newParam}`);
-  };
-
   const getFilteredGuitars = (): Guitar[] => guitars.slice().filter((guitar) => {
     const isPriceFromCorrect = priceFrom !== '' ? guitar.price >= Number(priceFrom) : true;
     const isPriceToCorrect = priceTo !== '' ? guitar.price <= Number(priceTo) : true;
@@ -150,17 +104,17 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
     <div className="catalog">
 
       <CatalogFilter
-        handlePriceFromChange={handlePriceFromChange}
-        handlePriceToChange={handlePriceToChange}
-        handleTypeChange={handleTypeChange}
-        handleStringsNumberChange={handleStringsNumberChange}
-        searchParams={searchParams}
+        setPriceFrom={setPriceFrom}
+        setPriceTo={setPriceTo}
+        guitarType={guitarType}
+        setGuitarType={setGuitarType}
+        stringsNumber={stringsNumber}
+        setStringsNumber={setStringsNumber}
       />
 
       <CatalogSorting
-        handleSortingTypeChange={handleSortingTypeChange}
-        handleOrderChange={handleOrderChange}
-        searchParams={searchParams}
+        setSortingType={setSortingType}
+        setSortingOrder={setSortingOrder}
       />
 
       <div className="cards catalog__cards">

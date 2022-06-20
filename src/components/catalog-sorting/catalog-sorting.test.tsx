@@ -4,6 +4,7 @@ import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import HistoryRouter from '../history-route/history-route';
 import CatalogSorting from './catalog-sorting';
+import {Dispatch, SetStateAction} from 'react';
 
 const mockStore = configureMockStore();
 
@@ -22,7 +23,7 @@ describe('component CatalogSorting', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <CatalogSorting handleSortingTypeChange={() => undefined} handleOrderChange={() => undefined} searchParams={{} as URLSearchParams}/>
+          <CatalogSorting setSortingType={() => undefined} setSortingOrder={() => undefined} />
         </HistoryRouter>
       </Provider>,
     );

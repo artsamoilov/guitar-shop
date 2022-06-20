@@ -1,7 +1,8 @@
 import {FilterGuitarType, FilterStrings, SearchParam} from '../../const';
-import {useEffect, useRef} from 'react';
+import {Dispatch, SetStateAction, useEffect, useRef} from 'react';
 import {useAppSelector} from '../../hooks/hooks';
 import {getMaxPrice, getMinPrice} from '../../utils';
+import {useSearchParams} from 'react-router-dom';
 
 type EventPropsType = {
   target: {
@@ -11,15 +12,18 @@ type EventPropsType = {
 }
 
 type PropsType = {
-  handlePriceFromChange: (evt: EventPropsType) => void,
-  handlePriceToChange: (evt: EventPropsType) => void,
-  handleTypeChange: (evt: EventPropsType) => void,
-  handleStringsNumberChange: (evt: EventPropsType) => void,
-  searchParams: URLSearchParams,
+  setPriceFrom: Dispatch<SetStateAction<string>>,
+  setPriceTo: Dispatch<SetStateAction<string>>,
+  guitarType: string,
+  setGuitarType: Dispatch<SetStateAction<string>>,
+  stringsNumber: string,
+  setStringsNumber: Dispatch<SetStateAction<string>>,
 }
 
-function CatalogFilter({handlePriceFromChange, handlePriceToChange, handleTypeChange, handleStringsNumberChange, searchParams}: PropsType): JSX.Element {
+function CatalogFilter({setPriceFrom, setPriceTo, guitarType, setGuitarType, stringsNumber, setStringsNumber}: PropsType): JSX.Element {
   const guitars = useAppSelector(({DATA}) => DATA.guitars);
+
+  const [searchParams] = useSearchParams();
 
   const acousticRef = useRef<HTMLInputElement | null>(null);
   const electricRef = useRef<HTMLInputElement | null>(null);
@@ -45,6 +49,36 @@ function CatalogFilter({handlePriceFromChange, handlePriceToChange, handleTypeCh
       strings12Ref.current && (strings12Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings12));
     }
   }, [searchParams]);
+
+
+  const handlePriceFromChange = (evt: EventPropsType): void => {
+    evt.target.value ? setPriceFrom(evt.target.value) : setPriceFrom('');
+  };
+
+  const handlePriceToChange = (evt: EventPropsType): void => {
+    evt.target.value ? setPriceTo(evt.target.value) : setPriceTo('');
+  };
+
+  const handleTypeChange = (evt: EventPropsType): void => {
+    const separatedGuitarTypes = guitarType.split(',');
+    if (separatedGuitarTypes.includes(evt.target.name)) {
+      const newTypeParams = separatedGuitarTypes.filter((element) => element !== evt.target.name);
+      setGuitarType(newTypeParams.join());
+      return;
+    }
+    setGuitarType(`${guitarType},${evt.target.name}`);
+  };
+
+  const handleStringsNumberChange = (evt: EventPropsType): void => {
+    const separatedStringsNumbers = stringsNumber.split(',');
+    const newParam = evt.target.name.split('-')[0];
+    if (separatedStringsNumbers.includes(newParam)) {
+      const newStringsParams = separatedStringsNumbers.filter((element) => element !== newParam);
+      setStringsNumber(newStringsParams.join());
+      return;
+    }
+    setStringsNumber(`${stringsNumber},${newParam}`);
+  };
 
   const handlePriceFromBlur = (evt: EventPropsType): void => {
     const minPrice = getMinPrice(guitars);

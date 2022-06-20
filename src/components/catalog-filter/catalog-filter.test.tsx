@@ -23,11 +23,12 @@ describe('component CatalogFilter', () => {
       <Provider store={store}>
         <HistoryRouter history={history}>
           <CatalogFilter
-            handlePriceFromChange={() => undefined}
-            handlePriceToChange={() => undefined}
-            handleTypeChange={() => undefined}
-            handleStringsNumberChange={() => undefined}
-            searchParams={{} as URLSearchParams}
+            setPriceFrom={() => undefined}
+            setPriceTo={() => undefined}
+            guitarType={''}
+            setGuitarType={() => undefined}
+            stringsNumber={''}
+            setStringsNumber={() => undefined}
           />
         </HistoryRouter>
       </Provider>,
