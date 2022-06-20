@@ -18,4 +18,8 @@ const getGuitarType = (guitar: Guitar): string => {
 
 const isEscKey = (keyName: string): boolean => keyName === 'Escape' || keyName === 'Esc';
 
-export {getRatingStars, getRatingText, getGuitarType, isEscKey};
+const getMinPrice = (guitars: Guitar[]): number => guitars.slice().sort((guitarA, guitarB) => guitarA.price - guitarB.price)[0].price;
+
+const getMaxPrice = (guitars: Guitar[]): number => guitars.slice().sort((guitarA, guitarB) => guitarB.price - guitarA.price)[0].price;
+
+export {getRatingStars, getRatingText, getGuitarType, isEscKey, getMinPrice, getMaxPrice};

@@ -1,13 +1,25 @@
-import {SortingType, SortingParam, SortingOrder} from '../../const';
-import {SyntheticEvent} from 'react';
+import {SortingType, SearchParam, SortingOrder} from '../../const';
+import {Dispatch, SetStateAction, SyntheticEvent} from 'react';
+import {useSearchParams} from 'react-router-dom';
 
 type PropsType = {
-  handleSortingTypeChange: (evt: SyntheticEvent) => void,
-  handleOrderChange: (evt: SyntheticEvent) => void,
-  sorting: URLSearchParams,
+  setSortingType: Dispatch<SetStateAction<string>>,
+  setSortingOrder: Dispatch<SetStateAction<string>>,
 }
 
-function CatalogSorting({handleSortingTypeChange, handleOrderChange, sorting}: PropsType): JSX.Element {
+function CatalogSorting({setSortingType, setSortingOrder}: PropsType): JSX.Element {
+  const [searchParams] = useSearchParams();
+
+  const handleSortingTypeChange = (evt: SyntheticEvent): void => {
+    setSortingType(evt.currentTarget.id);
+    !searchParams.get(SearchParam.SortOrder) && setSortingOrder(SortingOrder.Ascendant);
+  };
+
+  const handleOrderChange = (evt: SyntheticEvent): void => {
+    setSortingOrder(evt.currentTarget.id);
+    !searchParams.get(SearchParam.SortType) && setSortingType(SortingType.Price);
+  };
+
   return (
     <div className="catalog-sort">
       <h2 className="catalog-sort__title">Сортировать:</h2>
@@ -15,7 +27,7 @@ function CatalogSorting({handleSortingTypeChange, handleOrderChange, sorting}: P
         <button
           onClick={handleSortingTypeChange}
           id={SortingType.Price}
-          className={`catalog-sort__type-button ${sorting.get(SortingParam.SortType) === SortingType.Price && 'catalog-sort__type-button--active'}`}
+          className={`catalog-sort__type-button ${searchParams.get(SearchParam.SortType) === SortingType.Price && 'catalog-sort__type-button--active'}`}
           aria-label="по цене"
         >
           по цене
@@ -23,7 +35,7 @@ function CatalogSorting({handleSortingTypeChange, handleOrderChange, sorting}: P
         <button
           onClick={handleSortingTypeChange}
           id={SortingType.Rating}
-          className={`catalog-sort__type-button ${sorting.get(SortingParam.SortType) === SortingType.Rating && 'catalog-sort__type-button--active'}`}
+          className={`catalog-sort__type-button ${searchParams.get(SearchParam.SortType) === SortingType.Rating && 'catalog-sort__type-button--active'}`}
           aria-label="по популярности"
         >
           по популярности
@@ -33,13 +45,13 @@ function CatalogSorting({handleSortingTypeChange, handleOrderChange, sorting}: P
         <button
           onClick={handleOrderChange}
           id={SortingOrder.Ascendant}
-          className={`catalog-sort__order-button catalog-sort__order-button--up ${sorting.get(SortingParam.Order) === SortingOrder.Ascendant && 'catalog-sort__order-button--active'}`}
+          className={`catalog-sort__order-button catalog-sort__order-button--up ${searchParams.get(SearchParam.SortOrder) === SortingOrder.Ascendant && 'catalog-sort__order-button--active'}`}
           aria-label="По возрастанию"
         />
         <button
           onClick={handleOrderChange}
           id={SortingOrder.Descendant}
-          className={`catalog-sort__order-button catalog-sort__order-button--down ${sorting.get(SortingParam.Order) === SortingOrder.Descendant && 'catalog-sort__order-button--active'}`}
+          className={`catalog-sort__order-button catalog-sort__order-button--down ${searchParams.get(SearchParam.SortOrder) === SortingOrder.Descendant && 'catalog-sort__order-button--active'}`}
           aria-label="По убыванию"
         />
       </div>

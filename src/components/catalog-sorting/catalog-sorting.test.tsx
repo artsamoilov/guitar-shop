@@ -22,7 +22,7 @@ describe('component CatalogSorting', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <CatalogSorting handleSortingTypeChange={() => undefined} handleOrderChange={() => undefined} sorting={{} as URLSearchParams}/>
+          <CatalogSorting setSortingType={() => undefined} setSortingOrder={() => undefined} />
         </HistoryRouter>
       </Provider>,
     );

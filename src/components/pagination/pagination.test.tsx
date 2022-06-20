@@ -16,9 +16,6 @@ const store = mockStore({
     isAddReviewModalOpened: false,
     isReviewSuccessOpened: false,
   },
-  DATA: {
-    guitars: fakeGuitars,
-  },
 });
 
 const history = createMemoryHistory();
@@ -28,7 +25,7 @@ describe('component Pagination', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <Pagination page={2} setPage={() => undefined} />
+          <Pagination page={2} setPage={() => undefined} guitars={fakeGuitars} />
         </HistoryRouter>
       </Provider>,
     );

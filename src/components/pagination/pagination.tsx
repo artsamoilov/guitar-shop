@@ -1,16 +1,15 @@
 import React, {SyntheticEvent} from 'react';
-import {useAppSelector} from '../../hooks/hooks';
 import {AppRoute, CARDS_BY_PAGE, INITIAL_PAGE} from '../../const';
 import {Link} from 'react-router-dom';
+import {Guitar} from '../../types/guitar';
 
 type PropsType = {
   page: number,
   setPage:  React.Dispatch<React.SetStateAction<number>>,
+  guitars: Guitar[],
 }
 
-function Pagination({page, setPage}: PropsType): JSX.Element {
-  const guitars = useAppSelector(({DATA}) => DATA.guitars);
-
+function Pagination({page, setPage, guitars}: PropsType): JSX.Element {
   const pagesCounter = Math.ceil(guitars.length / CARDS_BY_PAGE);
 
   const getPaginationButtons = (): JSX.Element[] => {
@@ -33,7 +32,7 @@ function Pagination({page, setPage}: PropsType): JSX.Element {
   return (
     <div className="pagination page-content__pagination">
       <ul className="pagination__list">
-        {page !== INITIAL_PAGE && (
+        {page !== INITIAL_PAGE && guitars.length > CARDS_BY_PAGE && (
           <li className="pagination__page pagination__page--prev" id="prev">
             <Link to={`${AppRoute.Catalog}/page_${page - 1}`} onClick={handlePreviousClick} className="link pagination__page-link">Назад</Link>
           </li>
@@ -41,7 +40,7 @@ function Pagination({page, setPage}: PropsType): JSX.Element {
 
         {getPaginationButtons()}
 
-        {page !== pagesCounter && (
+        {page !== pagesCounter && guitars.length > CARDS_BY_PAGE && (
           <li className="pagination__page pagination__page--next" id="next">
             <Link to={`${AppRoute.Catalog}/page_${page + 1}`} onClick={handleNextClick} className="link pagination__page-link">Далее</Link>
           </li>

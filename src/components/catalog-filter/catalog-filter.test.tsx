@@ -22,7 +22,14 @@ describe('component CatalogFilter', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <CatalogFilter />
+          <CatalogFilter
+            setPriceFrom={() => undefined}
+            setPriceTo={() => undefined}
+            guitarType={''}
+            setGuitarType={() => undefined}
+            stringsNumber={''}
+            setStringsNumber={() => undefined}
+          />
         </HistoryRouter>
       </Provider>,
     );

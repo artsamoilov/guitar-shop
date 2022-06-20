@@ -41,6 +41,15 @@ export const OVERFLOW_DEFAULT_SCROLL = 'unset';
 export const RATES = [1, 2, 3, 4, 5];
 export const TEXT_RATES = ['Ужасно', 'Плохо', 'Нормально', 'Хорошо', 'Отлично'];
 
+export enum SearchParam {
+  SortType = '_sort',
+  SortOrder = '_order',
+  PriceFrom = 'price_gte',
+  PriceTo = 'price_lte',
+  Type = 'type',
+  Strings = 'str',
+}
+
 export enum SortingType {
   Price = 'price',
   Rating = 'rating',
@@ -51,7 +60,15 @@ export enum SortingOrder {
   Descendant = 'des',
 }
 
-export enum SortingParam {
-  SortType = '_sort',
-  Order = '_order',
+export enum FilterGuitarType {
+  Acoustic = 'acoustic',
+  Electric = 'electric',
+  Ukulele = 'ukulele',
+}
+
+export enum FilterStrings {
+  Strings4 = '4',
+  Strings6 = '6',
+  Strings7 = '7',
+  Strings12 = '12',
 }
