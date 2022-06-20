@@ -156,6 +156,13 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarType, setGuitarType, str
     return '';
   };
 
+  const handleFilterReset = (): void => {
+    setPriceFrom('');
+    setPriceTo('');
+    setGuitarType('');
+    setStringsNumber('');
+  };
+
   return (
     <form className="catalog-filter">
       <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>
@@ -273,7 +280,7 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarType, setGuitarType, str
           <label htmlFor="12-strings">12</label>
         </div>
       </fieldset>
-      <button className="catalog-filter__reset-btn button button--black-border button--medium" type="reset">Очистить</button>
+      <button onClick={handleFilterReset} className="catalog-filter__reset-btn button button--black-border button--medium" type="reset">Очистить</button>
     </form>
   );
 }
