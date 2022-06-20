@@ -3,7 +3,7 @@ import {useAppSelector} from '../../hooks/hooks';
 import {Guitar} from '../../types/guitar';
 import {useNavigate} from 'react-router-dom';
 
-function FormSearch() {
+function FormSearch(): JSX.Element {
   const navigate = useNavigate();
 
   const guitars = useAppSelector(({DATA}) => DATA.guitars);

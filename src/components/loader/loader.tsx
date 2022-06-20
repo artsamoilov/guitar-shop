@@ -6,6 +6,7 @@ function Loader(): JSX.Element {
       <div className="loader-element" />
       <div className="loader-element" />
       <div className="loader-element" />
+      <p className="visually-hidden">Загрузка...</p>
     </div>
   );
 }
