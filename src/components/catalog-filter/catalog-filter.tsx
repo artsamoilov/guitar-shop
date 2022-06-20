@@ -35,21 +35,49 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarType, setGuitarType, str
   const strings12Ref = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    if (searchParams.has(SearchParam.Type)) {
-      const searchParamType = searchParams.get(SearchParam.Type);
-      acousticRef.current && (acousticRef.current.checked = String(searchParamType).includes(FilterGuitarType.Acoustic));
-      electricRef.current && (electricRef.current.checked = String(searchParamType).includes(FilterGuitarType.Electric));
-      ukuleleRef.current && (ukuleleRef.current.checked = String(searchParamType).includes(FilterGuitarType.Ukulele));
-    }
-    if (searchParams.has(SearchParam.Strings)) {
-      const searchParamStrings = searchParams.get(SearchParam.Strings);
-      strings4Ref.current && (strings4Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings4));
-      strings6Ref.current && (strings6Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings6));
-      strings7Ref.current && (strings7Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings7));
-      strings12Ref.current && (strings12Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings12));
+    if (acousticRef.current && electricRef.current && ukuleleRef.current && strings4Ref.current && strings6Ref.current && strings7Ref.current && strings12Ref.current) {
+      strings4Ref.current.disabled = false;
+      strings6Ref.current.disabled = false;
+      strings7Ref.current.disabled = false;
+      strings12Ref.current.disabled = false;
+
+      if (searchParams.has(SearchParam.Strings)) {
+        const searchParamStrings = searchParams.get(SearchParam.Strings);
+        strings4Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings4);
+        strings6Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings6);
+        strings7Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings7);
+        strings12Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings12);
+      }
+
+      if (searchParams.has(SearchParam.Type)) {
+        const searchParamType = searchParams.get(SearchParam.Type);
+        acousticRef.current.checked = String(searchParamType).includes(FilterGuitarType.Acoustic);
+        electricRef.current.checked = String(searchParamType).includes(FilterGuitarType.Electric);
+        ukuleleRef.current.checked = String(searchParamType).includes(FilterGuitarType.Ukulele);
+
+        if (!String(searchParamType).includes(FilterGuitarType.Acoustic)) {
+          stringsNumber.includes(FilterStrings.Strings12) && handleStringsNumberChange({target: {name: FilterStrings.Strings12, value: ''}});
+          strings12Ref.current.checked = false;
+          strings12Ref.current.disabled = true;
+        }
+
+        if (!String(searchParamType).includes(FilterGuitarType.Electric) && !String(searchParamType).includes(FilterGuitarType.Ukulele)) {
+          stringsNumber.includes(FilterStrings.Strings4) && handleStringsNumberChange({target: {name: FilterStrings.Strings4, value: ''}});
+          strings4Ref.current.checked = false;
+          strings4Ref.current.disabled = true;
+        }
+
+        if (!String(searchParamType).includes(FilterGuitarType.Acoustic) && !String(searchParamType).includes(FilterGuitarType.Electric)) {
+          stringsNumber.includes(FilterStrings.Strings6) && handleStringsNumberChange({target: {name: FilterStrings.Strings6, value: ''}});
+          stringsNumber.includes(FilterStrings.Strings7) && handleStringsNumberChange({target: {name: FilterStrings.Strings7, value: ''}});
+          strings6Ref.current.checked = false;
+          strings7Ref.current.checked = false;
+          strings6Ref.current.disabled = true;
+          strings7Ref.current.disabled = true;
+        }
+      }
     }
   }, [searchParams]);
-
 
   const handlePriceFromChange = (evt: EventPropsType): void => {
     evt.target.value ? setPriceFrom(evt.target.value) : setPriceFrom('');
