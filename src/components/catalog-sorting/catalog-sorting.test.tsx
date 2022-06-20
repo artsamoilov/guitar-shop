@@ -4,7 +4,6 @@ import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import HistoryRouter from '../history-route/history-route';
 import CatalogSorting from './catalog-sorting';
-import {Dispatch, SetStateAction} from 'react';
 
 const mockStore = configureMockStore();
 

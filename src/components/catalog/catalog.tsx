@@ -59,7 +59,7 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
 
     setSearchParams(queryString.stringify(searchParameters));
 
-  }, [isDataLoaded, id, sortingType, sortingOrder, priceFrom, priceTo, guitarType, stringsNumber]);
+  }, [isDataLoaded, id, dispatch, setSearchParams, sortingType, sortingOrder, priceFrom, priceTo, guitarType, stringsNumber]);
 
   useEffect(() => {
     setPage(1);
