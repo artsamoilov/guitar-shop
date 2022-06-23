@@ -1,43 +1,41 @@
 import {SyntheticEvent, KeyboardEvent, useEffect, useRef, useState} from 'react';
-import {useAppSelector} from '../../hooks/hooks';
-import {Guitar} from '../../types/guitar';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {useNavigate} from 'react-router-dom';
+import {fetchGuitarsSearchAction} from '../../store/api-actions';
+import {clearGuitarsSearchList, setGuitarsSearchListLoading} from '../../store/guitars-data/guitars-data';
+import Loader from '../loader/loader';
 
 function FormSearch(): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const guitars = useAppSelector(({DATA}) => DATA.guitars);
+  const guitarsSearchList = useAppSelector(({DATA}) => DATA.guitarsSearchList);
+  const isSearchListLoaded = useAppSelector(({DATA}) => DATA.isSearchListLoaded);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const searchFormRef = useRef<HTMLFormElement | null>(null);
 
   const [searchText, setSearchText] = useState('');
-  const [searchList, setSearchList] = useState([] as Guitar[]);
   const [isSearchListOpened, setSearchListOpened] = useState(false);
 
   useEffect(() => {
-    setSearchList(getFilteredSearchList(searchText));
+    dispatch(setGuitarsSearchListLoading());
+    dispatch(fetchGuitarsSearchAction(searchText));
+    document.addEventListener('click', handleSearchListClose);
     return () => {
-      setSearchList([]);
+      dispatch(clearGuitarsSearchList());
+      document.removeEventListener('click', handleSearchListClose);
     };
   }, [searchText]);
 
-  const handleSearchListClose = (): void => {
-    setSearchListOpened(false);
-    document.removeEventListener('click', handleSearchListClose);
-  };
+  const handleSearchListClose = (): void => setSearchListOpened(false);
 
-  const handleSearchListOpen = (): void => {
-    setSearchListOpened(true);
-    document.addEventListener('click', handleSearchListClose);
-  };
+  const handleSearchListOpen = (): void => setSearchListOpened(true);
 
   const handleSearchChange = (): void => {
     setSearchListOpened(true);
     setSearchText(String(inputRef.current?.value));
   };
-
-  const getFilteredSearchList = (keyword: string): Guitar[] => guitars.slice().filter(({name}) => name.toLowerCase().includes(keyword.toLowerCase()));
 
   const handleSearchItemClick = (evt: SyntheticEvent): void => {
     searchFormRef.current?.reset();
@@ -54,14 +52,11 @@ function FormSearch(): JSX.Element {
     inputRef.current?.focus();
   };
 
-  const handleSearchBlur = (): void => {
-    document.removeEventListener('click', handleSearchListClose);
-    setSearchListOpened(false);
-  };
+  const handleSearchBlur = (): void => setSearchListOpened(false);
 
   const handleFormReset = (): void => {
-    handleSearchListClose();
     setSearchText('');
+    handleSearchListClose();
   };
 
   return (
@@ -78,8 +73,9 @@ function FormSearch(): JSX.Element {
       </form>
 
       <ul className={`form-search__select-list ${isSearchListOpened && searchText ? 'list-opened' : 'hidden'}`}>
-        {searchList.map(({name, id}) => <li onKeyDown={handleSearchItemKeypress} onClick={handleSearchItemClick} key={id} id={String(id)} className="form-search__select-item" tabIndex={0}>{name}</li>)}
-        {searchList.length === 0 && <li style={{paddingTop: '4px', paddingBottom: '4px', fontSize: '14px', lineHeight: '19px'}}>Ничего не найдено</li>}
+        {guitarsSearchList.map(({name, id}) => <li onKeyDown={handleSearchItemKeypress} onClick={handleSearchItemClick} key={id} id={String(id)} className="form-search__select-item" tabIndex={0}>{name}</li>)}
+        {isSearchListLoaded && guitarsSearchList.length === 0 && <li style={{paddingTop: '4px', paddingBottom: '4px', fontSize: '14px', lineHeight: '19px'}}>Ничего не найдено</li>}
+        {!isSearchListLoaded && <Loader />}
       </ul>
 
       <button onBlur={handleSearchBlur} onClick={handleFormReset} className="form-search__reset" type="reset" form="form-search">

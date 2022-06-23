@@ -11,6 +11,8 @@ export type GuitarsData = {
   comments: Comment[],
   isCommentsListLoading: boolean,
   isCommentsListLoaded: boolean,
+  guitarsSearchList: Guitar[],
+  isSearchListLoaded: boolean,
 }
 
 export type ModalView = {

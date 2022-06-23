@@ -47,7 +47,7 @@ export enum SearchParam {
   PriceFrom = 'price_gte',
   PriceTo = 'price_lte',
   Type = 'type',
-  Strings = 'str',
+  Strings = 'stringCount',
 }
 
 export enum SortingType {

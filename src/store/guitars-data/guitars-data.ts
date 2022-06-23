@@ -12,6 +12,8 @@ const initialState: GuitarsData = {
   comments: [],
   isCommentsListLoading: false,
   isCommentsListLoaded: false,
+  guitarsSearchList: [],
+  isSearchListLoaded: true,
 };
 
 export const guitarsData = createSlice({
@@ -41,6 +43,17 @@ export const guitarsData = createSlice({
     addNewComment: (state, action) => {
       state.comments.push(action.payload);
     },
+    loadGuitarsSearchList: (state, action) => {
+      state.guitarsSearchList = action.payload;
+      state.isSearchListLoaded = true;
+    },
+    setGuitarsSearchListLoading: (state) => {
+      state.isSearchListLoaded = false;
+    },
+    clearGuitarsSearchList: (state) => {
+      state.guitarsSearchList = [];
+      state.isSearchListLoaded = true;
+    },
   },
 });
 
@@ -51,4 +64,7 @@ export const {
   loadComments,
   setCommentsListLoading,
   addNewComment,
+  loadGuitarsSearchList,
+  setGuitarsSearchListLoading,
+  clearGuitarsSearchList,
 } = guitarsData.actions;

@@ -25,6 +25,8 @@ describe('reducer: GuitarsData', () => {
         comments: [],
         isCommentsListLoading: false,
         isCommentsListLoaded: false,
+        guitarsSearchList: [],
+        isSearchListLoaded: true,
       });
   });
 
@@ -38,6 +40,8 @@ describe('reducer: GuitarsData', () => {
       comments: [],
       isCommentsListLoading: false,
       isCommentsListLoaded: false,
+      guitarsSearchList: [],
+      isSearchListLoaded: true,
     };
     expect(guitarsData.reducer(state, loadGuitars(fakeGuitars)))
       .toEqual({
@@ -49,6 +53,8 @@ describe('reducer: GuitarsData', () => {
         comments: [],
         isCommentsListLoading: false,
         isCommentsListLoaded: false,
+        guitarsSearchList: [],
+        isSearchListLoaded: true,
       });
   });
 
@@ -62,6 +68,8 @@ describe('reducer: GuitarsData', () => {
       comments: [],
       isCommentsListLoading: false,
       isCommentsListLoaded: false,
+      guitarsSearchList: [],
+      isSearchListLoaded: true,
     };
     expect(guitarsData.reducer(state, loadCurrentGuitar(fakeGuitars[0])))
       .toEqual({
@@ -73,6 +81,8 @@ describe('reducer: GuitarsData', () => {
         comments: [],
         isCommentsListLoading: false,
         isCommentsListLoaded: false,
+        guitarsSearchList: [],
+        isSearchListLoaded: true,
       });
   });
 
@@ -86,6 +96,8 @@ describe('reducer: GuitarsData', () => {
       comments: [],
       isCommentsListLoading: false,
       isCommentsListLoaded: false,
+      guitarsSearchList: [],
+      isSearchListLoaded: true,
     };
     expect(guitarsData.reducer(state, setGuitarLoading(true)))
       .toEqual({
@@ -97,6 +109,8 @@ describe('reducer: GuitarsData', () => {
         comments: [],
         isCommentsListLoading: false,
         isCommentsListLoaded: false,
+        guitarsSearchList: [],
+        isSearchListLoaded: true,
       });
   });
 
@@ -110,6 +124,8 @@ describe('reducer: GuitarsData', () => {
       comments: [],
       isCommentsListLoading: false,
       isCommentsListLoaded: false,
+      guitarsSearchList: [],
+      isSearchListLoaded: true,
     };
     expect(guitarsData.reducer(state, loadComments(fakeComments)))
       .toEqual({
@@ -121,6 +137,8 @@ describe('reducer: GuitarsData', () => {
         comments: fakeComments,
         isCommentsListLoading: false,
         isCommentsListLoaded: true,
+        guitarsSearchList: [],
+        isSearchListLoaded: true,
       });
   });
 
@@ -134,6 +152,8 @@ describe('reducer: GuitarsData', () => {
       comments: [],
       isCommentsListLoading: false,
       isCommentsListLoaded: false,
+      guitarsSearchList: [],
+      isSearchListLoaded: true,
     };
     expect(guitarsData.reducer(state, setCommentsListLoading(true)))
       .toEqual({
@@ -145,6 +165,8 @@ describe('reducer: GuitarsData', () => {
         comments: [],
         isCommentsListLoading: true,
         isCommentsListLoaded: false,
+        guitarsSearchList: [],
+        isSearchListLoaded: true,
       });
   });
 
@@ -158,6 +180,8 @@ describe('reducer: GuitarsData', () => {
       comments: [],
       isCommentsListLoading: false,
       isCommentsListLoaded: false,
+      guitarsSearchList: [],
+      isSearchListLoaded: true,
     };
     expect(guitarsData.reducer(state, addNewComment(fakeComments[0])))
       .toEqual({
@@ -169,6 +193,8 @@ describe('reducer: GuitarsData', () => {
         comments: [fakeComments[0]],
         isCommentsListLoading: false,
         isCommentsListLoaded: false,
+        guitarsSearchList: [],
+        isSearchListLoaded: true,
       });
   });
 });
