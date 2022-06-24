@@ -1,8 +1,8 @@
-import {FilterGuitarType, FilterStrings, SearchParam} from '../../const';
+import {AppRoute, FilterGuitarType, FilterStrings, INITIAL_PAGE, SearchParam} from '../../const';
 import {Dispatch, SetStateAction, useEffect, useRef} from 'react';
 import {useAppSelector} from '../../hooks/hooks';
 import {getMaxPrice, getMinPrice} from '../../utils';
-import {useSearchParams} from 'react-router-dom';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 
 type EventPropsType = {
   target: {
@@ -18,13 +18,14 @@ type PropsType = {
   setGuitarTypes: Dispatch<SetStateAction<string[]>>,
   stringsNumbers: string[],
   setStringsNumbers: Dispatch<SetStateAction<string[]>>,
-  setPage: Dispatch<SetStateAction<number>>,
 }
 
-function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, stringsNumbers, setStringsNumbers, setPage}: PropsType): JSX.Element {
+function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, stringsNumbers, setStringsNumbers}: PropsType): JSX.Element {
   const guitars = useAppSelector(({DATA}) => DATA.guitars);
 
   const [searchParams] = useSearchParams();
+
+  const navigate = useNavigate();
 
   const acousticRef = useRef<HTMLInputElement | null>(null);
   const electricRef = useRef<HTMLInputElement | null>(null);
@@ -170,7 +171,7 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
     setStringsNumbers([]);
   };
 
-  const onFormChange = (): void => setPage(1);
+  const onFormChange = (): void => navigate(`${AppRoute.Catalog}/page_${INITIAL_PAGE}`);
 
   return (
     <form onChange={onFormChange} className="catalog-filter">

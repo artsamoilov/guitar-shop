@@ -35,7 +35,6 @@ describe('component CatalogFilter', () => {
             setGuitarTypes={() => undefined}
             stringsNumbers={[]}
             setStringsNumbers={() => undefined}
-            setPage={() => undefined}
           />
         </HistoryRouter>
       </Provider>,

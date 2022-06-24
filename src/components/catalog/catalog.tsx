@@ -46,6 +46,7 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
   const endIndex = CARDS_BY_PAGE * page > guitars.length ? guitars.length : CARDS_BY_PAGE * page;
 
   useEffect(() => {
+    setPage(Number(id));
     dispatch(setAllModalsClosed());
 
     const searchParameters: SearchParamsType = {};
@@ -65,7 +66,7 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
     return <Loader />;
   }
 
-  if (isDataLoaded && Number(page) !== 1 && Number(page) > Math.ceil(guitars.length / CARDS_BY_PAGE)) {
+  if (isDataLoaded && Number(id) !== 1 && Number(id) > Math.ceil(guitars.length / CARDS_BY_PAGE)) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
@@ -81,7 +82,6 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
         setGuitarTypes={setGuitarTypes}
         stringsNumbers={stringsNumbers}
         setStringsNumbers={setStringsNumbers}
-        setPage={setPage}
       />
 
       <CatalogSorting
