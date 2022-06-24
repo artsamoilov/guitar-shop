@@ -5,8 +5,9 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import HistoryRouter from '../history-route/history-route';
 import {getMockGuitars} from '../../mocks/mocks';
 import Catalog from './catalog';
+import thunk from 'redux-thunk';
 
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 
 const fakeGuitars = getMockGuitars();
 

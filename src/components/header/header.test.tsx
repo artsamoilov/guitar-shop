@@ -5,8 +5,9 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import HistoryRouter from '../history-route/history-route';
 import Header from './header';
 import {getMockGuitars} from '../../mocks/mocks';
+import thunk from 'redux-thunk';
 
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 
 const fakeGuitars = getMockGuitars();
 
@@ -18,6 +19,8 @@ const store = mockStore({
   },
   DATA: {
     guitars: fakeGuitars,
+    guitarsSearchList: [fakeGuitars[0]],
+    isSearchListLoaded: true,
   },
 });
 

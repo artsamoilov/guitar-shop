@@ -27,6 +27,8 @@ const store = mockStore({
     comments: fakeComments,
     isCommentsListLoading: false,
     isCommentsListLoaded: true,
+    guitarsSearchList: [fakeGuitars[0]],
+    isSearchListLoaded: true,
   },
 });
 
