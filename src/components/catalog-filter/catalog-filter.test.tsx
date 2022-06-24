@@ -31,10 +31,10 @@ describe('component CatalogFilter', () => {
           <CatalogFilter
             setPriceFrom={() => undefined}
             setPriceTo={() => undefined}
-            guitarType={''}
-            setGuitarType={() => undefined}
-            stringsNumber={''}
-            setStringsNumber={() => undefined}
+            guitarTypes={[]}
+            setGuitarTypes={() => undefined}
+            stringsNumbers={[]}
+            setStringsNumbers={() => undefined}
           />
         </HistoryRouter>
       </Provider>,

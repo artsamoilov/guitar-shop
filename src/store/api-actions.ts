@@ -105,4 +105,28 @@ const fetchGuitarsSearchAction = createAsyncThunk<void, string,{
   },
 );
 
-export {fetchGuitarsAction, fetchCurrentGuitarAction, fetchCommentsAction, postCommentAction, fetchGuitarsSearchAction, GUITARS_FETCH_OPTION};
+const fetchFilteredGuitarsAction = createAsyncThunk<void, string,{
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchFilteredGuitars',
+  async (params: string, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.get<Guitar[]>(`${APIRoute.Guitars}${GUITARS_FETCH_OPTION}&${params}`);
+      dispatch(loadGuitars(data));
+    } catch (error) {
+      handleError(error);
+    }
+  },
+);
+
+export {
+  fetchGuitarsAction,
+  fetchCurrentGuitarAction,
+  fetchCommentsAction,
+  postCommentAction,
+  fetchGuitarsSearchAction,
+  fetchFilteredGuitarsAction,
+  GUITARS_FETCH_OPTION
+};
