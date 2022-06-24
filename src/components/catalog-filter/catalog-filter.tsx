@@ -18,9 +18,10 @@ type PropsType = {
   setGuitarTypes: Dispatch<SetStateAction<string[]>>,
   stringsNumbers: string[],
   setStringsNumbers: Dispatch<SetStateAction<string[]>>,
+  setPage: Dispatch<SetStateAction<number>>,
 }
 
-function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, stringsNumbers, setStringsNumbers}: PropsType): JSX.Element {
+function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, stringsNumbers, setStringsNumbers, setPage}: PropsType): JSX.Element {
   const guitars = useAppSelector(({DATA}) => DATA.guitars);
 
   const [searchParams] = useSearchParams();
@@ -169,8 +170,10 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
     setStringsNumbers([]);
   };
 
+  const onFormChange = (): void => setPage(1);
+
   return (
-    <form className="catalog-filter">
+    <form onChange={onFormChange} className="catalog-filter">
       <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Цена, ₽</legend>
