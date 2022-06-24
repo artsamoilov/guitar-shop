@@ -57,7 +57,7 @@ export enum SortingType {
 
 export enum SortingOrder {
   Ascendant = 'asc',
-  Descendant = 'des',
+  Descendant = 'desc',
 }
 
 export enum FilterGuitarType {
