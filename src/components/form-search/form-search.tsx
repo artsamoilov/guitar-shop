@@ -26,7 +26,7 @@ function FormSearch(): JSX.Element {
       dispatch(clearGuitarsSearchList());
       document.removeEventListener('click', handleSearchListClose);
     };
-  }, [searchText]);
+  }, [searchText, dispatch]);
 
   const handleSearchListClose = (): void => setSearchListOpened(false);
 
