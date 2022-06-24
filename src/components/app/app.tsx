@@ -4,10 +4,18 @@ import {AppRoute} from '../../const';
 import ProductPage from '../../pages/product-page/product-page';
 import CartPage from '../../pages/cart-page/cart-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
+import {useAppSelector} from '../../hooks/hooks';
+import Loader from '../loader/loader';
 
 const FIRST_PAGE_URL = '/catalog/page_1';
 
 function App(): JSX.Element {
+  const isDataLoaded = useAppSelector(({DATA}) => DATA.isDataLoaded);
+
+  if (!isDataLoaded) {
+    return <Loader />;
+  }
+
   return (
     <Routes>
       <Route

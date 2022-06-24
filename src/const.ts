@@ -47,7 +47,7 @@ export enum SearchParam {
   PriceFrom = 'price_gte',
   PriceTo = 'price_lte',
   Type = 'type',
-  Strings = 'str',
+  Strings = 'stringCount',
 }
 
 export enum SortingType {
@@ -57,7 +57,7 @@ export enum SortingType {
 
 export enum SortingOrder {
   Ascendant = 'asc',
-  Descendant = 'des',
+  Descendant = 'desc',
 }
 
 export enum FilterGuitarType {

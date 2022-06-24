@@ -1,8 +1,8 @@
-import {FilterGuitarType, FilterStrings, SearchParam} from '../../const';
+import {AppRoute, FilterGuitarType, FilterStrings, INITIAL_PAGE, SearchParam} from '../../const';
 import {Dispatch, SetStateAction, useEffect, useRef} from 'react';
 import {useAppSelector} from '../../hooks/hooks';
 import {getMaxPrice, getMinPrice} from '../../utils';
-import {useSearchParams} from 'react-router-dom';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 
 type EventPropsType = {
   target: {
@@ -14,16 +14,18 @@ type EventPropsType = {
 type PropsType = {
   setPriceFrom: Dispatch<SetStateAction<string>>,
   setPriceTo: Dispatch<SetStateAction<string>>,
-  guitarType: string,
-  setGuitarType: Dispatch<SetStateAction<string>>,
-  stringsNumber: string,
-  setStringsNumber: Dispatch<SetStateAction<string>>,
+  guitarTypes: string[],
+  setGuitarTypes: Dispatch<SetStateAction<string[]>>,
+  stringsNumbers: string[],
+  setStringsNumbers: Dispatch<SetStateAction<string[]>>,
 }
 
-function CatalogFilter({setPriceFrom, setPriceTo, guitarType, setGuitarType, stringsNumber, setStringsNumber}: PropsType): JSX.Element {
+function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, stringsNumbers, setStringsNumbers}: PropsType): JSX.Element {
   const guitars = useAppSelector(({DATA}) => DATA.guitars);
 
   const [searchParams] = useSearchParams();
+
+  const navigate = useNavigate();
 
   const acousticRef = useRef<HTMLInputElement | null>(null);
   const electricRef = useRef<HTMLInputElement | null>(null);
@@ -42,34 +44,34 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarType, setGuitarType, str
       strings12Ref.current.disabled = false;
 
       if (searchParams.has(SearchParam.Strings)) {
-        const searchParamStrings = searchParams.get(SearchParam.Strings);
-        strings4Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings4);
-        strings6Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings6);
-        strings7Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings7);
-        strings12Ref.current.checked = String(searchParamStrings).includes(FilterStrings.Strings12);
+        const searchParamStrings = searchParams.getAll(SearchParam.Strings);
+        strings4Ref.current.checked = searchParamStrings.includes(FilterStrings.Strings4);
+        strings6Ref.current.checked = searchParamStrings.includes(FilterStrings.Strings6);
+        strings7Ref.current.checked = searchParamStrings.includes(FilterStrings.Strings7);
+        strings12Ref.current.checked = searchParamStrings.includes(FilterStrings.Strings12);
       }
 
       if (searchParams.has(SearchParam.Type)) {
-        const searchParamType = searchParams.get(SearchParam.Type);
-        acousticRef.current.checked = String(searchParamType).includes(FilterGuitarType.Acoustic);
-        electricRef.current.checked = String(searchParamType).includes(FilterGuitarType.Electric);
-        ukuleleRef.current.checked = String(searchParamType).includes(FilterGuitarType.Ukulele);
+        const searchParamType = searchParams.getAll(SearchParam.Type);
+        acousticRef.current.checked = searchParamType.includes(FilterGuitarType.Acoustic);
+        electricRef.current.checked = searchParamType.includes(FilterGuitarType.Electric);
+        ukuleleRef.current.checked = searchParamType.includes(FilterGuitarType.Ukulele);
 
-        if (!String(searchParamType).includes(FilterGuitarType.Acoustic)) {
-          stringsNumber.includes(FilterStrings.Strings12) && handleStringsNumberChange({target: {name: FilterStrings.Strings12, value: ''}});
+        if (!searchParamType.includes(FilterGuitarType.Acoustic)) {
+          stringsNumbers.includes(FilterStrings.Strings12) && handleStringsNumberChange({target: {name: FilterStrings.Strings12, value: ''}});
           strings12Ref.current.checked = false;
           strings12Ref.current.disabled = true;
         }
 
-        if (!String(searchParamType).includes(FilterGuitarType.Electric) && !String(searchParamType).includes(FilterGuitarType.Ukulele)) {
-          stringsNumber.includes(FilterStrings.Strings4) && handleStringsNumberChange({target: {name: FilterStrings.Strings4, value: ''}});
+        if (!searchParamType.includes(FilterGuitarType.Electric) && !searchParamType.includes(FilterGuitarType.Ukulele)) {
+          stringsNumbers.includes(FilterStrings.Strings4) && handleStringsNumberChange({target: {name: FilterStrings.Strings4, value: ''}});
           strings4Ref.current.checked = false;
           strings4Ref.current.disabled = true;
         }
 
-        if (!String(searchParamType).includes(FilterGuitarType.Acoustic) && !String(searchParamType).includes(FilterGuitarType.Electric)) {
-          stringsNumber.includes(FilterStrings.Strings6) && handleStringsNumberChange({target: {name: FilterStrings.Strings6, value: ''}});
-          stringsNumber.includes(FilterStrings.Strings7) && handleStringsNumberChange({target: {name: FilterStrings.Strings7, value: ''}});
+        if (!searchParamType.includes(FilterGuitarType.Acoustic) && !searchParamType.includes(FilterGuitarType.Electric)) {
+          stringsNumbers.includes(FilterStrings.Strings6) && handleStringsNumberChange({target: {name: FilterStrings.Strings6, value: ''}});
+          stringsNumbers.includes(FilterStrings.Strings7) && handleStringsNumberChange({target: {name: FilterStrings.Strings7, value: ''}});
           strings6Ref.current.checked = false;
           strings7Ref.current.checked = false;
           strings6Ref.current.disabled = true;
@@ -80,32 +82,38 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarType, setGuitarType, str
   }, [searchParams]);
 
   const handlePriceFromChange = (evt: EventPropsType): void => {
-    evt.target.value ? setPriceFrom(evt.target.value) : setPriceFrom('');
+    if (evt.target.value) {
+      Number(evt.target.value) ? setPriceFrom(evt.target.value) : setPriceFrom(String(getMinPrice(guitars)));
+      return;
+    }
+    setPriceFrom('');
   };
 
   const handlePriceToChange = (evt: EventPropsType): void => {
-    evt.target.value ? setPriceTo(evt.target.value) : setPriceTo('');
+    if (evt.target.value) {
+      Number(evt.target.value) > getMinPrice(guitars) ? setPriceTo(evt.target.value) : setPriceTo(String(getMinPrice(guitars)));
+      return;
+    }
+    setPriceTo('');
   };
 
   const handleTypeChange = (evt: EventPropsType): void => {
-    const separatedGuitarTypes = guitarType.split(',');
-    if (separatedGuitarTypes.includes(evt.target.name)) {
-      const newTypeParams = separatedGuitarTypes.filter((element) => element !== evt.target.name);
-      setGuitarType(newTypeParams.join());
+    if (guitarTypes.includes(evt.target.name)) {
+      const newTypeParams = guitarTypes.filter((element) => element !== evt.target.name);
+      setGuitarTypes(newTypeParams);
       return;
     }
-    setGuitarType(`${guitarType},${evt.target.name}`);
+    guitarTypes.length > 0 ? setGuitarTypes([...guitarTypes, evt.target.name]) : setGuitarTypes([evt.target.name]);
   };
 
   const handleStringsNumberChange = (evt: EventPropsType): void => {
-    const separatedStringsNumbers = stringsNumber.split(',');
     const newParam = evt.target.name.split('-')[0];
-    if (separatedStringsNumbers.includes(newParam)) {
-      const newStringsParams = separatedStringsNumbers.filter((element) => element !== newParam);
-      setStringsNumber(newStringsParams.join());
+    if (stringsNumbers.includes(newParam)) {
+      const newStringsParams = stringsNumbers.filter((element) => element !== newParam);
+      setStringsNumbers(newStringsParams);
       return;
     }
-    setStringsNumber(`${stringsNumber},${newParam}`);
+    stringsNumbers.length > 0 ? setStringsNumbers([...stringsNumbers, newParam]) : setStringsNumbers([newParam]);
   };
 
   const handlePriceFromBlur = (evt: EventPropsType): void => {
@@ -159,12 +167,14 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarType, setGuitarType, str
   const handleFilterReset = (): void => {
     setPriceFrom('');
     setPriceTo('');
-    setGuitarType('');
-    setStringsNumber('');
+    setGuitarTypes([]);
+    setStringsNumbers([]);
   };
 
+  const onFormChange = (): void => navigate(`${AppRoute.Catalog}/page_${INITIAL_PAGE}`);
+
   return (
-    <form className="catalog-filter">
+    <form onChange={onFormChange} className="catalog-filter">
       <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>
       <fieldset className="catalog-filter__block">
         <legend className="catalog-filter__block-title">Цена, ₽</legend>

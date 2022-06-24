@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {loadGuitars, loadCurrentGuitar, loadComments} from './guitars-data/guitars-data';
+import {loadGuitars, loadCurrentGuitar, loadComments, loadGuitarsSearchList} from './guitars-data/guitars-data';
 import {APIRoute} from '../const';
 import {Guitar} from '../types/guitar';
 import {Comment} from '../types/comment';
@@ -89,4 +89,44 @@ const postCommentAction = createAsyncThunk<void,
     },
   );
 
-export {fetchGuitarsAction, fetchCurrentGuitarAction, fetchCommentsAction, postCommentAction, GUITARS_FETCH_OPTION};
+const fetchGuitarsSearchAction = createAsyncThunk<void, string,{
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchGuitarsSearch',
+  async (searchRequest: string, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.get<Guitar[]>(`${APIRoute.Guitars}${GUITARS_FETCH_OPTION}&name_like=${searchRequest}`);
+      dispatch(loadGuitarsSearchList(data));
+    } catch (error) {
+      handleError(error);
+    }
+  },
+);
+
+const fetchFilteredGuitarsAction = createAsyncThunk<void, string,{
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchFilteredGuitars',
+  async (params: string, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.get<Guitar[]>(`${APIRoute.Guitars}${GUITARS_FETCH_OPTION}&${params}`);
+      dispatch(loadGuitars(data));
+    } catch (error) {
+      handleError(error);
+    }
+  },
+);
+
+export {
+  fetchGuitarsAction,
+  fetchCurrentGuitarAction,
+  fetchCommentsAction,
+  postCommentAction,
+  fetchGuitarsSearchAction,
+  fetchFilteredGuitarsAction,
+  GUITARS_FETCH_OPTION
+};
