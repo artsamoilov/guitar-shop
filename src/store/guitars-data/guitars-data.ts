@@ -14,6 +14,7 @@ const initialState: GuitarsData = {
   isCommentsListLoaded: false,
   guitarsSearchList: [],
   isSearchListLoaded: true,
+  isSearchParamsChanged: false,
 };
 
 export const guitarsData = createSlice({
@@ -54,6 +55,9 @@ export const guitarsData = createSlice({
       state.guitarsSearchList = [];
       state.isSearchListLoaded = true;
     },
+    setSearchParamsChanged: (state) => {
+      state.isSearchParamsChanged = true;
+    },
   },
 });
 
@@ -67,4 +71,5 @@ export const {
   loadGuitarsSearchList,
   setGuitarsSearchListLoading,
   clearGuitarsSearchList,
+  setSearchParamsChanged,
 } = guitarsData.actions;

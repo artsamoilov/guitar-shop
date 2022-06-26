@@ -13,6 +13,7 @@ export type GuitarsData = {
   isCommentsListLoaded: boolean,
   guitarsSearchList: Guitar[],
   isSearchListLoaded: boolean,
+  isSearchParamsChanged: boolean,
 }
 
 export type ModalView = {

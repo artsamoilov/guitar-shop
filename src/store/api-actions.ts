@@ -113,7 +113,7 @@ const fetchFilteredGuitarsAction = createAsyncThunk<void, string,{
   'data/fetchFilteredGuitars',
   async (params: string, {dispatch, extra: api}) => {
     try {
-      const {data} = await api.get<Guitar[]>(`${APIRoute.Guitars}${GUITARS_FETCH_OPTION}&${params}`);
+      const {data} = await api.get<Guitar[]>(`${APIRoute.Guitars}${GUITARS_FETCH_OPTION}${params ? `&${params}` : ''}`);
       dispatch(loadGuitars(data));
     } catch (error) {
       handleError(error);
