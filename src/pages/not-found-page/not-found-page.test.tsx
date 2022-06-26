@@ -5,8 +5,9 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import HistoryRouter from '../../components/history-route/history-route';
 import App from '../../components/app/app';
 import {getMockGuitars, getMockComments} from '../../mocks/mocks';
+import thunk from 'redux-thunk';
 
-const mockStore = configureMockStore();
+const mockStore = configureMockStore([thunk]);
 
 const fakeGuitars = getMockGuitars();
 const fakeComments = getMockComments(1);
@@ -26,6 +27,8 @@ const store = mockStore({
     comments: fakeComments,
     isCommentsListLoading: false,
     isCommentsListLoaded: true,
+    guitarsSearchList: [fakeGuitars[0]],
+    isSearchListLoaded: true,
   },
 });
 
