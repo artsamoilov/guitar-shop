@@ -1,6 +1,8 @@
 import {SortingType, SearchParam, SortingOrder, AppRoute, INITIAL_PAGE} from '../../const';
 import {Dispatch, SetStateAction, SyntheticEvent} from 'react';
 import {useNavigate, useSearchParams} from 'react-router-dom';
+import {useAppDispatch} from '../../hooks/hooks';
+import {setSearchParamsChanged} from '../../store/guitars-data/guitars-data';
 
 type PropsType = {
   setSortingType: Dispatch<SetStateAction<string>>,
@@ -11,14 +13,17 @@ function CatalogSorting({setSortingType, setSortingOrder}: PropsType): JSX.Eleme
   const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleSortingTypeChange = (evt: SyntheticEvent): void => {
+    dispatch(setSearchParamsChanged());
     setSortingType(evt.currentTarget.id);
     !searchParams.get(SearchParam.SortOrder) && setSortingOrder(SortingOrder.Ascendant);
     navigate(`${AppRoute.Catalog}/page_${INITIAL_PAGE}`);
   };
 
   const handleOrderChange = (evt: SyntheticEvent): void => {
+    dispatch(setSearchParamsChanged());
     setSortingOrder(evt.currentTarget.id);
     !searchParams.get(SearchParam.SortType) && setSortingType(SortingType.Price);
     navigate(`${AppRoute.Catalog}/page_${INITIAL_PAGE}`);

@@ -39,6 +39,7 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
 
   const guitars = useAppSelector(({DATA}) => DATA.guitars);
   const isDataLoaded = useAppSelector(({DATA}) => DATA.isDataLoaded);
+  const isSearchParamsChanged = useAppSelector(({DATA}) => DATA.isSearchParamsChanged);
 
   const dispatch = useAppDispatch();
 
@@ -59,8 +60,10 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
     stringsNumbers.length > 0 && (searchParameters[SearchParam.Strings] = stringsNumbers);
 
     setSearchParams(queryString.stringify(searchParameters));
-    dispatch(fetchFilteredGuitarsAction(queryString.stringify(searchParameters)));
-  }, [isDataLoaded, id, dispatch, setSearchParams, sortingType, sortingOrder, priceFrom, priceTo, guitarTypes, stringsNumbers]);
+    if (isSearchParamsChanged) {
+      dispatch(fetchFilteredGuitarsAction(queryString.stringify(searchParameters)));
+    }
+  }, [isDataLoaded, id, dispatch, setSearchParams, sortingType, sortingOrder, priceFrom, priceTo, guitarTypes, stringsNumbers, isSearchParamsChanged]);
 
   if (!isDataLoaded) {
     return <Loader />;

@@ -19,9 +19,11 @@ function FormSearch(): JSX.Element {
   const [isSearchListOpened, setSearchListOpened] = useState(false);
 
   useEffect(() => {
-    dispatch(setGuitarsSearchListLoading());
-    dispatch(fetchGuitarsSearchAction(searchText));
-    document.addEventListener('click', handleSearchListClose);
+    if (searchText !== '') {
+      dispatch(setGuitarsSearchListLoading());
+      dispatch(fetchGuitarsSearchAction(searchText));
+      document.addEventListener('click', handleSearchListClose);
+    }
     return () => {
       dispatch(clearGuitarsSearchList());
       document.removeEventListener('click', handleSearchListClose);
