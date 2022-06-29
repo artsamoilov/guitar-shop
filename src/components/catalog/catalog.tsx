@@ -11,6 +11,7 @@ import {setAllModalsClosed} from '../../store/modal-view/modal-view';
 import Loader from '../loader/loader';
 import * as queryString from 'querystring';
 import {fetchFilteredGuitarsAction} from '../../store/api-actions';
+import {setSearchParamsChanged} from '../../store/guitars-data/guitars-data';
 
 type PropsType = {
   setCurrentGuitar: Dispatch<SetStateAction<Guitar>>,
@@ -59,7 +60,12 @@ function Catalog({setCurrentGuitar}: PropsType): JSX.Element {
     guitarTypes.length > 0 && (searchParameters[SearchParam.Type] = guitarTypes);
     stringsNumbers.length > 0 && (searchParameters[SearchParam.Strings] = stringsNumbers);
 
+    if (queryString.stringify(searchParameters) !== '') {
+      dispatch(setSearchParamsChanged());
+    }
+
     setSearchParams(queryString.stringify(searchParameters));
+
     if (isSearchParamsChanged) {
       dispatch(fetchFilteredGuitarsAction(queryString.stringify(searchParameters)));
     }

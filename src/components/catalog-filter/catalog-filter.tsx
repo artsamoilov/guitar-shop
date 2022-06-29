@@ -29,6 +29,9 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const priceFromRef = useRef<HTMLInputElement | null>(null);
+  const priceToRef = useRef<HTMLInputElement | null>(null);
+
   const acousticRef = useRef<HTMLInputElement | null>(null);
   const electricRef = useRef<HTMLInputElement | null>(null);
   const ukuleleRef = useRef<HTMLInputElement | null>(null);
@@ -37,6 +40,9 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
   const strings6Ref = useRef<HTMLInputElement | null>(null);
   const strings7Ref = useRef<HTMLInputElement | null>(null);
   const strings12Ref = useRef<HTMLInputElement | null>(null);
+
+  const minPrice = getMinPrice(guitars);
+  const maxPrice = getMaxPrice(guitars);
 
   useEffect(() => {
     if (acousticRef.current && electricRef.current && ukuleleRef.current && strings4Ref.current && strings6Ref.current && strings7Ref.current && strings12Ref.current) {
@@ -85,7 +91,7 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
 
   const handlePriceFromChange = (evt: EventPropsType): void => {
     if (evt.target.value) {
-      Number(evt.target.value) ? setPriceFrom(evt.target.value) : setPriceFrom(String(getMinPrice(guitars)));
+      Number(evt.target.value) ? setPriceFrom(evt.target.value) : setPriceFrom(String(minPrice));
       return;
     }
     setPriceFrom('');
@@ -93,10 +99,18 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
 
   const handlePriceToChange = (evt: EventPropsType): void => {
     if (evt.target.value) {
-      Number(evt.target.value) > getMinPrice(guitars) ? setPriceTo(evt.target.value) : setPriceTo(String(getMinPrice(guitars)));
+      if (priceFromRef.current && Number(evt.target.value) < Number(priceFromRef.current.value)) {
+        setPriceTo(priceFromRef.current.value);
+        return;
+      }
+      if (Number(evt.target.value) > minPrice) {
+        setPriceTo(evt.target.value);
+        return;
+      }
+      setPriceTo(String(minPrice));
       return;
     }
-    setPriceTo('');
+    priceFromRef.current ? setPriceTo(priceFromRef.current.value) : setPriceTo('');
   };
 
   const handleTypeChange = (evt: EventPropsType): void => {
@@ -119,29 +133,33 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
   };
 
   const handlePriceFromBlur = (evt: EventPropsType): void => {
-    const minPrice = getMinPrice(guitars);
     if (evt.target.value && Number(evt.target.value) < minPrice) {
       evt.target.value = String(minPrice);
       handlePriceFromChange({target: {name: '', value: String(minPrice)}});
     }
+    if (evt.target.value && priceToRef.current && priceToRef.current.value !== '' && Number(evt.target.value) > Number(priceToRef.current.value)) {
+      priceToRef.current.value = evt.target.value;
+      handlePriceToChange({target: {name: '', value: evt.target.value}});
+    }
   };
 
   const handlePriceToBlur = (evt: EventPropsType): void => {
-    const maxPrice = getMaxPrice(guitars);
-    const paramFromPrice = searchParams.get(SearchParam.PriceFrom);
     if (evt.target.value && Number(evt.target.value) > maxPrice) {
       evt.target.value = String(maxPrice);
       handlePriceToChange({target: {name: '', value: String(maxPrice)}});
     }
-    if (evt.target.value && paramFromPrice && Number(evt.target.value) < Number(paramFromPrice)) {
-      evt.target.value = paramFromPrice;
-      handlePriceToChange({target: {name: '', value: paramFromPrice}});
+    if (evt.target.value && priceFromRef.current && Number(evt.target.value) < Number(priceFromRef.current.value)) {
+      evt.target.value = priceFromRef.current.value;
+      handlePriceToChange({target: {name: '', value: priceFromRef.current.value}});
+    }
+    if (Number(evt.target.value) < minPrice) {
+      evt.target.value = String(minPrice);
+      handlePriceToChange({target: {name: '', value: String(minPrice)}});
     }
   };
 
   const getDefaultPriceFrom = (): string => {
     const paramPrice = searchParams.get(SearchParam.PriceFrom);
-    const minPrice = getMinPrice(guitars);
     if (searchParams.get(SearchParam.PriceFrom)) {
       if (Number(paramPrice) < minPrice) {
         return String(minPrice);
@@ -153,7 +171,6 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
 
   const getDefaultPriceTo = (): string => {
     const paramPrice = searchParams.get(SearchParam.PriceTo);
-    const maxPrice = getMaxPrice(guitars);
     if (paramPrice) {
       if (Number(paramPrice) > maxPrice) {
         return String(maxPrice);
@@ -188,6 +205,7 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
           <div className="form-input">
             <label className="visually-hidden">Минимальная цена</label>
             <input
+              ref={priceFromRef}
               onChange={handlePriceFromChange}
               onBlur={handlePriceFromBlur}
               defaultValue={getDefaultPriceFrom()}
@@ -201,6 +219,7 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
           <div className="form-input">
             <label className="visually-hidden">Максимальная цена</label>
             <input
+              ref={priceToRef}
               onChange={handlePriceToChange}
               onBlur={handlePriceToBlur}
               defaultValue={getDefaultPriceTo()}
