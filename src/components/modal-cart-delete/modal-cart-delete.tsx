@@ -5,7 +5,7 @@ type PropsType = {
   guitar: Guitar,
 }
 
-function ModalRemoveItem({guitar}: PropsType): JSX.Element {
+function ModalCartDelete({guitar}: PropsType): JSX.Element {
   return (
     <div className="modal is-active modal-for-ui-kit">
       <div className="modal__wrapper">
@@ -38,4 +38,4 @@ function ModalRemoveItem({guitar}: PropsType): JSX.Element {
   );
 }
 
-export default ModalRemoveItem;
+export default ModalCartDelete;
