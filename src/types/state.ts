@@ -18,6 +18,8 @@ export type GuitarsData = {
 
 export type ModalView = {
   isAddToCartModalOpened: boolean,
+  isCartDeleteModalOpened: boolean,
+  isCartSuccessModalOpened: boolean,
   isAddReviewModalOpened: boolean,
   isReviewSuccessOpened: boolean,
 }

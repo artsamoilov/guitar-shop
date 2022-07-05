@@ -1,15 +1,31 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import {AppRoute} from '../../const';
+import {AppRoute, OVERFLOW_DEFAULT_SCROLL, OVERFLOW_LOCKED_SCROLL} from '../../const';
 import {Link} from 'react-router-dom';
 import CartItem from '../../components/cart-item/cart-item';
-import {useAppSelector} from '../../hooks/hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import ModalCartDelete from '../../components/modal-cart-delete/modal-cart-delete';
+import React from 'react';
+import {isEscKey} from '../../utils';
+import {setAllModalsClosed} from '../../store/modal-view/modal-view';
 
 function CartPage(): JSX.Element {
   const guitars = useAppSelector(({DATA}) => DATA.guitars);
+  const isCartDeleteModalOpened = useAppSelector(({MODAL}) => MODAL.isCartDeleteModalOpened);
+
+  const dispatch = useAppDispatch();
+
+  const handleEscKeydown = (evt: React.KeyboardEvent): void => {
+    if (isEscKey(evt.key)) {
+      evt.preventDefault();
+      dispatch(setAllModalsClosed());
+    }
+  };
+
+  document.body.style.overflow = isCartDeleteModalOpened ? OVERFLOW_LOCKED_SCROLL : OVERFLOW_DEFAULT_SCROLL;
 
   return (
-    <div className="wrapper">
+    <div onKeyDown={handleEscKeydown} className="wrapper">
 
       <Header />
 
@@ -65,6 +81,8 @@ function CartPage(): JSX.Element {
       </main>
 
       <Footer />
+
+      <ModalCartDelete guitar={guitars[0]} />
 
     </div>
   );

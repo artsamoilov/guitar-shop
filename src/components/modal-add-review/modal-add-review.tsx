@@ -104,7 +104,6 @@ function ModalAddReview({guitar}: PropsType): JSX.Element {
     setIsAdvantageCorrect(Boolean(advantage));
     setIsDisadvantageCorrect(Boolean(disadvantage));
     setIsCommentCorrect(Boolean(comment));
-
   };
 
   return (

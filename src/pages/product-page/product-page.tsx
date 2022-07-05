@@ -10,16 +10,17 @@ import ProductReviews from '../../components/product-reviews/product-reviews';
 import ModalAddToCart from '../../components/modal-add-to-cart/modal-add-to-cart';
 import React, {SyntheticEvent} from 'react';
 import {setCommentsListLoading, setGuitarLoading} from '../../store/guitars-data/guitars-data';
-import {setAddReviewModalOpened, setAddToCartModalOpened, setReviewSuccessOpened} from '../../store/modal-view/modal-view';
+import {setAddToCartModalOpened, setAllModalsClosed} from '../../store/modal-view/modal-view';
 import ModalAddReview from '../../components/modal-add-review/modal-add-review';
 import ModalSuccessReview from '../../components/modal-success-review/modal-success-review';
 import Loader from '../../components/loader/loader';
+import ModalSuccessAdd from '../../components/modal-success-add/modal-success-add';
 
 function ProductPage(): JSX.Element {
   const {id} = useParams();
 
   const {guitars, isDataLoaded, currentGuitar, isGuitarLoaded, isGuitarLoading, isCommentsListLoading} = useAppSelector(({DATA}) => DATA);
-  const {isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector(({MODAL}) => MODAL);
+  const {isAddToCartModalOpened, isCartSuccessModalOpened, isCartDeleteModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector(({MODAL}) => MODAL);
 
   const dispatch = useAppDispatch();
 
@@ -47,13 +48,11 @@ function ProductPage(): JSX.Element {
   const handleEscKeydown = (evt: React.KeyboardEvent): void => {
     if (isEscKey(evt.key)) {
       evt.preventDefault();
-      dispatch(setAddToCartModalOpened(false));
-      dispatch(setAddReviewModalOpened(false));
-      dispatch(setReviewSuccessOpened(false));
+      dispatch(setAllModalsClosed());
     }
   };
 
-  document.body.style.overflow = isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened
+  document.body.style.overflow = isAddToCartModalOpened || isCartSuccessModalOpened || isCartDeleteModalOpened || isAddReviewModalOpened || isReviewSuccessOpened
     ? OVERFLOW_LOCKED_SCROLL
     : OVERFLOW_DEFAULT_SCROLL;
 
@@ -103,10 +102,9 @@ function ProductPage(): JSX.Element {
       <Footer />
 
       <ModalAddToCart guitar={currentGuitar} />
-
       <ModalAddReview guitar={currentGuitar} />
-
       <ModalSuccessReview />
+      <ModalSuccessAdd />
 
     </div>
   );

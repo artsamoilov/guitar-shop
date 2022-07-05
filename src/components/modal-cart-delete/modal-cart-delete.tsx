@@ -1,15 +1,27 @@
 import {Guitar} from '../../types/guitar';
 import {getGuitarType} from '../../utils';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import {SyntheticEvent} from 'react';
+import {setCartDeleteModalOpened} from '../../store/modal-view/modal-view';
 
 type PropsType = {
   guitar: Guitar,
 }
 
 function ModalCartDelete({guitar}: PropsType): JSX.Element {
+  const isCartDeleteModalOpened = useAppSelector(({MODAL}) => MODAL.isCartDeleteModalOpened);
+
+  const dispatch = useAppDispatch();
+
+  const handleCloseClick = (evt: SyntheticEvent): void => {
+    evt.preventDefault();
+    dispatch(setCartDeleteModalOpened(false));
+  };
+
   return (
-    <div className="modal is-active modal-for-ui-kit">
+    <div className={`modal ${isCartDeleteModalOpened && 'is-active'}`}>
       <div className="modal__wrapper">
-        <div className="modal__overlay" data-close-modal />
+        <div onClick={handleCloseClick} className="modal__overlay" data-close-modal />
         <div className="modal__content">
           <h2 className="modal__header title title--medium title--red">Удалить этот товар?</h2>
           <div className="modal__info">
@@ -26,9 +38,9 @@ function ModalCartDelete({guitar}: PropsType): JSX.Element {
           </div>
           <div className="modal__button-container">
             <button className="button button--small modal__button">Удалить товар</button>
-            <button className="button button--black-border button--small modal__button modal__button--right">Продолжить покупки</button>
+            <button onClick={handleCloseClick} className="button button--black-border button--small modal__button modal__button--right">Продолжить покупки</button>
           </div>
-          <button className="modal__close-btn button-cross" type="button" aria-label="Закрыть">
+          <button onClick={handleCloseClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть">
             <span className="button-cross__icon" />
             <span className="modal__close-btn-interactive-area" />
           </button>

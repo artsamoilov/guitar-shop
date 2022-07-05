@@ -7,11 +7,12 @@ import ModalAddToCart from '../../components/modal-add-to-cart/modal-add-to-cart
 import React, {useState} from 'react';
 import {Guitar} from '../../types/guitar';
 import {isEscKey} from '../../utils';
-import {setAddToCartModalOpened} from '../../store/modal-view/modal-view';
+import {setAllModalsClosed} from '../../store/modal-view/modal-view';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import ModalSuccessAdd from '../../components/modal-success-add/modal-success-add';
 
 function CatalogPage(): JSX.Element {
-  const {isAddToCartModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector(({MODAL}) => MODAL);
+  const {isAddToCartModalOpened, isCartSuccessModalOpened, isCartDeleteModalOpened, isAddReviewModalOpened, isReviewSuccessOpened} = useAppSelector(({MODAL}) => MODAL);
 
   const [currentGuitar, setCurrentGuitar] = useState({} as Guitar);
 
@@ -20,11 +21,11 @@ function CatalogPage(): JSX.Element {
   const handleEscKeydown = (evt: React.KeyboardEvent): void => {
     if (isEscKey(evt.key)) {
       evt.preventDefault();
-      dispatch(setAddToCartModalOpened(false));
+      dispatch(setAllModalsClosed());
     }
   };
 
-  document.body.style.overflow = isAddToCartModalOpened || isAddReviewModalOpened || isReviewSuccessOpened
+  document.body.style.overflow = isAddToCartModalOpened || isCartSuccessModalOpened || isCartDeleteModalOpened || isAddReviewModalOpened || isReviewSuccessOpened
     ? OVERFLOW_LOCKED_SCROLL
     : OVERFLOW_DEFAULT_SCROLL;
 
@@ -53,6 +54,7 @@ function CatalogPage(): JSX.Element {
       <Footer />
 
       <ModalAddToCart guitar={currentGuitar} />
+      <ModalSuccessAdd />
 
     </div>
   );
