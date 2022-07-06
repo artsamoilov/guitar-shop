@@ -1,7 +1,8 @@
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import FocusTrap from 'focus-trap-react';
-import {SyntheticEvent} from 'react';
 import {setCartSuccessModalOpened} from '../../store/modal-view/modal-view';
+import {useNavigate} from 'react-router-dom';
+import {AppRoute} from '../../const';
 
 const GO_TO_CART_BUTTON_ID = '#go-to-cart-button';
 
@@ -9,10 +10,20 @@ function ModalSuccessAdd(): JSX.Element {
   const isCartSuccessModalOpened = useAppSelector(({MODAL}) => MODAL.isCartSuccessModalOpened);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const handleCloseClick = (evt: SyntheticEvent): void => {
-    evt.preventDefault();
+  const handleCloseClick = (): void => {
     dispatch(setCartSuccessModalOpened(false));
+  };
+
+  const handleCheckoutClick = (): void => {
+    dispatch(setCartSuccessModalOpened(false));
+    navigate(AppRoute.Cart);
+  };
+
+  const handleContinueShoppingClick = (): void => {
+    dispatch(setCartSuccessModalOpened(false));
+    navigate(`${AppRoute.Catalog}/page_1`);
   };
 
   return (
@@ -26,8 +37,8 @@ function ModalSuccessAdd(): JSX.Element {
             </svg>
             <p className="modal__message">Товар успешно добавлен в корзину</p>
             <div className="modal__button-container modal__button-container--add">
-              <button id="go-to-cart-button" className="button button--small modal__button">Перейти в корзину</button>
-              <button className="button button--black-border button--small modal__button modal__button--right">Продолжить покупки</button>
+              <button onClick={handleCheckoutClick} id="go-to-cart-button" className="button button--small modal__button">Перейти в корзину</button>
+              <button onClick={handleContinueShoppingClick} className="button button--black-border button--small modal__button modal__button--right">Продолжить покупки</button>
             </div>
             <button onClick={handleCloseClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть">
               <span className="button-cross__icon" />

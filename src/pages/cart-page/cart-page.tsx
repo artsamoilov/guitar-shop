@@ -8,10 +8,12 @@ import ModalCartDelete from '../../components/modal-cart-delete/modal-cart-delet
 import React from 'react';
 import {isEscKey} from '../../utils';
 import {setAllModalsClosed} from '../../store/modal-view/modal-view';
+import {Guitar} from '../../types/guitar';
 
 function CartPage(): JSX.Element {
-  const guitars = useAppSelector(({DATA}) => DATA.guitars);
   const isCartDeleteModalOpened = useAppSelector(({MODAL}) => MODAL.isCartDeleteModalOpened);
+  const cartGuitars = useAppSelector(({CART}) => CART.guitars);
+  const coupon = useAppSelector(({CART}) => CART.coupon);
 
   const dispatch = useAppDispatch();
 
@@ -21,6 +23,9 @@ function CartPage(): JSX.Element {
       dispatch(setAllModalsClosed());
     }
   };
+
+  const getUniqueCartGuitars = (): Guitar[] => [...new Set(cartGuitars)];
+  const totalPrice = cartGuitars.reduce((previousValue, guitar) => previousValue + guitar.price, 0);
 
   document.body.style.overflow = isCartDeleteModalOpened ? OVERFLOW_LOCKED_SCROLL : OVERFLOW_DEFAULT_SCROLL;
 
@@ -45,7 +50,7 @@ function CartPage(): JSX.Element {
           </ul>
           <div className="cart">
 
-            <CartItem guitar={guitars[0]} />
+            {cartGuitars.length > 0 && getUniqueCartGuitars().map((guitar) => <CartItem key={guitar.id} guitar={guitar} />)}
 
             <div className="cart__footer">
               <div className="cart__coupon coupon">
@@ -63,15 +68,15 @@ function CartPage(): JSX.Element {
               <div className="cart__total-info">
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">Всего:</span>
-                  <span className="cart__total-value">52 000 ₽</span>
+                  <span className="cart__total-value">{totalPrice}&nbsp;₽</span>
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">Скидка:</span>
-                  <span className="cart__total-value cart__total-value--bonus">- 3000 ₽</span>
+                  <span className="cart__total-value cart__total-value--bonus">{coupon ? `- ${totalPrice * Number(coupon)}` : 0}&nbsp;₽</span>
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">К оплате:</span>
-                  <span className="cart__total-value cart__total-value--payment">49 000 ₽</span>
+                  <span className="cart__total-value cart__total-value--payment">{totalPrice}&nbsp;₽</span>
                 </p>
                 <button className="button button--red button--big cart__order-button">Оформить заказ</button>
               </div>
@@ -82,7 +87,7 @@ function CartPage(): JSX.Element {
 
       <Footer />
 
-      <ModalCartDelete guitar={guitars[0]} />
+      <ModalCartDelete />
 
     </div>
   );

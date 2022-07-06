@@ -4,6 +4,7 @@ import {SyntheticEvent} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {setAddToCartModalOpened, setCartSuccessModalOpened} from '../../store/modal-view/modal-view';
 import FocusTrap from 'focus-trap-react';
+import {addGuitarToCart} from '../../store/cart-data/cart-data';
 
 type PropsType = {
   guitar: Guitar,
@@ -23,6 +24,7 @@ function ModalAddToCart({guitar}: PropsType): JSX.Element {
 
   const handleAddToCartClick = (): void => {
     dispatch(setAddToCartModalOpened(false));
+    dispatch(addGuitarToCart(guitar));
     dispatch(setCartSuccessModalOpened(true));
   };
 

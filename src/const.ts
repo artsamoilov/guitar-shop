@@ -1,6 +1,7 @@
 export enum NameSpace {
   Data = 'DATA',
   Modal = 'MODAL',
+  Cart = 'CART',
 }
 
 export enum APIRoute {

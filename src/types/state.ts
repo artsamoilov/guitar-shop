@@ -24,6 +24,12 @@ export type ModalView = {
   isReviewSuccessOpened: boolean,
 }
 
+export type CartData = {
+  guitars: Guitar[],
+  deletingGuitar: Guitar,
+  coupon: string | null,
+}
+
 export type State = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;

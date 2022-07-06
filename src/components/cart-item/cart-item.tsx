@@ -1,6 +1,9 @@
 import {Guitar} from '../../types/guitar';
 import {getGuitarType} from '../../utils';
 import {useRef, useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import {addGuitarToCart, removeGuitarFromCart, setDeletingGuitar} from '../../store/cart-data/cart-data';
+import {setCartDeleteModalOpened} from '../../store/modal-view/modal-view';
 
 type PropsType = {
   guitar: Guitar,
@@ -9,25 +12,40 @@ type PropsType = {
 function CartItem({guitar}: PropsType): JSX.Element {
   const quantityRef = useRef<HTMLInputElement | null>(null);
 
-  const [quantity, setQuantity] = useState(1);
+  const cartGuitars = useAppSelector(({CART}) => CART.guitars);
+  const dispatch = useAppDispatch();
+
+  const getGuitarQuantity = (): number => cartGuitars.slice().filter(({id}) => id === guitar.id).length;
+
+  const [quantity, setQuantity] = useState(getGuitarQuantity());
 
   const handlePriceChange = (): void => {
     quantityRef.current && setQuantity(Number(quantityRef.current.value));
   };
 
-  const handleIncrementClick = (): void => setQuantity(quantity + 1);
+  const handleIncrementClick = (): void => {
+    setQuantity(quantity + 1);
+    dispatch(addGuitarToCart(guitar));
+  };
 
   const handleDecrementClick = (): void => {
     if (quantityRef.current && quantityRef.current.value === '1') {
-      console.log(quantity);
+      dispatch(setDeletingGuitar(guitar));
+      dispatch(setCartDeleteModalOpened(true));
       return;
     }
     setQuantity(quantity - 1);
+    dispatch(removeGuitarFromCart(guitar));
+  };
+
+  const handleDeleteClick = (): void => {
+    dispatch(setDeletingGuitar(guitar));
+    dispatch(setCartDeleteModalOpened(true));
   };
 
   return (
     <div className="cart-item">
-      <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
+      <button onClick={handleDeleteClick} className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
         <span className="button-cross__icon" />
         <span className="cart-item__close-button-interactive-area" />
       </button>
