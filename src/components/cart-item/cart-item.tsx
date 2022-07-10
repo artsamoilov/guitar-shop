@@ -24,8 +24,10 @@ function CartItem({guitar}: PropsType): JSX.Element {
   };
 
   const handleIncrementClick = (): void => {
-    setQuantity(quantity + 1);
-    dispatch(addGuitarToCart(guitar));
+    if (quantity < 99) {
+      setQuantity(quantity + 1);
+      dispatch(addGuitarToCart(guitar));
+    }
   };
 
   const handleDecrementClick = (): void => {
