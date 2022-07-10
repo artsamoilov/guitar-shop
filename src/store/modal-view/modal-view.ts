@@ -4,6 +4,8 @@ import {ModalView} from '../../types/state';
 
 const initialState: ModalView = {
   isAddToCartModalOpened: false,
+  isCartDeleteModalOpened: false,
+  isCartSuccessModalOpened: false,
   isAddReviewModalOpened: false,
   isReviewSuccessOpened: false,
 };
@@ -15,6 +17,12 @@ export const modalView = createSlice({
     setAddToCartModalOpened: (state, action) => {
       state.isAddToCartModalOpened = action.payload;
     },
+    setCartDeleteModalOpened: (state, action) => {
+      state.isCartDeleteModalOpened = action.payload;
+    },
+    setCartSuccessModalOpened: (state, action) => {
+      state.isCartSuccessModalOpened = action.payload;
+    },
     setAddReviewModalOpened: (state, action) => {
       state.isAddReviewModalOpened = action.payload;
     },
@@ -23,6 +31,8 @@ export const modalView = createSlice({
     },
     setAllModalsClosed: (state) => {
       state.isAddToCartModalOpened = false;
+      state.isCartDeleteModalOpened = false;
+      state.isCartSuccessModalOpened = false;
       state.isAddReviewModalOpened = false;
       state.isReviewSuccessOpened = false;
     },
@@ -31,6 +41,8 @@ export const modalView = createSlice({
 
 export const {
   setAddToCartModalOpened,
+  setCartDeleteModalOpened,
+  setCartSuccessModalOpened,
   setAddReviewModalOpened,
   setReviewSuccessOpened,
   setAllModalsClosed,

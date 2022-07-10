@@ -2,8 +2,9 @@ import {Guitar} from '../../types/guitar';
 import {getGuitarType} from '../../utils';
 import {SyntheticEvent} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
-import {setAddToCartModalOpened} from '../../store/modal-view/modal-view';
+import {setAddToCartModalOpened, setCartSuccessModalOpened} from '../../store/modal-view/modal-view';
 import FocusTrap from 'focus-trap-react';
+import {addGuitarToCart} from '../../store/cart-data/cart-data';
 
 type PropsType = {
   guitar: Guitar,
@@ -19,6 +20,12 @@ function ModalAddToCart({guitar}: PropsType): JSX.Element {
   const handleCloseClick = (evt: SyntheticEvent): void => {
     evt.preventDefault();
     dispatch(setAddToCartModalOpened(false));
+  };
+
+  const handleAddToCartClick = (): void => {
+    dispatch(setAddToCartModalOpened(false));
+    dispatch(addGuitarToCart(guitar));
+    dispatch(setCartSuccessModalOpened(true));
   };
 
   return (
@@ -41,7 +48,7 @@ function ModalAddToCart({guitar}: PropsType): JSX.Element {
               </div>
             </div>
             <div className="modal__button-container">
-              <button id="add-to-cart-button" className="button button--red button--big modal__button modal__button--add">Добавить в корзину</button>
+              <button onClick={handleAddToCartClick} id="add-to-cart-button" className="button button--red button--big modal__button modal__button--add">Добавить в корзину</button>
             </div>
             <button onClick={handleCloseClick} className="modal__close-btn button-cross" type="button" aria-label="Закрыть">
               <span className="button-cross__icon" />

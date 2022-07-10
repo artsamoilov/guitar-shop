@@ -1,11 +1,14 @@
 import {Link, useLocation} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import FormSearch from '../form-search/form-search';
+import {useAppSelector} from '../../hooks/hooks';
 
 const CATALOG_PAGE_URL = '/catalog/page_';
 
 function Header(): JSX.Element {
   const {pathname} = useLocation();
+
+  const cartGuitars = useAppSelector(({CART}) => CART.guitars);
 
   return (
     <header className="header" id="header">
@@ -34,7 +37,9 @@ function Header(): JSX.Element {
             <use xlinkHref="#icon-basket" />
           </svg>
           <span className="visually-hidden">Перейти в корзину</span>
-          <span className="header__cart-count">2</span>
+
+          {cartGuitars.length > 0 && <span className="header__cart-count">{cartGuitars.length}</span>}
+
         </Link>
       </div>
     </header>

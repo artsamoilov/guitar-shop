@@ -1,11 +1,65 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import {AppRoute} from '../../const';
+import {AppRoute, CouponCode, OVERFLOW_DEFAULT_SCROLL, OVERFLOW_LOCKED_SCROLL} from '../../const';
 import {Link} from 'react-router-dom';
+import CartItem from '../../components/cart-item/cart-item';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import ModalCartDelete from '../../components/modal-cart-delete/modal-cart-delete';
+import React, {SyntheticEvent, useRef} from 'react';
+import {isEscKey} from '../../utils';
+import {setAllModalsClosed} from '../../store/modal-view/modal-view';
+import {Guitar} from '../../types/guitar';
+import {postCouponAction, postOrderAction} from '../../store/api-actions';
+import {loadCoupon, removeDiscount} from '../../store/cart-data/cart-data';
 
 function CartPage(): JSX.Element {
+  const isCartDeleteModalOpened = useAppSelector(({MODAL}) => MODAL.isCartDeleteModalOpened);
+  const cartGuitars = useAppSelector(({CART}) => CART.guitars);
+  const coupon = useAppSelector(({CART}) => CART.coupon);
+  const discount = useAppSelector(({CART}) => CART.discount);
+  const isCouponCorrect = useAppSelector(({CART}) => CART.isCouponCorrect);
+
+  const dispatch = useAppDispatch();
+
+  const couponInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleEscKeydown = (evt: React.KeyboardEvent): void => {
+    if (isEscKey(evt.key)) {
+      evt.preventDefault();
+      dispatch(setAllModalsClosed());
+    }
+  };
+
+  const handleCouponAdd = (evt: SyntheticEvent) => {
+    evt.preventDefault();
+    if (couponInputRef.current && couponInputRef.current.value !== '') {
+      if (Object.values(CouponCode).includes(couponInputRef.current.value as CouponCode)) {
+        dispatch(loadCoupon(couponInputRef.current.value));
+        dispatch(postCouponAction({coupon: couponInputRef.current.value}));
+        couponInputRef.current.value = '';
+        return;
+      }
+      dispatch(removeDiscount());
+      couponInputRef.current.value = '';
+    }
+  };
+
+  const handleCheckoutClick = () => {
+    if (cartGuitars.length > 0) {
+      dispatch(postOrderAction({
+        guitarsIds: cartGuitars.map((guitar) => guitar.id),
+        coupon: coupon,
+      }));
+    }
+  };
+
+  const getUniqueCartGuitars = (): Guitar[] => [...new Set(cartGuitars)];
+  const totalPrice = cartGuitars.reduce((previousValue, guitar) => previousValue + guitar.price, 0);
+
+  document.body.style.overflow = isCartDeleteModalOpened ? OVERFLOW_LOCKED_SCROLL : OVERFLOW_DEFAULT_SCROLL;
+
   return (
-    <div className="wrapper">
+    <div onKeyDown={handleEscKeydown} className="wrapper">
 
       <Header />
 
@@ -24,64 +78,9 @@ function CartPage(): JSX.Element {
             </li>
           </ul>
           <div className="cart">
-            <div className="cart-item">
-              <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
-                <span className="button-cross__icon" />
-                <span className="cart-item__close-button-interactive-area" />
-              </button>
-              <div className="cart-item__image">
-                <img src="/img/guitar-2.jpg" srcSet="/img/guitar-2@2x.jpg 2x" width="55" height="130" alt="ЭлектроГитара Честер bass" />
-              </div>
-              <div className="product-info cart-item__info">
-                <p className="product-info__title">ЭлектроГитара Честер bass</p>
-                <p className="product-info__info">Артикул: SO757575</p>
-                <p className="product-info__info">Электрогитара, 6 струнная</p>
-              </div>
-              <div className="cart-item__price">17 500 ₽</div>
-              <div className="quantity cart-item__quantity">
-                <button className="quantity__button" aria-label="Уменьшить количество">
-                  <svg width="8" height="8" aria-hidden="true">
-                    <use xlinkHref="#icon-minus"></use>
-                  </svg>
-                </button>
-                <input className="quantity__input" type="number" placeholder="1" id="2-count" name="2-count" max="99" />
-                <button className="quantity__button" aria-label="Увеличить количество">
-                  <svg width="8" height="8" aria-hidden="true">
-                    <use xlinkHref="#icon-plus" />
-                  </svg>
-                </button>
-              </div>
-              <div className="cart-item__price-total">17 500 ₽</div>
-            </div>
-            <div className="cart-item">
-              <button className="cart-item__close-button button-cross" type="button" aria-label="Удалить">
-                <span className="button-cross__icon" />
-                <span className="cart-item__close-button-interactive-area" />
-              </button>
-              <div className="cart-item__image">
-                <img src="/img/guitar-4.jpg" srcSet="/img/guitar-4@2x.jpg 2x" width="55" height="130" alt="СURT Z30 Plus" />
-              </div>
-              <div className="product-info cart-item__info">
-                <p className="product-info__title">СURT Z30 Plus</p>
-                <p className="product-info__info">Артикул: SO754565</p>
-                <p className="product-info__info">Электрогитара, 6 струнная</p>
-              </div>
-              <div className="cart-item__price">34 500 ₽</div>
-              <div className="quantity cart-item__quantity">
-                <button className="quantity__button" aria-label="Уменьшить количество">
-                  <svg width="8" height="8" aria-hidden="true">
-                    <use xlinkHref="#icon-minus" />
-                  </svg>
-                </button>
-                <input className="quantity__input" type="number" placeholder="1" id="4-count" name="4-count" max="99" />
-                <button className="quantity__button" aria-label="Увеличить количество">
-                  <svg width="8" height="8" aria-hidden="true">
-                    <use xlinkHref="#icon-plus" />
-                  </svg>
-                </button>
-              </div>
-              <div className="cart-item__price-total">34 500 ₽</div>
-            </div>
+
+            {cartGuitars.length > 0 && getUniqueCartGuitars().map((guitar) => <CartItem key={guitar.id} guitar={guitar} />)}
+
             <div className="cart__footer">
               <div className="cart__coupon coupon">
                 <h2 className="title title--little coupon__title">Промокод на скидку</h2>
@@ -89,26 +88,34 @@ function CartPage(): JSX.Element {
                 <form className="coupon__form" id="coupon-form" method="post" action="/">
                   <div className="form-input coupon__input">
                     <label className="visually-hidden">Промокод</label>
-                    <input type="text" placeholder="Введите промокод" id="coupon" name="coupon" />
-                    <p className="form-input__message form-input__message--success">Промокод принят</p>
+                    <input ref={couponInputRef} type="text" placeholder="Введите промокод" id="coupon" name="coupon" />
+
+                    {
+                      isCouponCorrect !== null && (
+                        isCouponCorrect
+                          ? <p className="form-input__message form-input__message--success">Промокод принят</p>
+                          : <p className="form-input__message form-input__message--error">неверный промокод</p>
+                      )
+                    }
+
                   </div>
-                  <button className="button button--big coupon__button">Применить</button>
+                  <button onClick={handleCouponAdd} className="button button--big coupon__button">Применить</button>
                 </form>
               </div>
               <div className="cart__total-info">
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">Всего:</span>
-                  <span className="cart__total-value">52 000 ₽</span>
+                  <span className="cart__total-value">{totalPrice}&nbsp;₽</span>
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">Скидка:</span>
-                  <span className="cart__total-value cart__total-value--bonus">- 3000 ₽</span>
+                  <span className="cart__total-value cart__total-value--bonus">{discount && cartGuitars.length > 0 ? `- ${totalPrice * (Number(discount) / 100)}` : 0}&nbsp;₽</span>
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">К оплате:</span>
-                  <span className="cart__total-value cart__total-value--payment">49 000 ₽</span>
+                  <span className="cart__total-value cart__total-value--payment">{discount ? totalPrice - totalPrice * (Number(discount) / 100) : totalPrice}&nbsp;₽</span>
                 </p>
-                <button className="button button--red button--big cart__order-button">Оформить заказ</button>
+                <button onClick={handleCheckoutClick} className="button button--red button--big cart__order-button">Оформить заказ</button>
               </div>
             </div>
           </div>
@@ -116,6 +123,8 @@ function CartPage(): JSX.Element {
       </main>
 
       <Footer />
+
+      <ModalCartDelete />
 
     </div>
   );

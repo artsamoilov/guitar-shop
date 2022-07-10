@@ -18,8 +18,18 @@ export type GuitarsData = {
 
 export type ModalView = {
   isAddToCartModalOpened: boolean,
+  isCartDeleteModalOpened: boolean,
+  isCartSuccessModalOpened: boolean,
   isAddReviewModalOpened: boolean,
   isReviewSuccessOpened: boolean,
+}
+
+export type CartData = {
+  guitars: Guitar[],
+  deletingGuitar: Guitar,
+  coupon: string | null,
+  discount: number | null,
+  isCouponCorrect: boolean | null,
 }
 
 export type State = ReturnType<typeof store.getState>;
