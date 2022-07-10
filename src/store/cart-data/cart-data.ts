@@ -6,7 +6,8 @@ import {Guitar} from '../../types/guitar';
 const initialState: CartData = {
   guitars: [] as Guitar[],
   deletingGuitar: {} as Guitar,
-  coupon: null,
+  discount: null,
+  isCouponCorrect: null,
 };
 
 export const cartData = createSlice({
@@ -31,8 +32,13 @@ export const cartData = createSlice({
     deleteGuitar: (state, action) => {
       state.guitars = state.guitars.slice().filter((guitar) => guitar.id !== action.payload.id);
     },
-    addCoupon: (state, action) => {
-      state.coupon = action.payload;
+    loadDiscount: (state, action) => {
+      state.discount = action.payload;
+      state.isCouponCorrect = true;
+    },
+    removeDiscount: (state) => {
+      state.discount = null;
+      state.isCouponCorrect = false;
     },
   },
 });
@@ -42,5 +48,6 @@ export const {
   setDeletingGuitar,
   removeGuitarFromCart,
   deleteGuitar,
-  addCoupon,
+  loadDiscount,
+  removeDiscount,
 } = cartData.actions;

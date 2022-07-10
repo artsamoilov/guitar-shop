@@ -27,7 +27,8 @@ export type ModalView = {
 export type CartData = {
   guitars: Guitar[],
   deletingGuitar: Guitar,
-  coupon: string | null,
+  discount: number | null,
+  isCouponCorrect: boolean | null,
 }
 
 export type State = ReturnType<typeof store.getState>;

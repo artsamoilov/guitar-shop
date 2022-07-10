@@ -8,6 +8,7 @@ export enum APIRoute {
   Guitars = '/guitars',
   Guitar = '/guitars/:id',
   Comments = '/comments',
+  Coupons = '/coupons',
 }
 
 export enum AppRoute {
@@ -72,4 +73,10 @@ export enum FilterStrings {
   Strings6 = '6',
   Strings7 = '7',
   Strings12 = '12',
+}
+
+export enum CouponCode {
+  Light = 'light-333',
+  Medium = 'medium-444',
+  High = 'height-555',
 }

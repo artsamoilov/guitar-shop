@@ -1,26 +1,44 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import {AppRoute, OVERFLOW_DEFAULT_SCROLL, OVERFLOW_LOCKED_SCROLL} from '../../const';
+import {AppRoute, CouponCode, OVERFLOW_DEFAULT_SCROLL, OVERFLOW_LOCKED_SCROLL} from '../../const';
 import {Link} from 'react-router-dom';
 import CartItem from '../../components/cart-item/cart-item';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import ModalCartDelete from '../../components/modal-cart-delete/modal-cart-delete';
-import React from 'react';
+import React, {SyntheticEvent, useRef} from 'react';
 import {isEscKey} from '../../utils';
 import {setAllModalsClosed} from '../../store/modal-view/modal-view';
 import {Guitar} from '../../types/guitar';
+import {postCouponAction} from '../../store/api-actions';
+import {removeDiscount} from '../../store/cart-data/cart-data';
 
 function CartPage(): JSX.Element {
   const isCartDeleteModalOpened = useAppSelector(({MODAL}) => MODAL.isCartDeleteModalOpened);
   const cartGuitars = useAppSelector(({CART}) => CART.guitars);
-  const coupon = useAppSelector(({CART}) => CART.coupon);
+  const discount = useAppSelector(({CART}) => CART.discount);
+  const isCouponCorrect = useAppSelector(({CART}) => CART.isCouponCorrect);
 
   const dispatch = useAppDispatch();
+
+  const couponInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleEscKeydown = (evt: React.KeyboardEvent): void => {
     if (isEscKey(evt.key)) {
       evt.preventDefault();
       dispatch(setAllModalsClosed());
+    }
+  };
+
+  const handleCouponAdd = (evt: SyntheticEvent) => {
+    evt.preventDefault();
+    if (couponInputRef.current && couponInputRef.current.value !== '') {
+      if (Object.values(CouponCode).includes(couponInputRef.current.value as CouponCode)) {
+        dispatch(postCouponAction({coupon: couponInputRef.current.value}));
+        couponInputRef.current.value = '';
+        return;
+      }
+      dispatch(removeDiscount());
+      couponInputRef.current.value = '';
     }
   };
 
@@ -59,10 +77,18 @@ function CartPage(): JSX.Element {
                 <form className="coupon__form" id="coupon-form" method="post" action="/">
                   <div className="form-input coupon__input">
                     <label className="visually-hidden">Промокод</label>
-                    <input type="text" placeholder="Введите промокод" id="coupon" name="coupon" />
-                    <p className="form-input__message form-input__message--success">Промокод принят</p>
+                    <input ref={couponInputRef} type="text" placeholder="Введите промокод" id="coupon" name="coupon" />
+
+                    {
+                      isCouponCorrect !== null && (
+                        isCouponCorrect
+                          ? <p className="form-input__message form-input__message--success">Промокод принят</p>
+                          : <p className="form-input__message form-input__message--error">неверный промокод</p>
+                      )
+                    }
+
                   </div>
-                  <button className="button button--big coupon__button">Применить</button>
+                  <button onClick={handleCouponAdd} className="button button--big coupon__button">Применить</button>
                 </form>
               </div>
               <div className="cart__total-info">
@@ -72,11 +98,11 @@ function CartPage(): JSX.Element {
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">Скидка:</span>
-                  <span className="cart__total-value cart__total-value--bonus">{coupon ? `- ${totalPrice * Number(coupon)}` : 0}&nbsp;₽</span>
+                  <span className="cart__total-value cart__total-value--bonus">{discount && cartGuitars.length > 0 ? `- ${totalPrice * (Number(discount) / 100)}` : 0}&nbsp;₽</span>
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">К оплате:</span>
-                  <span className="cart__total-value cart__total-value--payment">{totalPrice}&nbsp;₽</span>
+                  <span className="cart__total-value cart__total-value--payment">{discount ? totalPrice - totalPrice * (Number(discount) / 100) : totalPrice}&nbsp;₽</span>
                 </p>
                 <button className="button button--red button--big cart__order-button">Оформить заказ</button>
               </div>
