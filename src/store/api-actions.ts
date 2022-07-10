@@ -11,7 +11,7 @@ import {clearCart, loadDiscount} from './cart-data/cart-data';
 
 const GUITARS_FETCH_OPTION = '?_limit=27&_embed=comments';
 
-const fetchGuitarsAction = createAsyncThunk<void, undefined,{
+const fetchGuitarsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -90,7 +90,7 @@ const postCommentAction = createAsyncThunk<void,
     },
   );
 
-const fetchGuitarsSearchAction = createAsyncThunk<void, string,{
+const fetchGuitarsSearchAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -106,7 +106,7 @@ const fetchGuitarsSearchAction = createAsyncThunk<void, string,{
   },
 );
 
-const fetchFilteredGuitarsAction = createAsyncThunk<void, string,{
+const fetchFilteredGuitarsAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -131,7 +131,7 @@ const postCouponAction = createAsyncThunk<void,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/postCoupon',
+  'cart/postCoupon',
   async ({coupon}, {dispatch, extra: api}) => {
     try {
       const {data} = await api.post(APIRoute.Coupons, {coupon: coupon});
@@ -152,7 +152,7 @@ const postOrderAction = createAsyncThunk<void,
     state: State,
     extra: AxiosInstance
   }>(
-    'data/postOrder',
+    'cart/postOrder',
     async ({guitarsIds, coupon}, {dispatch, extra: api}) => {
       try {
         await api.post(APIRoute.Orders, {guitarsIds: guitarsIds ,coupon: coupon});
