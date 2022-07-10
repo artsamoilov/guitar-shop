@@ -9,12 +9,13 @@ import React, {SyntheticEvent, useRef} from 'react';
 import {isEscKey} from '../../utils';
 import {setAllModalsClosed} from '../../store/modal-view/modal-view';
 import {Guitar} from '../../types/guitar';
-import {postCouponAction} from '../../store/api-actions';
-import {removeDiscount} from '../../store/cart-data/cart-data';
+import {postCouponAction, postOrderAction} from '../../store/api-actions';
+import {loadCoupon, removeDiscount} from '../../store/cart-data/cart-data';
 
 function CartPage(): JSX.Element {
   const isCartDeleteModalOpened = useAppSelector(({MODAL}) => MODAL.isCartDeleteModalOpened);
   const cartGuitars = useAppSelector(({CART}) => CART.guitars);
+  const coupon = useAppSelector(({CART}) => CART.coupon);
   const discount = useAppSelector(({CART}) => CART.discount);
   const isCouponCorrect = useAppSelector(({CART}) => CART.isCouponCorrect);
 
@@ -33,12 +34,22 @@ function CartPage(): JSX.Element {
     evt.preventDefault();
     if (couponInputRef.current && couponInputRef.current.value !== '') {
       if (Object.values(CouponCode).includes(couponInputRef.current.value as CouponCode)) {
+        dispatch(loadCoupon(couponInputRef.current.value));
         dispatch(postCouponAction({coupon: couponInputRef.current.value}));
         couponInputRef.current.value = '';
         return;
       }
       dispatch(removeDiscount());
       couponInputRef.current.value = '';
+    }
+  };
+
+  const handleCheckoutClick = () => {
+    if (cartGuitars.length > 0) {
+      dispatch(postOrderAction({
+        guitarsIds: cartGuitars.map((guitar) => guitar.id),
+        coupon: coupon,
+      }));
     }
   };
 
@@ -104,7 +115,7 @@ function CartPage(): JSX.Element {
                   <span className="cart__total-value-name">К оплате:</span>
                   <span className="cart__total-value cart__total-value--payment">{discount ? totalPrice - totalPrice * (Number(discount) / 100) : totalPrice}&nbsp;₽</span>
                 </p>
-                <button className="button button--red button--big cart__order-button">Оформить заказ</button>
+                <button onClick={handleCheckoutClick} className="button button--red button--big cart__order-button">Оформить заказ</button>
               </div>
             </div>
           </div>

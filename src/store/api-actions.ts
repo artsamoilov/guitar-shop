@@ -7,7 +7,7 @@ import {CommentPost} from '../types/comment-post';
 import {AxiosInstance} from 'axios';
 import {AppDispatch, State} from '../types/state';
 import {handleError} from '../service/handle-error';
-import {loadDiscount} from './cart-data/cart-data';
+import {clearCart, loadDiscount} from './cart-data/cart-data';
 
 const GUITARS_FETCH_OPTION = '?_limit=27&_embed=comments';
 
@@ -142,6 +142,27 @@ const postCouponAction = createAsyncThunk<void,
   },
 );
 
+const postOrderAction = createAsyncThunk<void,
+  {
+    guitarsIds: number[],
+    coupon: string | null,
+  },
+  {
+    dispatch: AppDispatch,
+    state: State,
+    extra: AxiosInstance
+  }>(
+    'data/postOrder',
+    async ({guitarsIds, coupon}, {dispatch, extra: api}) => {
+      try {
+        await api.post(APIRoute.Orders, {guitarsIds: guitarsIds ,coupon: coupon});
+        dispatch(clearCart());
+      } catch (error) {
+        handleError(error);
+      }
+    },
+  );
+
 export {
   fetchGuitarsAction,
   fetchCurrentGuitarAction,
@@ -150,5 +171,6 @@ export {
   fetchGuitarsSearchAction,
   fetchFilteredGuitarsAction,
   postCouponAction,
+  postOrderAction,
   GUITARS_FETCH_OPTION
 };

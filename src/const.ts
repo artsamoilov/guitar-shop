@@ -9,6 +9,7 @@ export enum APIRoute {
   Guitar = '/guitars/:id',
   Comments = '/comments',
   Coupons = '/coupons',
+  Orders = '/orders',
 }
 
 export enum AppRoute {
