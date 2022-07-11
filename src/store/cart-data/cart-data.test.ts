@@ -7,7 +7,7 @@ import {
   clearCart,
   loadCoupon,
   loadDiscount,
-  removeDiscount,
+  removeDiscount
 } from './cart-data';
 import {getMockGuitars} from '../../mocks/mocks';
 import {Guitar} from '../../types/guitar';
