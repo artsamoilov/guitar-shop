@@ -4,7 +4,7 @@ import {CartData} from '../../types/state';
 import {Guitar} from '../../types/guitar';
 
 const initialState: CartData = {
-  guitars: [] as Guitar[],
+  cartGuitars: [] as Guitar[],
   deletingGuitar: {} as Guitar,
   coupon: null,
   discount: null,
@@ -16,25 +16,25 @@ export const cartData = createSlice({
   initialState,
   reducers: {
     addGuitarToCart: (state, action) => {
-      if (state.guitars.find((guitar) => guitar.id === action.payload.id)) {
-        const guitarIndex = state.guitars.findIndex((guitar) => guitar.id === action.payload.id);
-        state.guitars = [...state.guitars.slice(0, guitarIndex), action.payload, ...state.guitars.slice(guitarIndex)];
+      if (state.cartGuitars.find((guitar) => guitar.id === action.payload.id)) {
+        const guitarIndex = state.cartGuitars.findIndex((guitar) => guitar.id === action.payload.id);
+        state.cartGuitars = [...state.cartGuitars.slice(0, guitarIndex), action.payload, ...state.cartGuitars.slice(guitarIndex)];
       } else {
-        state.guitars = [action.payload, ...state.guitars];
+        state.cartGuitars = [action.payload, ...state.cartGuitars];
       }
     },
     setDeletingGuitar: (state, action) => {
       state.deletingGuitar = action.payload;
     },
     removeGuitarFromCart: (state, action) => {
-      const guitarIndex = state.guitars.findIndex((guitar) => guitar.id === action.payload.id);
-      state.guitars = [...state.guitars.slice(0, guitarIndex), ...state.guitars.slice(guitarIndex + 1)];
+      const guitarIndex = state.cartGuitars.findIndex((guitar) => guitar.id === action.payload.id);
+      state.cartGuitars = [...state.cartGuitars.slice(0, guitarIndex), ...state.cartGuitars.slice(guitarIndex + 1)];
     },
     deleteGuitar: (state, action) => {
-      state.guitars = state.guitars.slice().filter((guitar) => guitar.id !== action.payload.id);
+      state.cartGuitars = state.cartGuitars.slice().filter((guitar) => guitar.id !== action.payload.id);
     },
     clearCart: (state) => {
-      state.guitars = [];
+      state.cartGuitars = [];
       state.deletingGuitar = {} as Guitar;
       state.coupon = null;
       state.discount = null;

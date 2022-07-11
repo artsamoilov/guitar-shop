@@ -22,6 +22,9 @@ const store = mockStore({
     guitarsSearchList: [fakeGuitars[0]],
     isSearchListLoaded: true,
   },
+  CART: {
+    cartGuitars: [],
+  },
 });
 
 const history = createMemoryHistory();

@@ -12,7 +12,7 @@ type PropsType = {
 function CartItem({guitar}: PropsType): JSX.Element {
   const quantityRef = useRef<HTMLInputElement | null>(null);
 
-  const cartGuitars = useAppSelector(({CART}) => CART.guitars);
+  const cartGuitars = useAppSelector(({CART}) => CART.cartGuitars);
   const dispatch = useAppDispatch();
 
   const getGuitarQuantity = (): number => cartGuitars.slice().filter(({id}) => id === guitar.id).length;

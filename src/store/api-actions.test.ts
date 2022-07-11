@@ -3,16 +3,23 @@ import thunk, {ThunkDispatch} from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {createAPI} from '../service/api';
-import {APIRoute} from '../const';
+import {APIRoute, CouponCode} from '../const';
 import {State} from '../types/state';
 import {getMockGuitars, getMockComments} from '../mocks/mocks';
-import {loadGuitars, loadCurrentGuitar, loadComments} from './guitars-data/guitars-data';
-import {fetchGuitarsAction, fetchCurrentGuitarAction, fetchCommentsAction, postCommentAction} from './api-actions';
+import {loadGuitars, loadCurrentGuitar, loadComments, loadGuitarsSearchList} from './guitars-data/guitars-data';
+import {
+  fetchGuitarsAction,
+  fetchCurrentGuitarAction,
+  fetchCommentsAction,
+  postCommentAction,
+  fetchGuitarsSearchAction, postCouponAction, postOrderAction
+} from './api-actions';
 import {CommentPost} from '../types/comment-post';
 import {GUITARS_FETCH_OPTION} from './api-actions';
 
 const fakeGuitars = getMockGuitars();
 const fakeComments = getMockComments(1);
+const fakeDiscount = 15;
 
 describe('async actions', () => {
   const api = createAPI();
@@ -69,5 +76,47 @@ describe('async actions', () => {
 
     const actions = store.getActions().map(({type}) => type);
     expect(actions).toContain('data/postComment/fulfilled');
+  });
+
+  it('should dispatch loadGuitarsSearchList when GET /guitars?name_like=a', async () => {
+    mockAPI.onGet(`${APIRoute.Guitars}${GUITARS_FETCH_OPTION}&name_like=a`).reply(200, fakeGuitars);
+
+    const store = mockStore();
+    await store.dispatch(fetchGuitarsSearchAction('a'));
+
+    const actions = store.getActions().map(({type}) => type);
+    expect(actions).toContain(loadGuitarsSearchList.toString());
+  });
+
+  it('should dispatch loadGuitars when GET /guitars?type=electric', async () => {
+    mockAPI.onGet(`${APIRoute.Guitars}${GUITARS_FETCH_OPTION}&type=electric`).reply(200, fakeGuitars);
+
+    const store = mockStore();
+    await store.dispatch(fetchGuitarsAction());
+
+    const actions = store.getActions().map(({type}) => type);
+    expect(actions).toContain(loadGuitars.toString());
+  });
+
+  it('should post coupon when POST /coupons', async () => {
+    const postCoupon = {coupon: CouponCode.Light};
+    mockAPI.onPost(APIRoute.Coupons).reply(200, fakeDiscount);
+
+    const store = mockStore();
+    await store.dispatch(postCouponAction(postCoupon));
+
+    const actions = store.getActions().map(({type}) => type);
+    expect(actions).toContain('cart/postCoupon/fulfilled');
+  });
+
+  it('should post order when POST /orders', async () => {
+    const postOrder = {guitarsIds: [1], coupon: null};
+    mockAPI.onPost(APIRoute.Orders).reply(201);
+
+    const store = mockStore();
+    await store.dispatch(postOrderAction(postOrder));
+
+    const actions = store.getActions().map(({type}) => type);
+    expect(actions).toContain('cart/postOrder/fulfilled');
   });
 });

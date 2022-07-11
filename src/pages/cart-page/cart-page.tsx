@@ -14,7 +14,7 @@ import {loadCoupon, removeDiscount} from '../../store/cart-data/cart-data';
 
 function CartPage(): JSX.Element {
   const isCartDeleteModalOpened = useAppSelector(({MODAL}) => MODAL.isCartDeleteModalOpened);
-  const cartGuitars = useAppSelector(({CART}) => CART.guitars);
+  const cartGuitars = useAppSelector(({CART}) => CART.cartGuitars);
   const coupon = useAppSelector(({CART}) => CART.coupon);
   const discount = useAppSelector(({CART}) => CART.discount);
   const isCouponCorrect = useAppSelector(({CART}) => CART.isCouponCorrect);

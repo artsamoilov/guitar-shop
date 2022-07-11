@@ -17,6 +17,9 @@ const store = mockStore({
     isAddReviewModalOpened: false,
     isReviewSuccessOpened: false,
   },
+  CART: {
+    cartGuitars: [],
+  },
 });
 
 const history = createMemoryHistory();

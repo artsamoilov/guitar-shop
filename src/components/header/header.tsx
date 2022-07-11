@@ -8,7 +8,7 @@ const CATALOG_PAGE_URL = '/catalog/page_';
 function Header(): JSX.Element {
   const {pathname} = useLocation();
 
-  const cartGuitars = useAppSelector(({CART}) => CART.guitars);
+  const cartGuitars = useAppSelector(({CART}) => CART.cartGuitars);
 
   return (
     <header className="header" id="header">

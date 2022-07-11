@@ -25,7 +25,7 @@ export type ModalView = {
 }
 
 export type CartData = {
-  guitars: Guitar[],
+  cartGuitars: Guitar[],
   deletingGuitar: Guitar,
   coupon: string | null,
   discount: number | null,

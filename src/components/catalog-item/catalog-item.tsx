@@ -12,7 +12,7 @@ type PropsType = {
 }
 
 function CatalogItem({guitar, setCurrentGuitar}: PropsType): JSX.Element {
-  const cartGuitars = useAppSelector(({CART}) => CART.guitars);
+  const cartGuitars = useAppSelector(({CART}) => CART.cartGuitars);
   const dispatch = useAppDispatch();
 
   const handleBuyClick = (evt: SyntheticEvent): void => {
