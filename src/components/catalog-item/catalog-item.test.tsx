@@ -18,7 +18,7 @@ const store = mockStore({
     isReviewSuccessOpened: false,
   },
   CART: {
-    guitars: [],
+    cartGuitars: [],
   },
 });
 

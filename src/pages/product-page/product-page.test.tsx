@@ -32,7 +32,7 @@ const store = mockStore({
     isSearchListLoaded: true,
   },
   CART: {
-    guitars: [],
+    cartGuitars: [],
   },
 });
 
