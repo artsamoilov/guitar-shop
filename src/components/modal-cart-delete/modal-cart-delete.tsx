@@ -2,7 +2,6 @@ import {getGuitarType} from '../../utils';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {SyntheticEvent} from 'react';
 import {setCartDeleteModalOpened} from '../../store/modal-view/modal-view';
-import Loader from '../loader/loader';
 import {deleteGuitar} from '../../store/cart-data/cart-data';
 import FocusTrap from 'focus-trap-react';
 
@@ -24,10 +23,6 @@ function ModalCartDelete(): JSX.Element {
     dispatch(deleteGuitar(deletingGuitar));
   };
 
-  if (!deletingGuitar.id) {
-    return <Loader />;
-  }
-
   return (
     <FocusTrap active={isCartDeleteModalOpened} focusTrapOptions={{allowOutsideClick: true, fallbackFocus: DELETE_BUTTON_ID}}>
       <div className={`modal ${isCartDeleteModalOpened && 'is-active'}`}>
@@ -36,14 +31,14 @@ function ModalCartDelete(): JSX.Element {
           <div className="modal__content">
             <h2 className="modal__header title title--medium title--red">Удалить этот товар?</h2>
             <div className="modal__info">
-              <img className="modal__img" src={`/${deletingGuitar.previewImg}`} width="67" height="137" alt={deletingGuitar.name} />
+              <img className="modal__img" src={`/${deletingGuitar.previewImg || ''}`} width="67" height="137" alt={deletingGuitar.name || ''} />
               <div className="modal__info-wrapper">
-                <h3 className="modal__product-name title title--little title--uppercase">Гитара {deletingGuitar.name}</h3>
-                <p className="modal__product-params modal__product-params--margin-11">Артикул: {deletingGuitar.vendorCode}</p>
-                <p className="modal__product-params">{getGuitarType(deletingGuitar)}, {deletingGuitar.stringCount} струнная</p>
+                <h3 className="modal__product-name title title--little title--uppercase">Гитара {deletingGuitar.name || ''}</h3>
+                <p className="modal__product-params modal__product-params--margin-11">Артикул: {deletingGuitar.vendorCode || ''}</p>
+                <p className="modal__product-params">{deletingGuitar.type ? getGuitarType(deletingGuitar) : ''}, {deletingGuitar.stringCount || ''} струнная</p>
                 <p className="modal__price-wrapper">
                   <span className="modal__price">Цена:</span>
-                  <span className="modal__price">{deletingGuitar.price}&nbsp;₽</span>
+                  <span className="modal__price">{deletingGuitar.price || ''}&nbsp;₽</span>
                 </p>
               </div>
             </div>
