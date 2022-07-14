@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import {AppRoute, CouponCode, OVERFLOW_DEFAULT_SCROLL, OVERFLOW_LOCKED_SCROLL} from '../../const';
+import {AppRoute, OVERFLOW_DEFAULT_SCROLL, OVERFLOW_LOCKED_SCROLL} from '../../const';
 import {Link} from 'react-router-dom';
 import CartItem from '../../components/cart-item/cart-item';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
@@ -10,7 +10,6 @@ import {isEscKey} from '../../utils';
 import {setAllModalsClosed} from '../../store/modal-view/modal-view';
 import {Guitar} from '../../types/guitar';
 import {postCouponAction, postOrderAction} from '../../store/api-actions';
-import {loadCoupon, removeDiscount} from '../../store/cart-data/cart-data';
 
 function CartPage(): JSX.Element {
   const isCartDeleteModalOpened = useAppSelector(({MODAL}) => MODAL.isCartDeleteModalOpened);
@@ -33,13 +32,7 @@ function CartPage(): JSX.Element {
   const handleCouponAdd = (evt: SyntheticEvent) => {
     evt.preventDefault();
     if (couponInputRef.current && couponInputRef.current.value !== '') {
-      if (Object.values(CouponCode).includes(couponInputRef.current.value as CouponCode)) {
-        dispatch(loadCoupon(couponInputRef.current.value));
-        dispatch(postCouponAction({coupon: couponInputRef.current.value}));
-        couponInputRef.current.value = '';
-        return;
-      }
-      dispatch(removeDiscount());
+      dispatch(postCouponAction({coupon: couponInputRef.current.value}));
       couponInputRef.current.value = '';
     }
   };
@@ -55,6 +48,7 @@ function CartPage(): JSX.Element {
 
   const getUniqueCartGuitars = (): Guitar[] => [...new Set(cartGuitars)];
   const totalPrice = cartGuitars.reduce((previousValue, guitar) => previousValue + guitar.price, 0);
+  const discountPrice = Math.ceil(totalPrice * (Number(discount) / 100));
 
   document.body.style.overflow = isCartDeleteModalOpened ? OVERFLOW_LOCKED_SCROLL : OVERFLOW_DEFAULT_SCROLL;
 
@@ -109,11 +103,11 @@ function CartPage(): JSX.Element {
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">Скидка:</span>
-                  <span className="cart__total-value cart__total-value--bonus">{discount && cartGuitars.length > 0 ? `- ${totalPrice * (Number(discount) / 100)}` : 0}&nbsp;₽</span>
+                  <span className="cart__total-value cart__total-value--bonus">{discount && cartGuitars.length > 0 ? `- ${discountPrice}` : 0}&nbsp;₽</span>
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">К оплате:</span>
-                  <span className="cart__total-value cart__total-value--payment">{discount ? totalPrice - totalPrice * (Number(discount) / 100) : totalPrice}&nbsp;₽</span>
+                  <span className="cart__total-value cart__total-value--payment">{discount ? totalPrice - discountPrice : totalPrice}&nbsp;₽</span>
                 </p>
                 <button onClick={handleCheckoutClick} className="button button--red button--big cart__order-button">Оформить заказ</button>
               </div>

@@ -7,7 +7,7 @@ import {CommentPost} from '../types/comment-post';
 import {AxiosInstance} from 'axios';
 import {AppDispatch, State} from '../types/state';
 import {handleError} from '../service/handle-error';
-import {clearCart, loadDiscount} from './cart-data/cart-data';
+import {clearCart, loadCoupon, loadDiscount, removeDiscount} from './cart-data/cart-data';
 
 const GUITARS_FETCH_OPTION = '?_limit=27&_embed=comments';
 
@@ -136,7 +136,9 @@ const postCouponAction = createAsyncThunk<void,
     try {
       const {data} = await api.post(APIRoute.Coupons, {coupon: coupon});
       dispatch(loadDiscount(data));
+      dispatch(loadCoupon(coupon));
     } catch (error) {
+      dispatch(removeDiscount());
       handleError(error);
     }
   },
