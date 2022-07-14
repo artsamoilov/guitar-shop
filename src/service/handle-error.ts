@@ -7,22 +7,18 @@ const handleError = (error: unknown) => {
     throw error;
   }
 
-  const {response} = error;
-
-  if (response) {
-    switch (response.status) {
-      case HTTPCode.BadRequest:
-        toast.warn(response.data.error);
-        break;
-      case HTTPCode.Unauthorized:
-        toast.info(response.data.error);
-        break;
-      case HTTPCode.NotFound:
-        toast.error(response.data.error);
-        break;
-      default:
-        toast.error(response.data.error);
-    }
+  switch (error.response?.status) {
+    case HTTPCode.BadRequest:
+      toast.warn('400 Некорректный запрос');
+      break;
+    case HTTPCode.Unauthorized:
+      toast.info('401 Ошибка авторизации');
+      break;
+    case HTTPCode.NotFound:
+      toast.error('404 Страница не найдена');
+      break;
+    default:
+      toast.warn('Неизвестная ошибка. Попробуйте перезагрузить страницу');
   }
 };
 
