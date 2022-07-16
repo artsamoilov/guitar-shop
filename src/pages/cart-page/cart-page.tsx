@@ -103,7 +103,7 @@ function CartPage(): JSX.Element {
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">Скидка:</span>
-                  <span className="cart__total-value cart__total-value--bonus">{discount && cartGuitars.length > 0 ? `- ${discountPrice}` : 0}&nbsp;₽</span>
+                  <span className={`cart__total-value ${discountPrice > 0 ? 'cart__total-value--bonus' : ''}`}>{discount && cartGuitars.length > 0 ? `- ${discountPrice}` : 0}&nbsp;₽</span>
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">К оплате:</span>

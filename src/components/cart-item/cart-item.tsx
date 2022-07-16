@@ -2,7 +2,7 @@ import {Guitar} from '../../types/guitar';
 import {getGuitarType} from '../../utils';
 import {useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
-import {addGuitarToCart, removeGuitarFromCart, setDeletingGuitar} from '../../store/cart-data/cart-data';
+import {addGuitarToCart, setGuitarToCartAmount, removeGuitarFromCart, setDeletingGuitar} from '../../store/cart-data/cart-data';
 import {setCartDeleteModalOpened} from '../../store/modal-view/modal-view';
 
 type PropsType = {
@@ -21,6 +21,7 @@ function CartItem({guitar}: PropsType): JSX.Element {
 
   const handlePriceChange = (): void => {
     quantityRef.current && setQuantity(Number(quantityRef.current.value));
+    dispatch(setGuitarToCartAmount({guitar: guitar, amount: Number(quantityRef.current?.value)}));
   };
 
   const handleIncrementClick = (): void => {
@@ -31,7 +32,7 @@ function CartItem({guitar}: PropsType): JSX.Element {
   };
 
   const handleDecrementClick = (): void => {
-    if (quantityRef.current && quantityRef.current.value === '1') {
+    if (quantity === 1) {
       dispatch(setDeletingGuitar(guitar));
       dispatch(setCartDeleteModalOpened(true));
       return;
