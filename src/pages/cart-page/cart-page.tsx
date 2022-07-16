@@ -32,7 +32,7 @@ function CartPage(): JSX.Element {
   const handleCouponAdd = (evt: SyntheticEvent) => {
     evt.preventDefault();
     if (couponInputRef.current && couponInputRef.current.value !== '') {
-      dispatch(postCouponAction({coupon: couponInputRef.current.value}));
+      dispatch(postCouponAction({coupon: couponInputRef.current.value.replace(/\s+/g, '')}));
       couponInputRef.current.value = '';
     }
   };
