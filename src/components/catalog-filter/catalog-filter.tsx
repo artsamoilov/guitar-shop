@@ -152,7 +152,7 @@ function CatalogFilter({setPriceFrom, setPriceTo, guitarTypes, setGuitarTypes, s
       evt.target.value = priceFromRef.current.value;
       handlePriceToChange({target: {name: '', value: priceFromRef.current.value}});
     }
-    if (Number(evt.target.value) < minPrice) {
+    if (evt.target.value && Number(evt.target.value) < minPrice) {
       evt.target.value = String(minPrice);
       handlePriceToChange({target: {name: '', value: String(minPrice)}});
     }

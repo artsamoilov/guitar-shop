@@ -1,4 +1,4 @@
-import {getGuitarType} from '../../utils';
+import {getGuitarType, getSeparatedPrice} from '../../utils';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {SyntheticEvent} from 'react';
 import {setCartDeleteModalOpened} from '../../store/modal-view/modal-view';
@@ -38,7 +38,7 @@ function ModalCartDelete(): JSX.Element {
                 <p className="modal__product-params">{deletingGuitar.type ? getGuitarType(deletingGuitar) : ''}, {deletingGuitar.stringCount || ''} струнная</p>
                 <p className="modal__price-wrapper">
                   <span className="modal__price">Цена:</span>
-                  <span className="modal__price">{deletingGuitar.price || ''}&nbsp;₽</span>
+                  <span className="modal__price">{getSeparatedPrice(deletingGuitar.price) || ''}&nbsp;₽</span>
                 </p>
               </div>
             </div>

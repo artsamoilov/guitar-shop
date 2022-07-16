@@ -1,5 +1,5 @@
 import {Guitar} from '../../types/guitar';
-import {getGuitarType} from '../../utils';
+import {getGuitarType, getSeparatedPrice} from '../../utils';
 import {SyntheticEvent} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {setAddToCartModalOpened, setCartSuccessModalOpened} from '../../store/modal-view/modal-view';
@@ -43,7 +43,7 @@ function ModalAddToCart({guitar}: PropsType): JSX.Element {
                 <p className="modal__product-params">{guitar.type && getGuitarType(guitar)},&nbsp;{guitar.stringCount}&nbsp;струнная</p>
                 <p className="modal__price-wrapper">
                   <span className="modal__price">Цена:</span>
-                  <span className="modal__price">{guitar.price}&nbsp;₽</span>
+                  <span className="modal__price">{getSeparatedPrice(guitar.price)}&nbsp;₽</span>
                 </p>
               </div>
             </div>

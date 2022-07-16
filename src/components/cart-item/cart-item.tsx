@@ -1,5 +1,5 @@
 import {Guitar} from '../../types/guitar';
-import {getGuitarType} from '../../utils';
+import {getGuitarType, getSeparatedPrice} from '../../utils';
 import {useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {addGuitarToCart, setGuitarToCartAmount, removeGuitarFromCart, setDeletingGuitar} from '../../store/cart-data/cart-data';
@@ -72,7 +72,7 @@ function CartItem({guitar}: PropsType): JSX.Element {
         <p className="product-info__info">Артикул: {guitar.vendorCode}</p>
         <p className="product-info__info">{`${getGuitarType(guitar)}, ${guitar.stringCount} струнная`}</p>
       </div>
-      <div className="cart-item__price">{guitar.price}&nbsp;₽</div>
+      <div className="cart-item__price">{getSeparatedPrice(guitar.price)}&nbsp;₽</div>
       <div className="quantity cart-item__quantity">
         <button onClick={handleDecrementClick} className="quantity__button" aria-label="Уменьшить количество">
           <svg width="8" height="8" aria-hidden="true">
@@ -97,7 +97,7 @@ function CartItem({guitar}: PropsType): JSX.Element {
           </svg>
         </button>
       </div>
-      <div className="cart-item__price-total">{guitar.price * quantity}&nbsp;₽</div>
+      <div className="cart-item__price-total">{getSeparatedPrice(guitar.price * quantity)}&nbsp;₽</div>
     </div>
   );
 }

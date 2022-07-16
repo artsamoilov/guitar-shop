@@ -26,4 +26,6 @@ const getMaxPrice = (guitars: Guitar[]): number =>  guitars.length > 0
   ? guitars.slice().sort((guitarA, guitarB) => guitarB.price - guitarA.price)[0].price
   : 0;
 
-export {getRatingStars, getRatingText, getGuitarType, isEscKey, getMinPrice, getMaxPrice};
+const getSeparatedPrice = (price: number): string => String(price).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+export {getRatingStars, getRatingText, getGuitarType, isEscKey, getMinPrice, getMaxPrice, getSeparatedPrice};

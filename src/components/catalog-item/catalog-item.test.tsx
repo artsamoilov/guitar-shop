@@ -6,6 +6,7 @@ import HistoryRouter from '../history-route/history-route';
 import CatalogItem from './catalog-item';
 import {getMockGuitars} from '../../mocks/mocks';
 import React from 'react';
+import {getSeparatedPrice} from '../../utils';
 
 const fakeGuitar = getMockGuitars()[0];
 
@@ -41,6 +42,6 @@ describe('component CatalogItem', () => {
     expect(screen.getByText(/Купить/i)).toBeInTheDocument();
     expect(screen.getByText(fakeGuitar.comments.length)).toBeInTheDocument();
     expect(screen.getByText(fakeGuitar.name)).toBeInTheDocument();
-    expect(screen.getByText(`${fakeGuitar.price} ₽`)).toBeInTheDocument();
+    expect(screen.getByText(`${getSeparatedPrice(fakeGuitar.price)} ₽`)).toBeInTheDocument();
   });
 });

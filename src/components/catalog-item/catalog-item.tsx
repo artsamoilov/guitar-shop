@@ -1,7 +1,7 @@
 import {Guitar} from '../../types/guitar';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
-import {getRatingStars, getRatingText} from '../../utils';
+import {getRatingStars, getRatingText, getSeparatedPrice} from '../../utils';
 import {Dispatch, SetStateAction, SyntheticEvent} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {setAddToCartModalOpened} from '../../store/modal-view/modal-view';
@@ -34,7 +34,7 @@ function CatalogItem({guitar, setCurrentGuitar}: PropsType): JSX.Element {
         </div>
         <p className="product-card__title">{guitar.name}</p>
         <p className="product-card__price">
-          <span className="visually-hidden">Цена:</span>{guitar.price}&nbsp;₽
+          <span className="visually-hidden">Цена:</span>{getSeparatedPrice(guitar.price)}&nbsp;₽
         </p>
       </div>
       <div className="product-card__buttons">

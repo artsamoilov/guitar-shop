@@ -5,6 +5,7 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import HistoryRouter from '../history-route/history-route';
 import ModalAddToCart from './modal-add-to-cart';
 import {getMockGuitars} from '../../mocks/mocks';
+import {getSeparatedPrice} from '../../utils';
 
 const mockStore = configureMockStore();
 
@@ -32,6 +33,6 @@ describe('component ModalAddToCart', () => {
     expect(screen.getByText(/Добавить в корзину/i)).toBeInTheDocument();
     expect(screen.getByText(`Гитара ${fakeGuitar.name}`)).toBeInTheDocument();
     expect(screen.getByText(`Артикул: ${fakeGuitar.vendorCode}`)).toBeInTheDocument();
-    expect(screen.getByText(`${fakeGuitar.price} ₽`)).toBeInTheDocument();
+    expect(screen.getByText(`${getSeparatedPrice(fakeGuitar.price)} ₽`)).toBeInTheDocument();
   });
 });

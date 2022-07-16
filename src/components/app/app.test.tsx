@@ -7,6 +7,7 @@ import App from './app';
 import {getMockGuitars, getMockComments} from '../../mocks/mocks';
 import {AppRoute} from '../../const';
 import thunk from 'redux-thunk';
+import {getSeparatedPrice} from '../../utils';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -69,7 +70,7 @@ describe('app routing',() => {
 
     const guitarNames = screen.getAllByText(fakeGuitars[0].name);
     const priceHeadings = screen.getAllByText(/Цена/i);
-    const prices = screen.getAllByText(`${fakeGuitars[0].price} ₽`);
+    const prices = screen.getAllByText(`${getSeparatedPrice(fakeGuitars[0].price)} ₽`);
     const reviewHeadings = screen.getAllByText(/Отзывы/i);
 
     expect(guitarNames[0]).toBeInTheDocument();
