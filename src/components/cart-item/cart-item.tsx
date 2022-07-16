@@ -9,6 +9,9 @@ type PropsType = {
   guitar: Guitar,
 }
 
+const MIN_QUANTITY = 1;
+const MAX_QUANTITY = 99;
+
 function CartItem({guitar}: PropsType): JSX.Element {
   const quantityRef = useRef<HTMLInputElement | null>(null);
 
@@ -20,19 +23,28 @@ function CartItem({guitar}: PropsType): JSX.Element {
   const [quantity, setQuantity] = useState(getGuitarQuantity());
 
   const handlePriceChange = (): void => {
-    quantityRef.current && setQuantity(Number(quantityRef.current.value));
+    if (Number(quantityRef.current?.value) < MIN_QUANTITY) {
+      handleDeleteClick();
+      return;
+    }
+    if (Number(quantityRef.current?.value) > MAX_QUANTITY) {
+      setQuantity(MAX_QUANTITY);
+      dispatch(setGuitarToCartAmount({guitar: guitar, amount: MAX_QUANTITY}));
+      return;
+    }
+    setQuantity(Number(quantityRef.current?.value));
     dispatch(setGuitarToCartAmount({guitar: guitar, amount: Number(quantityRef.current?.value)}));
   };
 
   const handleIncrementClick = (): void => {
-    if (quantity < 99) {
+    if (quantity < MAX_QUANTITY) {
       setQuantity(quantity + 1);
       dispatch(addGuitarToCart(guitar));
     }
   };
 
   const handleDecrementClick = (): void => {
-    if (quantity === 1) {
+    if (quantity <= MIN_QUANTITY) {
       dispatch(setDeletingGuitar(guitar));
       dispatch(setCartDeleteModalOpened(true));
       return;
@@ -67,7 +79,18 @@ function CartItem({guitar}: PropsType): JSX.Element {
             <use xlinkHref="#icon-minus" />
           </svg>
         </button>
-        <input onChange={handlePriceChange} ref={quantityRef} value={quantity} className="quantity__input" type="number" placeholder="1" id="2-count" name="2-count" max="99" />
+        <input
+          onChange={handlePriceChange}
+          ref={quantityRef}
+          value={String(quantity).replace(/^0+/, '')}
+          className="quantity__input"
+          type="number"
+          placeholder="1"
+          id="2-count"
+          name="2-count"
+          min={MIN_QUANTITY}
+          max={MAX_QUANTITY}
+        />
         <button onClick={handleIncrementClick} className="quantity__button" aria-label="Увеличить количество">
           <svg width="8" height="8" aria-hidden="true">
             <use xlinkHref="#icon-plus" />
