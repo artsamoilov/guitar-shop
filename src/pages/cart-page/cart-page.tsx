@@ -6,7 +6,7 @@ import CartItem from '../../components/cart-item/cart-item';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import ModalCartDelete from '../../components/modal-cart-delete/modal-cart-delete';
 import React, {SyntheticEvent, useRef} from 'react';
-import {isEscKey} from '../../utils';
+import {getSeparatedPrice, isEscKey} from '../../utils';
 import {setAllModalsClosed} from '../../store/modal-view/modal-view';
 import {Guitar} from '../../types/guitar';
 import {postCouponAction, postOrderAction} from '../../store/api-actions';
@@ -32,7 +32,7 @@ function CartPage(): JSX.Element {
   const handleCouponAdd = (evt: SyntheticEvent) => {
     evt.preventDefault();
     if (couponInputRef.current && couponInputRef.current.value !== '') {
-      dispatch(postCouponAction({coupon: couponInputRef.current.value}));
+      dispatch(postCouponAction({coupon: couponInputRef.current.value.replace(/\s+/g, '')}));
       couponInputRef.current.value = '';
     }
   };
@@ -99,15 +99,15 @@ function CartPage(): JSX.Element {
               <div className="cart__total-info">
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">Всего:</span>
-                  <span className="cart__total-value">{totalPrice}&nbsp;₽</span>
+                  <span className="cart__total-value">{getSeparatedPrice(totalPrice)}&nbsp;₽</span>
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">Скидка:</span>
-                  <span className="cart__total-value cart__total-value--bonus">{discount && cartGuitars.length > 0 ? `- ${discountPrice}` : 0}&nbsp;₽</span>
+                  <span className={`cart__total-value ${discountPrice > 0 ? 'cart__total-value--bonus' : ''}`}>{discount && cartGuitars.length > 0 ? `- ${getSeparatedPrice(discountPrice)}` : 0}&nbsp;₽</span>
                 </p>
                 <p className="cart__total-item">
                   <span className="cart__total-value-name">К оплате:</span>
-                  <span className="cart__total-value cart__total-value--payment">{discount ? totalPrice - discountPrice : totalPrice}&nbsp;₽</span>
+                  <span className="cart__total-value cart__total-value--payment">{discount ? getSeparatedPrice(totalPrice - discountPrice) : getSeparatedPrice(totalPrice)}&nbsp;₽</span>
                 </p>
                 <button onClick={handleCheckoutClick} className="button button--red button--big cart__order-button">Оформить заказ</button>
               </div>

@@ -33,6 +33,13 @@ export const cartData = createSlice({
     deleteGuitar: (state, action) => {
       state.cartGuitars = state.cartGuitars.slice().filter((guitar) => guitar.id !== action.payload.id);
     },
+    setGuitarToCartAmount: (state, action) => {
+      const guitarIndex = state.cartGuitars.findIndex((guitar) => guitar.id === action.payload.guitar.id);
+      state.cartGuitars = state.cartGuitars.slice().filter((guitar) => guitar.id !== action.payload.guitar.id);
+      for (let i = 0; i < action.payload.amount; i++) {
+        state.cartGuitars = [...state.cartGuitars.slice(0, guitarIndex), action.payload.guitar, ...state.cartGuitars.slice(guitarIndex)];
+      }
+    },
     clearCart: (state) => {
       state.cartGuitars = [];
       state.deletingGuitar = {} as Guitar;
@@ -60,6 +67,7 @@ export const {
   setDeletingGuitar,
   removeGuitarFromCart,
   deleteGuitar,
+  setGuitarToCartAmount,
   clearCart,
   loadCoupon,
   loadDiscount,

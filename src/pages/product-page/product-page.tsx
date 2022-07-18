@@ -3,7 +3,7 @@ import Footer from '../../components/footer/footer';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {Link, useParams, Navigate} from 'react-router-dom';
 import {AppRoute, OVERFLOW_DEFAULT_SCROLL, OVERFLOW_LOCKED_SCROLL} from '../../const';
-import {getRatingStars, getRatingText, isEscKey} from '../../utils';
+import {getRatingStars, getRatingText, getSeparatedPrice, isEscKey} from '../../utils';
 import ProductTabs from '../../components/product-tabs/product-tabs';
 import {fetchCurrentGuitarAction, fetchCommentsAction} from '../../store/api-actions';
 import ProductReviews from '../../components/product-reviews/product-reviews';
@@ -89,7 +89,7 @@ function ProductPage(): JSX.Element {
             </div>
             <div className="product-container__price-wrapper">
               <p className="product-container__price-info product-container__price-info--title">Цена:</p>
-              <p className="product-container__price-info product-container__price-info--value">{currentGuitar.price} ₽</p>
+              <p className="product-container__price-info product-container__price-info--value">{getSeparatedPrice(currentGuitar.price)} ₽</p>
               <a onClick={handleBuyClick} className="button button--red button--big product-container__button" href="/">Добавить в корзину</a>
             </div>
           </div>
