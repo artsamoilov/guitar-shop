@@ -20,9 +20,13 @@ function CartItem({guitar}: PropsType): JSX.Element {
 
   const getGuitarQuantity = (): number => cartGuitars.slice().filter(({id}) => id === guitar.id).length;
 
-  const [quantity, setQuantity] = useState(getGuitarQuantity());
+  const [quantity, setQuantity] = useState<number | ''>(getGuitarQuantity());
 
-  const handlePriceChange = (): void => {
+  const handleQuantityChange = (): void => {
+    if (quantityRef.current?.value === '') {
+      setQuantity('');
+      return;
+    }
     if (Number(quantityRef.current?.value) < MIN_QUANTITY) {
       handleDeleteClick();
       return;
@@ -32,13 +36,21 @@ function CartItem({guitar}: PropsType): JSX.Element {
       dispatch(setGuitarToCartAmount({guitar: guitar, amount: MAX_QUANTITY}));
       return;
     }
-    setQuantity(Number(quantityRef.current?.value));
-    dispatch(setGuitarToCartAmount({guitar: guitar, amount: Number(quantityRef.current?.value)}));
+    setQuantity(Math.ceil(Number(quantityRef.current?.value)));
+    dispatch(setGuitarToCartAmount({guitar: guitar, amount: Math.ceil(Number(quantityRef.current?.value))}));
+  };
+
+  const handleQuantityBlur = (): void => {
+    if (quantityRef.current?.value === '') {
+      setQuantity(MIN_QUANTITY);
+      dispatch(setGuitarToCartAmount({guitar: guitar, amount: MIN_QUANTITY}));
+      handleDeleteClick();
+    }
   };
 
   const handleIncrementClick = (): void => {
     if (quantity < MAX_QUANTITY) {
-      setQuantity(quantity + 1);
+      setQuantity(Number(quantity) + 1);
       dispatch(addGuitarToCart(guitar));
     }
   };
@@ -49,7 +61,7 @@ function CartItem({guitar}: PropsType): JSX.Element {
       dispatch(setCartDeleteModalOpened(true));
       return;
     }
-    setQuantity(quantity - 1);
+    setQuantity(Number(quantity) - 1);
     dispatch(removeGuitarFromCart(guitar));
   };
 
@@ -80,7 +92,8 @@ function CartItem({guitar}: PropsType): JSX.Element {
           </svg>
         </button>
         <input
-          onChange={handlePriceChange}
+          onChange={handleQuantityChange}
+          onBlur={handleQuantityBlur}
           ref={quantityRef}
           value={String(quantity).replace(/^0+/, '')}
           className="quantity__input"
@@ -97,7 +110,7 @@ function CartItem({guitar}: PropsType): JSX.Element {
           </svg>
         </button>
       </div>
-      <div className="cart-item__price-total">{getSeparatedPrice(guitar.price * quantity)}&nbsp;₽</div>
+      <div className="cart-item__price-total">{getSeparatedPrice(guitar.price * Number(quantity))}&nbsp;₽</div>
     </div>
   );
 }
