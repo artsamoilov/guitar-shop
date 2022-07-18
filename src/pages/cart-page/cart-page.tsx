@@ -32,8 +32,14 @@ function CartPage(): JSX.Element {
   const handleCouponAdd = (evt: SyntheticEvent) => {
     evt.preventDefault();
     if (couponInputRef.current && couponInputRef.current.value !== '') {
-      dispatch(postCouponAction({coupon: couponInputRef.current.value.replace(/\s+/g, '')}));
+      dispatch(postCouponAction({coupon: couponInputRef.current.value}));
       couponInputRef.current.value = '';
+    }
+  };
+
+  const handleCouponChange = () => {
+    if (couponInputRef.current && couponInputRef.current.value !== '') {
+      couponInputRef.current.value = couponInputRef.current.value.replace(/\s+/g, '');
     }
   };
 
@@ -82,7 +88,7 @@ function CartPage(): JSX.Element {
                 <form className="coupon__form" id="coupon-form" method="post" action="/">
                   <div className="form-input coupon__input">
                     <label className="visually-hidden">Промокод</label>
-                    <input ref={couponInputRef} type="text" placeholder="Введите промокод" id="coupon" name="coupon" />
+                    <input ref={couponInputRef} onChange={handleCouponChange} type="text" placeholder="Введите промокод" id="coupon" name="coupon" />
 
                     {
                       isCouponCorrect !== null && (
